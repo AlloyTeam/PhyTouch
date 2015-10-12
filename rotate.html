@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+     <title>AlloyTouch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <style>
+        #header {
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            background: #00ABEB;
+            padding: 0;
+            color: #eee;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">AlloyTouch</div>
+
+    <div id="testImg" style="width: 210px; height: 210px; position: absolute; top: 50%; left: 50%; margin-left: -105px; margin-top: -105px;">
+        <img style="width: 210px; height: 210px;" src="http://www.js-css.cn/jscode/award/award4/cj/ly-plate.png" alt="" /></div>
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: absolute; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/example/asset/img/github.png" alt="">
+    </a>
+    <script src="transform.js"></script>
+    <script src="alloy_touch.js"></script>
+    <script>
+        var target = document.querySelector("#testImg");
+        //给element注入transform属性
+        Transform(target);
+
+        AlloyTouch({
+            touch: document,//反馈触摸的dom
+            target: target, //运动的对象
+            property: "rotateZ",  //被滚动的属性
+            factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
+            change: function (property) {
+                console.log(property)
+            }
+        })
+    </script>
+</body>
+</html>
