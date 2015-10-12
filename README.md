@@ -3,7 +3,7 @@
 
 Simple Demo: [http://alloyteam.github.io/AlloyTouch/](http://alloyteam.github.io/AlloyTouch/) 
 
-![usage](http://alloyteam.github.io/AlloyTouch/2.png)
+![usage](http://alloyteam.github.io/AlloyTouch/2.png  =100*100)
 
 3D Demo: [http://alloyteam.github.io/AlloyTouch/3d.html](http://alloyteam.github.io/AlloyTouch/3d.html) 
 
