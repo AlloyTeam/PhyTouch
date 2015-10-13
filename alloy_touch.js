@@ -1,8 +1,3 @@
-/* AlloyTouch
- * By AlloyTeam http://www.alloyteam.com/
- * Github: https://github.com/AlloyTeam/AlloyTouch
- * MIT Licensed.
- */
 ﻿; (function () {
     (function () {
         var lastTime = 0;
@@ -266,7 +261,7 @@
                     to(scroller, property, Math.round(destination), Math.round(speed / deceleration), easing.get);
                 }
             }
-            evt.preventDefault();
+            //evt.preventDefault();
         })
        
         function to(el, property, value, time, ease, callback) {
