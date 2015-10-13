@@ -3,7 +3,7 @@
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
  */
-; (function () {
+﻿; (function () {
     (function () {
         var lastTime = 0;
         var vendors = ['webkit', 'moz'];
@@ -269,7 +269,7 @@
             //evt.preventDefault();
         })
        
-        function to(el, property, value, time, ease, callback) {
+        function to(el, property, value, time, ease, checkTag) {
 
             var current = el[property];
             var dv = value - current;
@@ -280,26 +280,26 @@
                 if (dt >= time) {
                     el[property] = value;
                     change(el[property]);
-                    callback && callback();
+                    //callback && callback();
                     return;
                 }
                 el[property] = Math.round(dv * ease(dt / time) + current);
                 change(el[property]);
                 tickID = requestAnimationFrame(toTick);
-                if (!recording) {
+                if (!checkTag && !recording) {
                     if (hasMax && el[property] > max) {
                         recording = true;
                         setTimeout(function () {
                             cancelAnimationFrame(tickID);
                             recording = false;
-                            to(el, property, max, 200, iosEase);
+                            to(el, property, max, 200, iosEase,true);
                         }, 50);
                     } else if (hasMin && el[property] < min) {
                         recording = true;
                         setTimeout(function () {
                             cancelAnimationFrame(tickID);
                             recording = false;
-                            to(el, property, min, 200, iosEase);
+                            to(el, property, min, 200, iosEase, true);
                         }, 50);
                     }
                 }
