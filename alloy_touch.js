@@ -1,4 +1,4 @@
-/* AlloyTouch
+﻿/* AlloyTouch
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -283,7 +283,7 @@
                     callback && callback();
                     return;
                 }
-                el[property] = dv * ease(dt / time) + current;
+                el[property] = Math.round(dv * ease(dt / time) + current);
                 change(el[property]);
                 tickID = requestAnimationFrame(toTick);
                 if (!recording) {
