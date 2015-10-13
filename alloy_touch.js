@@ -241,7 +241,7 @@
             d *= factor1;
             preX = evt.touches[0].pageX;
             preY = evt.touches[0].pageY;
-            scroller[property] += Math.round(d);
+            scroller[property] += d;
             change(scroller[property]);
             var timestamp = new Date().getTime();
             if (timestamp - startTime > 300) {
@@ -283,7 +283,7 @@
                     callback && callback();
                     return;
                 }
-                el[property] = Math.round(dv * ease(dt / time) + current);
+                el[property] = dv * ease(dt / time) + current;
                 change(el[property]);
                 tickID = requestAnimationFrame(toTick);
                 if (!recording) {
