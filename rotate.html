@@ -6,6 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
     <style>
+        * {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html {
+	-ms-touch-action: none;
+}
+
+body,ul,li {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+body {
+	font-size: 12px;
+	font-family: ubuntu, helvetica, arial;
+	overflow: hidden; /* this is important to prevent the whole page to bounce */
+}
+
         #header {
             position: absolute;
             z-index: 2;
@@ -21,15 +43,65 @@
             text-align: center;
             font-weight: bold;
         }
+     #controller,  #testImg {
+        width: 210px; height: 210px; position: absolute; top: 50%; left: 50%; margin-left: -105px; margin-top: -105px;
+         }
+    
+      #controller{
+          z-index:10;
+      }
+      #controller .right{
+          border:1px solid #ccc;
+          width:60px;
+          height:210px;
+          position:absolute;
+          right:0px;
+      }
+      #controller .left{
+          border:1px solid #ccc;
+          width:60px;
+          height:210px;
+          position:absolute;
+          left:0px;
+      }
+       #controller .top{
+          border:1px solid #ccc;
+          width:90px;
+          height:90px;
+          position:absolute;
+          top:0px;
+          left:60px;
+      }
+
+         #controller .bottom{
+          border:1px solid #ccc;
+          width:90px;
+          height:90px;
+          position:absolute;
+          bottom:0px;
+          left:60px;
+      }
+
+         #controller.noBorder .item{
+             border:0px solid #ccc;
+         }
     </style>
 </head>
 <body>
     <div id="header">AlloyTouch</div>
-
-    <div id="testImg" style="width: 210px; height: 210px; position: absolute; top: 50%; left: 50%; margin-left: -105px; margin-top: -105px;">
-        <img style="width: 210px; height: 210px;" src="http://www.js-css.cn/jscode/award/award4/cj/ly-plate.png" alt="" /></div>
-    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: absolute; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
-        <img src="http://alloyteam.github.io/AlloyGameEngine/example/asset/img/github.png" alt="">
+    <div style="text-align:center;position:relative;top:60px;"><button id="toogleBtn">Toogle Debug</button> </div>
+    <div id="controller">
+        <div class="top item"> </div>
+        <div class="right item"> </div>
+        <div class="bottom item"> </div>
+        <div class="left item"> </div>
+    </div>
+    <div id="testImg">
+        <img style="width: 210px; height: 210px;" src="http://www.js-css.cn/jscode/award/award4/cj/ly-plate.png" alt="" />
+    </div>
+    
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: absolute; right: 0; top: 0; z-index: 3;width:100px;height:100px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/example/asset/img/github.png" style="width:100px;" alt="">
     </a>
     <script src="transform.js"></script>
     <script src="alloy_touch.js"></script>
@@ -39,14 +111,44 @@
         Transform(target);
 
         AlloyTouch({
-            touch: document,//反馈触摸的dom
+            touch: "#controller .right",//反馈触摸的dom
             target: target, //运动的对象
             property: "rotateZ",  //被滚动的属性
             factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
-            change: function (property) {
-                console.log(property)
-            }
+            change: function () { }
         })
+
+        AlloyTouch({
+            touch: "#controller .left",//反馈触摸的dom
+            target: target, //运动的对象
+            property: "rotateZ",  //被滚动的属性
+            factor: -1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
+            change: function () { }
+        })
+
+        AlloyTouch({
+            touch: "#controller .top",//反馈触摸的dom
+            vertical: false,
+            target: target, //运动的对象
+            property: "rotateZ",  //被滚动的属性
+            factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
+            change: function () { }
+        })
+
+        AlloyTouch({
+            touch: "#controller .bottom",//反馈触摸的dom
+            vertical: false,
+            target: target, //运动的对象
+            property: "rotateZ",  //被滚动的属性
+            factor: -1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
+            change: function () { }
+        })
+
+        var controller = document.querySelector("#controller");
+        document.querySelector("#toogleBtn").onclick = function () {
+            controller.classList.toggle("noBorder");
+
+        }
     </script>
 </body>
 </html>

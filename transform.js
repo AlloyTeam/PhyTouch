@@ -190,8 +190,8 @@
             var cosy = Math.cos(ry);
             var siny = Math.sin(ry);
             var rz = rotateZ * matrix3D.DEG_TO_RAD;
-            var cosz = Math.cos(rz);
-            var sinz = Math.sin(rz);
+            var cosz = Math.cos(rz*-1);
+            var sinz = Math.sin(rz*-1);
 
             this.append(new matrix3D(
                 cosy, 0, siny, x,
@@ -206,14 +206,14 @@
                 0, -sinx, cosx, 0,
                 0, sinx / perspective, -cosx / perspective, 1
             ));
-            if (sinz) {
+           
                 this.append(new matrix3D(
-                    -cosz * scaleX, -sinz * scaleY, 0, 0,
+                    cosz * scaleX, sinz * scaleY, 0, 0,
                    -sinz * scaleX, cosz * scaleY, 0, 0,
                     0, 0, 1 * scaleZ, 0,
                    0, 0, -1 / perspective, 1
                 ));
-            }
+            
 
             if (regX || regY || regZ) {
 
