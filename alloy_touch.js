@@ -283,7 +283,7 @@
                     callback && callback();
                     return;
                 }
-                el[property] = Math.round(dv * ease(dt / time) + current);
+                el[property] = dv * ease(dt / time) + current;
                 change(el[property]);
                 tickID = requestAnimationFrame(toTick);
                 if (!recording) {
