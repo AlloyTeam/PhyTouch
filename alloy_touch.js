@@ -1,4 +1,9 @@
-﻿; (function () {
+﻿/* AlloyTouch
+ * By AlloyTeam http://www.alloyteam.com/
+ * Github: https://github.com/AlloyTeam/AlloyTouch
+ * MIT Licensed.
+ */
+; (function () {
     (function () {
         var lastTime = 0;
         var vendors = ['webkit', 'moz'];
