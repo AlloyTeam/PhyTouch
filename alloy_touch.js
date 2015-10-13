@@ -241,7 +241,7 @@
             d *= factor1;
             preX = evt.touches[0].pageX;
             preY = evt.touches[0].pageY;
-            scroller[property] += d;
+            scroller[property] += Math.round(d);
             change(scroller[property]);
             var timestamp = new Date().getTime();
             if (timestamp - startTime > 300) {
