@@ -205,7 +205,9 @@
             tickID = 0,
             preX,
             preY,
+            sensitivity = option.sensitivity === undefined ? 1 : option.sensitivity,   
             factor = option.factor === undefined ? 1 : option.factor,
+            sMf = sensitivity*factor,
             //拖动时候的摩擦因子
             factor1 = 1,
             min = option.min,
@@ -230,7 +232,7 @@
         })
 
         bind(element, "touchmove", function (evt) {
-            var d = (vertical ? evt.touches[0].pageY - preY : evt.touches[0].pageX - preX) * factor;
+            var d = (vertical ? evt.touches[0].pageY - preY : evt.touches[0].pageX - preX) * sMf;
             if (hasMax&&scroller[property] > max && d > 0) {
                 factor1 = 0.3;
             } else if (hasMin&&scroller[property] < min && d < 0) {
@@ -260,7 +262,7 @@
                 //var y = evt.changedTouches[0].pageY;
                 var duration = new Date().getTime() - startTime;
                 if (duration < 300) {
-                    var distance = (vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - start,
+                    var distance = ((vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - start) * sensitivity,
                         speed = Math.abs(distance) / duration,
                         speed2 = factor * speed,
                         destination = scroller[property] + (speed2 * speed2) / (2 * deceleration) * (distance < 0 ? -1 : 1);
