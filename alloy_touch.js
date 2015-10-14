@@ -260,9 +260,10 @@
                 //var y = evt.changedTouches[0].pageY;
                 var duration = new Date().getTime() - startTime;
                 if (duration < 300) {
-                    var distance = ((vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - start) * factor,
+                    var distance = (vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - start,
                         speed = Math.abs(distance) / duration,
-                        destination = scroller[property] + (speed * speed) / (2 * deceleration) * (distance < 0 ? -1 : 1);
+                        speed2 = factor * speed,
+                        destination = scroller[property] + (speed2 * speed2) / (2 * deceleration) * (distance < 0 ? -1 : 1);
                     to(scroller, property, Math.round(destination), Math.round(speed / deceleration), easing.get);
                 }
             }
