@@ -254,7 +254,7 @@
         })
 
         scroller.addEventListener("transitionend", function () {
-           
+            alert(1);
         }, false);
 
         bind(document, "touchend", function (evt) {
@@ -271,9 +271,9 @@
                         speed2 = factor * speed,
                         destination = scroller[property] + (speed2 * speed2) / (2 * deceleration) * (distance < 0 ? -1 : 1);
                     to(scroller, property, Math.round(destination), Math.round(speed / deceleration), easing.get);
-                    scroller.style.WebkitTransition = 'z-index ' + Math.round(speed / deceleration)/1000 + 's';
+                    scroller.style.WebkitTransition = 'left ' + Math.round(speed / deceleration)/1000 + 's';
                     setTimeout(function () {
-                         scroller.style.zIndex = parseInt(getComputedStyle(scroller).zIndex) + 1;
+                        scroller.style.left = parseInt(getComputedStyle(scroller).left) + 1 + "px";
                     }, 0)
                    
                 }
