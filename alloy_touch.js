@@ -253,10 +253,6 @@
             evt.preventDefault();
         })
 
-        scroller.addEventListener("transitionend", function () {
-           
-        }, false);
-
         bind(document, "touchend", function (evt) {
             if (hasMax && scroller[property] > max) {
                 to(scroller, property, max, 200, iosEase);
@@ -271,11 +267,6 @@
                         speed2 = factor * speed,
                         destination = scroller[property] + (speed2 * speed2) / (2 * deceleration) * (distance < 0 ? -1 : 1);
                     to(scroller, property, Math.round(destination), Math.round(speed / deceleration), easing.get);
-                    scroller.style.WebkitTransition = 'z-index ' + Math.round(speed / deceleration)/1000 + 's';
-                    setTimeout(function () {
-                         scroller.style.zIndex = parseInt(getComputedStyle(scroller).zIndex) + 1;
-                    }, 0)
-                   
                 }
             }
             //evt.preventDefault();
