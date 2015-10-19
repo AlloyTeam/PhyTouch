@@ -197,6 +197,15 @@
         return Math.sqrt(1 - Math.pow(x - 1, 2));
     }
 
+    function preventDefaultTest (el, exceptions) {
+        for (var i in exceptions) {
+            if (exceptions[i].test(el[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     window.AlloyTouch = function (option) {
         var scroller = option.target,
             element = typeof option.touch==="string"?document.querySelector(option.touch):option.touch,
@@ -217,59 +226,70 @@
             easing = BezierEasing(0.1, 0.57, 0.1, 1),
             recording = false,
             deceleration = 0.0006,
-            change = option.change || function () { };
-
-        var hasMin = !(min === undefined),
-            hasMax = !(max === undefined);
+            change = option.change || function () { },
+            preventDefaultException= { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ },
+            hasMin = !(min === undefined),
+            hasMax = !(max === undefined),
+            isTouchStart=false;
             
         bind(element, "touchstart", function (evt) {
+            isTouchStart = true;
             cancelAnimationFrame(tickID);        
             startTime = new Date().getTime();
             preX = evt.touches[0].pageX;
             preY = evt.touches[0].pageY;
             start = vertical ? preY : preX;
-            evt.preventDefault();
+            if (!preventDefaultTest(evt.target, preventDefaultException)) {
+                evt.preventDefault();
+            }
         })
 
-        bind(element, "touchmove", function (evt) {
-            var d = (vertical ? evt.touches[0].pageY - preY : evt.touches[0].pageX - preX) * sMf;
-            if (hasMax&&scroller[property] > max && d > 0) {
-                factor1 = 0.3;
-            } else if (hasMin&&scroller[property] < min && d < 0) {
-                factor1 = 0.3;
-            } else {
-                factor1 = 1;
-            }
-            d *= factor1;
-            preX = evt.touches[0].pageX;
-            preY = evt.touches[0].pageY;
-            scroller[property] += d;
-            change(scroller[property]);
-            var timestamp = new Date().getTime();
-            if (timestamp - startTime > 300) {
-                startTime = timestamp;
-                start = vertical ? preY : preX;
-            }
-            evt.preventDefault();
-        })
-
-        bind(document, "touchend", function (evt) {
-            if (hasMax && scroller[property] > max) {
-                to(scroller, property, max, 200, iosEase);
-            } else if (hasMin && scroller[property] < min) {
-                to(scroller, property, min, 200, iosEase);
-            }else  {
-                //var y = evt.changedTouches[0].pageY;
-                var duration = new Date().getTime() - startTime;
-                if (duration < 300) {
-                    var distance = ((vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - start) * sensitivity,
-                        speed = Math.abs(distance) / duration,
-                        speed2 = factor * speed,
-                        destination = scroller[property] + (speed2 * speed2) / (2 * deceleration) * (distance < 0 ? -1 : 1);
-                    to(scroller, property, Math.round(destination), Math.round(speed / deceleration), easing.get);
+        bind(window, "touchmove", function (evt) {
+            if (isTouchStart) {
+                var d = (vertical ? evt.touches[0].pageY - preY : evt.touches[0].pageX - preX) * sMf;
+                if (hasMax && scroller[property] > max && d > 0) {
+                    factor1 = 0.3;
+                } else if (hasMin && scroller[property] < min && d < 0) {
+                    factor1 = 0.3;
+                } else {
+                    factor1 = 1;
                 }
+                d *= factor1;
+                preX = evt.touches[0].pageX;
+                preY = evt.touches[0].pageY;
+                scroller[property] += d;
+                change(scroller[property]);
+                var timestamp = new Date().getTime();
+                if (timestamp - startTime > 300) {
+                    startTime = timestamp;
+                    start = vertical ? preY : preX;
+                }
+                evt.preventDefault();
             }
-            //evt.preventDefault();
+        })
+
+        bind(window, "touchend", function (evt) {
+            if (isTouchStart) {
+                if (hasMax && scroller[property] > max) {
+                    to(scroller, property, max, 200, iosEase);
+                } else if (hasMin && scroller[property] < min) {
+                    to(scroller, property, min, 200, iosEase);
+                } else {
+                    //var y = evt.changedTouches[0].pageY;
+                    var duration = new Date().getTime() - startTime;
+                    if (duration < 300) {
+                        var distance = ((vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - start) * sensitivity,
+                            speed = Math.abs(distance) / duration,
+                            speed2 = factor * speed,
+                            destination = scroller[property] + (speed2 * speed2) / (2 * deceleration) * (distance < 0 ? -1 : 1);
+                        to(scroller, property, Math.round(destination), Math.round(speed / deceleration), easing.get);
+                    }
+                }
+                if (!preventDefaultTest(evt.target, preventDefaultException)) {
+                    evt.preventDefault();
+                }
+                isTouchStart = false;
+            }
         })
        
         function to(el, property, value, time, ease, checkTag) {
