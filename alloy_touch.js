@@ -230,7 +230,8 @@
             preventDefaultException= { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ },
             hasMin = !(min === undefined),
             hasMax = !(max === undefined),
-            isTouchStart=false;
+            isTouchStart=false,
+            step=option.step;
             
         bind(element, "touchstart", function (evt) {
             isTouchStart = true;
@@ -283,6 +284,10 @@
                             speed2 = factor * speed,
                             destination = scroller[property] + (speed2 * speed2) / (2 * deceleration) * (distance < 0 ? -1 : 1);
                         to(scroller, property, Math.round(destination), Math.round(speed / deceleration), easing.get);
+                    } else {
+                        if (step) {
+                            correction(scroller, property);
+                        }
                     }
                 }
                 if (!preventDefaultTest(evt.target, preventDefaultException)) {
@@ -292,18 +297,22 @@
             }
         })
        
-        function to(el, property, value, time, ease, checkTag) {
+        function to(el, property, value, time, ease, checkTag, correctionTag) {
 
             var current = el[property];
             var dv = value - current;
             var beginTime = new Date();
-
             var toTick = function () {
+               
                 var dt = new Date() - beginTime;
                 if (dt >= time) {
                     el[property] = value;
                     change(el[property]);
                     //callback && callback();
+
+                    if (step && !correctionTag) {
+                        correction(el, property);
+                    }
                     return;
                 }
                 el[property] = Math.round(dv * ease(dt / time) + current);
@@ -315,19 +324,30 @@
                         setTimeout(function () {
                             cancelAnimationFrame(tickID);
                             recording = false;
-                            to(el, property, max, 200, iosEase,true);
+                            to(el, property, max, 200, iosEase,true,true);
                         }, 50);
                     } else if (hasMin && el[property] < min) {
                         recording = true;
                         setTimeout(function () {
                             cancelAnimationFrame(tickID);
                             recording = false;
-                            to(el, property, min, 200, iosEase, true);
+                            to(el, property, min, 200, iosEase, true, true);
                         }, 50);
                     }
                 }
             }
             toTick();
+        }
+
+        function correction(el, property) {
+            var value=el[property];
+            var rpt = Math.floor(Math.abs(value / step));
+            var dy = value % step;
+            if (Math.abs(dy) > step / 2) {
+                to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * step, 400, iosEase, true, true);
+            } else {
+                to(el, property, (value < 0 ? -1 : 1) * rpt * step, 400, iosEase, true, true);
+            }
         }
     }
 })();
