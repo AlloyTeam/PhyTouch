@@ -1,118 +1,24 @@
-; (function () {
-    var initializing = !1, fnTest = /xyz/.test(function () { xyz }) ? /\b_super\b/ : /.*/, __class = function () { }; __class.export = []; __class.extend = function (n) { __class.export.push(n); function i() { !initializing && this.ctor && this.ctor.apply(this, arguments) } var f = this.prototype, u, r, t; initializing = !0, u = new this, initializing = !1; for (t in n) t != "statics" && (u[t] = typeof n[t] == "function" && typeof f[t] == "function" && fnTest.test(n[t]) ? function (n, t) { return function () { var r = this._super, i; return this._super = f[n], i = t.apply(this, arguments), this._super = r, i } }(t, n[t]) : n[t]); for (r in this) this.hasOwnProperty(r) && r != "extend" && (i[r] = this[r]); if (i.prototype = u, n.statics) for (t in n.statics) n.statics.hasOwnProperty(t) && (i[t] = n.statics[t], t == "ctor" && i[t]()); return i.prototype.constructor = i, i.extend = arguments.callee, i.implement = function (n) { for (var t in n) u[t] = n[t] }, i };
+﻿; (function () {
 
-    var observable = __class.extend({
-        "statics": {
-            "ctor": function () {
-                this.methods = ["concat", "every", "filter", "forEach", "indexOf", "join", "lastIndexOf", "map", "pop", "push", "reduce", "reduceRight", "reverse", "shift", "slice", "some", "sort", "splice", "unshift", "valueOf"],
-                this.triggerStr = ["concat", "pop", "push", "reverse", "shift", "sort", "splice", "unshift"].join(",");
-            },
-            "type": function (obj) {
-                var typeStr = Object.prototype.toString.call(obj).split(" ")[1];
-                return typeStr.substr(0, typeStr.length - 1).toLowerCase();
-            },
-            "isArray": function (obj) {
-                return this.type(obj) == "array";
-            },
-            "isInArray": function (arr, item) {
-                for (var i = arr.length; --i > -1;) {
-                    if (item === arr[i]) return true;
-                }
-                return false;
-            },
-            "isFunction": function (obj) {
-                return this.type(obj) == "function";
-            },
-            "watch": function (target, arr) {
-                return new this(target, arr);
-            }
-        },
-        "ctor": function (target, arr) {
-            for (var prop in target) {
-                if (target.hasOwnProperty(prop)) {
-                    if ((arr && observable.isInArray(arr, prop)) || !arr) {
-                        this.watch(target, prop);
-                    }
-                }
-            }
-            if (target.change) throw "naming conflicts！observable will extend 'change' method to your object ."
-            var self = this;
-            target.change = function (fn) {
-                self.propertyChangedHandler = fn;
-            }
-        },
-        "onPropertyChanged": function (prop, value) {
-            this.propertyChangedHandler && this.propertyChangedHandler(prop, value);
-        },
-        "mock": function (target) {
-            var self = this;
-            observable.methods.forEach(function (item) {
-                target[item] = function () {
-                    var result = Array.prototype[item].apply(this, Array.prototype.slice.call(arguments));
-                    for (var cprop in this) {
-                        if (this.hasOwnProperty(cprop) && cprop != "_super" && !observable.isFunction(this[cprop])) {
-                            self.watch(this, cprop);
-                        }
-                    }
-                    if (new RegExp("\\b" + item + "\\b").test(observable.triggerStr)) {
-                        self.onPropertyChanged("array", item);
-                    }
-                    return result;
-                };
-            });
-        },
-        "watch": function (target, prop) {
-            if (prop.substr(0, 2) == "__") return;
-            var self = this;
-            if (observable.isFunction(target[prop])) return;
+    var matrix3D = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
 
-            var currentValue = target["__" + prop] = target[prop];
-            Object.defineProperty(target, prop, {
-                get: function () {
-                    return this["__" + prop];
-                },
-                set: function (value) {
-                    this["__" + prop] = value;
-                    self.onPropertyChanged(prop, value);
-                }
-            });
+        this.elements = Float32Array ? new Float32Array(16) : [];
 
-            if (observable.isArray(target)) {
-                this.mock(target);
-            }
-            if (typeof currentValue == "object") {
-                if (observable.isArray(currentValue)) {
-                    this.mock(currentValue);
-                }
-                for (var cprop in currentValue) {
-                    if (currentValue.hasOwnProperty(cprop) && cprop != "_super") {
-                        this.watch(currentValue, cprop);
-                    }
-                }
-            }
-        }
-    });
+        // TODO: if n11 is undefined, then just set to identity, otherwise copy all other values into matrix
+        //   we should not support semi specification of Matrix4, it is just weird.
+
+        var te = this.elements;
+
+        te[0] = (n11 !== undefined) ? n11 : 1; te[4] = n12 || 0; te[8] = n13 || 0; te[12] = n14 || 0;
+        te[1] = n21 || 0; te[5] = (n22 !== undefined) ? n22 : 1; te[9] = n23 || 0; te[13] = n24 || 0;
+        te[2] = n31 || 0; te[6] = n32 || 0; te[10] = (n33 !== undefined) ? n33 : 1; te[14] = n34 || 0;
+        te[3] = n41 || 0; te[7] = n42 || 0; te[11] = n43 || 0; te[15] = (n44 !== undefined) ? n44 : 1;
+    }
 
 
-    var matrix3D = __class.extend({
+    matrix3D.DEG_TO_RAD = Math.PI / 180;
 
-        statics: {
-            DEG_TO_RAD: Math.PI / 180
-        },
-        ctor: function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-
-            this.elements = Float32Array ? new Float32Array(16) : [];
-
-            // TODO: if n11 is undefined, then just set to identity, otherwise copy all other values into matrix
-            //   we should not support semi specification of Matrix4, it is just weird.
-
-            var te = this.elements;
-
-            te[0] = (n11 !== undefined) ? n11 : 1; te[4] = n12 || 0; te[8] = n13 || 0; te[12] = n14 || 0;
-            te[1] = n21 || 0; te[5] = (n22 !== undefined) ? n22 : 1; te[9] = n23 || 0; te[13] = n24 || 0;
-            te[2] = n31 || 0; te[6] = n32 || 0; te[10] = (n33 !== undefined) ? n33 : 1; te[14] = n34 || 0;
-            te[3] = n41 || 0; te[7] = n42 || 0; te[11] = n43 || 0; te[15] = (n44 !== undefined) ? n44 : 1;
-        },
+    matrix3D.prototype = {
         set: function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
 
             var te = this.elements;
@@ -190,8 +96,8 @@
             var cosy = Math.cos(ry);
             var siny = Math.sin(ry);
             var rz = rotateZ * matrix3D.DEG_TO_RAD;
-            var cosz = Math.cos(rz*-1);
-            var sinz = Math.sin(rz*-1);
+            var cosz = Math.cos(rz * -1);
+            var sinz = Math.sin(rz * -1);
 
             this.append(new matrix3D(
                 cosy, 0, siny, x,
@@ -207,12 +113,12 @@
                 0, sinx / perspective, -cosx / perspective, 1
             ));
 
-                this.append(new matrix3D(
-                    cosz * scaleX, sinz * scaleY, 0, 0,
-                   -sinz * scaleX, cosz * scaleY, 0, 0,
-                    0, 0, 1 * scaleZ, 0,
-                   0, 0, -1 / perspective, 1
-                ));
+            this.append(new matrix3D(
+                cosz * scaleX, sinz * scaleY, 0, 0,
+               -sinz * scaleX, cosz * scaleY, 0, 0,
+                0, 0, 1 * scaleZ, 0,
+               0, 0, -1 / perspective, 1
+            ));
 
 
             if (regX || regY || regZ) {
@@ -224,21 +130,47 @@
             return this;
         }
 
-    });
+    }
+
+    function observe(target, props, callback) {
+        for (var i = 0, len = props.length; i < len; i++) {
+            var prop = props[i];
+            watch(target, prop, callback);
+        }
+    }
+
+    function watch(target, prop, callback) {
+        Object.defineProperty(target, prop, {
+            get: function () {
+                return this["__" + prop];
+            },
+            set: function (value) {
+                if (value !== this["__" + prop]) {
+                    callback(value);
+                    this["__" + prop] = value;
+                }
+
+            }
+        });
+    }
 
     window.Transform = function (element) {
+
+        observe(
+            element,
+            ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "perspective", "rotateX", "rotateY", "rotateZ", "regX", "regY", "regZ"],
+            function () {
+                var mtx = element.matrix3D.identity().appendTransform(element.perspective, element.translateX, element.translateY, element.translateZ, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.regX, element.regY, element.regZ);
+                element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = "matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
+            });
+
+        //由于image自带了x\y\z，所有加上translate前缀
+        element.matrix3D = new matrix3D();
         element.perspective = 400;
         element.scaleX = element.scaleY = element.scaleZ = 1;
         element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.regX = element.regY = element.skewX = element.skewY = element.regX = element.regY = element.regZ = 0;
-        element.matrix3D = new matrix3D();
-        //由于image自带了x\y\z，所有加上translate前缀
-        var observer = observable.watch(element, ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "perspective", "rotateX", "rotateY", "rotateZ", "regX", "regY", "regZ"]);
 
-        observer.propertyChangedHandler = function () {
-            var mtx = element.matrix3D.identity().appendTransform(element.perspective, element.translateX, element.translateY, element.translateZ, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.regX, element.regY, element.regZ);
 
-            element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = "matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
-        }
     }
 
 })();
