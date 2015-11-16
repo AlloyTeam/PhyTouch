@@ -1,4 +1,4 @@
-﻿; (function () {
+; (function () {
     var initializing = !1, fnTest = /xyz/.test(function () { xyz }) ? /\b_super\b/ : /.*/, __class = function () { }; __class.export = []; __class.extend = function (n) { __class.export.push(n); function i() { !initializing && this.ctor && this.ctor.apply(this, arguments) } var f = this.prototype, u, r, t; initializing = !0, u = new this, initializing = !1; for (t in n) t != "statics" && (u[t] = typeof n[t] == "function" && typeof f[t] == "function" && fnTest.test(n[t]) ? function (n, t) { return function () { var r = this._super, i; return this._super = f[n], i = t.apply(this, arguments), this._super = r, i } }(t, n[t]) : n[t]); for (r in this) this.hasOwnProperty(r) && r != "extend" && (i[r] = this[r]); if (i.prototype = u, n.statics) for (t in n.statics) n.statics.hasOwnProperty(t) && (i[t] = n.statics[t], t == "ctor" && i[t]()); return i.prototype.constructor = i, i.extend = arguments.callee, i.implement = function (n) { for (var t in n) u[t] = n[t] }, i };
 
     var observable = __class.extend({
@@ -206,14 +206,14 @@
                 0, -sinx, cosx, 0,
                 0, sinx / perspective, -cosx / perspective, 1
             ));
-           
+
                 this.append(new matrix3D(
                     cosz * scaleX, sinz * scaleY, 0, 0,
                    -sinz * scaleX, cosz * scaleY, 0, 0,
                     0, 0, 1 * scaleZ, 0,
                    0, 0, -1 / perspective, 1
                 ));
-            
+
 
             if (regX || regY || regZ) {
 
@@ -229,12 +229,13 @@
     window.Transform = function (element) {
         element.perspective = 400;
         element.scaleX = element.scaleY = element.scaleZ = 1;
-        element.x = element.y = element.z = element.rotateX = element.rotateY = element.rotateZ = element.regX = element.regY = element.skewX = element.skewY = element.regX = element.regY = element.regZ = 0;
+        element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.regX = element.regY = element.skewX = element.skewY = element.regX = element.regY = element.regZ = 0;
         element.matrix3D = new matrix3D();
-        var observer = observable.watch(element, ["x", "y", "z", "scaleX", "scaleY", "scaleZ", "perspective", "rotateX", "rotateY", "rotateZ", "regX", "regY", "regZ"]);
+        //由于image自带了x\y\z，所有加上translate前缀
+        var observer = observable.watch(element, ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "perspective", "rotateX", "rotateY", "rotateZ", "regX", "regY", "regZ"]);
 
         observer.propertyChangedHandler = function () {
-            var mtx = element.matrix3D.identity().appendTransform(element.perspective, element.x, element.y, element.z, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.regX, element.regY, element.regZ);
+            var mtx = element.matrix3D.identity().appendTransform(element.perspective, element.translateX, element.translateY, element.translateZ, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.regX, element.regY, element.regZ);
 
             element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = "matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
         }
