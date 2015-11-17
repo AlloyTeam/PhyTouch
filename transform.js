@@ -146,8 +146,8 @@
             },
             set: function (value) {
                 if (value !== this["__" + prop]) {
-                    callback(value);
                     this["__" + prop] = value;
+                    callback(value);
                 }
 
             }
@@ -168,7 +168,7 @@
         element.matrix3D = new matrix3D();
         element.perspective = 400;
         element.scaleX = element.scaleY = element.scaleZ = 1;
-        element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.regX = element.regY = element.skewX = element.skewY = element.regX = element.regY = element.regZ = 0;
+        element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.regX = element.regY = element.regZ = 0;
 
 
     }
