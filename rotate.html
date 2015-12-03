@@ -110,7 +110,7 @@ body {
         //给element注入transform属性
         Transform(target);
 
-        AlloyTouch({
+        new AlloyTouch({
             touch: "#controller .right",//反馈触摸的dom
             target: target, //运动的对象
             property: "rotateZ",  //被滚动的属性
@@ -118,7 +118,7 @@ body {
             change: function () { }
         })
 
-        AlloyTouch({
+        new AlloyTouch({
             touch: "#controller .left",//反馈触摸的dom
             target: target, //运动的对象
             property: "rotateZ",  //被滚动的属性
@@ -126,7 +126,7 @@ body {
             change: function () { }
         })
 
-        AlloyTouch({
+        new AlloyTouch({
             touch: "#controller .top",//反馈触摸的dom
             vertical: false,
             target: target, //运动的对象
@@ -135,7 +135,7 @@ body {
             change: function () { }
         })
 
-        AlloyTouch({
+        new AlloyTouch({
             touch: "#controller .bottom",//反馈触摸的dom
             vertical: false,
             target: target, //运动的对象
