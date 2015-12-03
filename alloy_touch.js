@@ -83,165 +83,171 @@
         return false;
     }
 
-    window.AlloyTouch = function (option) {
-        var scroller = option.target,
-            element = typeof option.touch==="string"?document.querySelector(option.touch):option.touch,
-            vertical = option.vertical === undefined ? true : option.vertical,
-            property = option.property,
-            tickID = 0,
-            preX,
-            preY,
-            sensitivity = option.sensitivity === undefined ? 1 : option.sensitivity,   
-            factor = option.factor === undefined ? 1 : option.factor,
-            sMf = sensitivity*factor,
-            //拖动时候的摩擦因子
-            factor1 = 1,
-            min = option.min,
-            max = option.max,
-            startTime,
-            start,
-            easing = new KeySpline(0.1, 0.57, 0.1, 1),
-            recording = false,
-            deceleration = 0.0006,
-            change = option.change || function () { },
-            touchEnd = option.touchEnd || function () { },
-            touchMove = option.touchMove || function () { },
-            reboundEnd = option.reboundEnd || function () { },
-            preventDefaultException= { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ },
-            hasMin = !(min === undefined),
-            hasMax = !(max === undefined),
-            isTouchStart=false,
-            step=option.step, 
-            spring = option.spring === undefined ? true : false;
-            
-        bind(element, "touchstart", function (evt) {
-            isTouchStart = true;
-            cancelAnimationFrame(tickID);        
-            startTime = new Date().getTime();
-            preX = evt.touches[0].pageX;
-            preY = evt.touches[0].pageY;
-            start = vertical ? preY : preX;
-            if (!preventDefaultTest(evt.target, preventDefaultException)) {
+    var AlloyTouch = function (option) {
+        this.scroller = option.target;
+        this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
+        this.vertical = option.vertical === undefined ? true : option.vertical;
+        this.property = option.property;
+        this.tickID = 0;
+        this.preX;
+        this.preY;
+        this.sensitivity = option.sensitivity === undefined ? 1 : option.sensitivity;
+        this.factor = option.factor === undefined ? 1 : option.factor;
+        this.sMf = this.sensitivity * this.factor;
+    //拖动时候的摩擦因子
+        this.factor1 = 1;
+        this.min = option.min;
+        this.max = option.max;
+        this.startTime;
+        this.start;
+        this.easing = new KeySpline(0.1, 0.57, 0.1, 1);
+        this.recording = false;
+        this.deceleration = 0.0006;
+        this.change = option.change || function () { };
+        this.touchEnd = option.touchEnd || function () { };
+        this.touchMove = option.touchMove || function () { };
+        this.reboundEnd = option.reboundEnd || function () { };
+        this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
+        this.hasMin = !(this.min === undefined);
+        this.hasMax = !(this.max === undefined);
+        this.isTouchStart = false;
+        this.step = option.step;
+        this.spring = option.spring === undefined ? true : false;
+        console.log(this)
+        bind(this.element, "touchstart", this._start.bind(this));
+        bind(window, "touchmove", this._move.bind(this));
+        bind(window, "touchend", this._end.bind(this));
+    }
+
+    AlloyTouch.prototype = {
+        _start: function (evt) {
+            this.isTouchStart = true;
+            cancelAnimationFrame(this.tickID);
+            this.startTime = new Date().getTime();
+            this.preX = evt.touches[0].pageX;
+            this.preY = evt.touches[0].pageY;
+            this.start = this.vertical ? this.preY : this.preX;
+            if (!preventDefaultTest(evt.target, this.preventDefaultException)) {
                 evt.preventDefault();
             }
-        })
-
-        bind(window, "touchmove", function (evt) {
-            if (isTouchStart) {
-                var d = (vertical ? evt.touches[0].pageY - preY : evt.touches[0].pageX - preX) * sMf;
-                if (hasMax && scroller[property] > max && d > 0) {
-                    factor1 = 0.3;
-                } else if (hasMin && scroller[property] < min && d < 0) {
-                    factor1 = 0.3;
+        },
+        _move: function (evt) {
+            if (this.isTouchStart) {
+                var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sMf;
+                if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
+                    this.factor1 = 0.3;
+                } else if (this.hasMin && this.scroller[this.property] < this.min && d < 0) {
+                    this.factor1 = 0.3;
                 } else {
-                    factor1 = 1;
+                    this.factor1 = 1;
                 }
-                d *= factor1;
-                preX = evt.touches[0].pageX;
-                preY = evt.touches[0].pageY;
-                scroller[property] += d;
-                change(scroller[property]);
+                d *= this.factor1;
+                this.preX = evt.touches[0].pageX;
+                this.preY = evt.touches[0].pageY;
+                this.scroller[this.property] += d;
+                this.change(this.scroller[this.property]);
                 var timestamp = new Date().getTime();
-                if (timestamp - startTime > 300) {
-                    startTime = timestamp;
-                    start = vertical ? preY : preX;
+                if (timestamp - this.startTime > 300) {
+                    this.startTime = timestamp;
+                    this.start = this.vertical ? this.preY : this.preX;
                 }
-                touchMove(scroller[property]);
+                this.touchMove(this.scroller[this.property]);
                 evt.preventDefault();
             }
-        })
-
-        bind(window, "touchend", function (evt) {
-            if (isTouchStart) {
-                touchEnd(scroller[property]);
-                if (hasMax && scroller[property] > max) {
-                    to(scroller, property, max, 200, iosEase,change,reboundEnd);
-                } else if (hasMin && scroller[property] < min) {
-                    to(scroller, property, min, 200, iosEase, change, reboundEnd);
+        },
+        _end: function (evt) {
+            if (this.isTouchStart) {
+                this.touchEnd(this.scroller[this.property]);
+                if (this.hasMax && this.scroller[this.property] > this.max) {
+                    this.to(this.scroller, this.property, this.max, 200, iosEase, this.change, this.reboundEnd);
+                } else if (this.hasMin && this.scroller[this.property] < this.min) {
+                    this.to(this.scroller, this.property, this.min, 200, iosEase, this.change, this.reboundEnd);
                 } else {
                     //var y = evt.changedTouches[0].pageY;
-                    var duration = new Date().getTime() - startTime;
+                    var duration = new Date().getTime() - this.startTime;
                     if (duration < 300) {
-                        var distance = ((vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - start) * sensitivity,
+                        var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
                             speed = Math.abs(distance) / duration,
-                            speed2 = factor * speed,
-                            destination = scroller[property] + (speed2 * speed2) / (2 * deceleration) * (distance < 0 ? -1 : 1);
-                        to(scroller, property, Math.round(destination), Math.round(speed / deceleration), easing.get, function (value) {
-                            
-                            if (spring) {
-                                if (hasMax && scroller[property] > max) {
+                            speed2 = this.factor * speed,
+                            destination = this.scroller[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1),
+                            self = this;
+                        self.to(this.scroller, this.property, Math.round(destination), Math.round(speed / self.deceleration), self.easing.get, function (value) {
+
+                            if (self.spring) {
+                                if (self.hasMax && self.scroller[self.property] > self.max) {
                                     setTimeout(function () {
-                                        cancelAnimationFrame(tickID);
-                                        to(scroller, property, max, 200, iosEase, change);
+                                        cancelAnimationFrame(self.tickID);
+                                        self.to(self.scroller, self.property, self.max, 200, iosEase, self.change);
                                     }, 50);
-                                } else if (hasMin && scroller[property] < min) {
+                                } else if (self.hasMin && self.scroller[self.property] < self.min) {
                                     setTimeout(function () {
-                                        cancelAnimationFrame(tickID);
-                                        to(scroller, property, min, 200, iosEase, change);
+                                        cancelAnimationFrame(self.tickID);
+                                        self.to(self.scroller, self.property, self.min, 200, iosEase, self.change);
                                     }, 50);
                                 }
                             } else {
-                                
-                                if (hasMax && scroller[property] > max) {
-                                    cancelAnimationFrame(tickID);
-                                    scroller[property] = max;
-                               
-                                } else if (hasMin && scroller[property] < min) {
-                                    cancelAnimationFrame(tickID);
-                                    scroller[property] = min;
-                                      
+
+                                if (self.hasMax && self.scroller[self.property] > self.max) {
+                                    cancelAnimationFrame(self.tickID);
+                                    self.scroller[self.property] = self.max;
+
+                                } else if (self.hasMin && self.scroller[self.property] < self.min) {
+                                    cancelAnimationFrame(self.tickID);
+                                    self.scroller[self.property] = self.min;
+
                                 }
                             }
-                            change(scroller[property]);
+                            self.change(self.scroller[self.property]);
                         }, function () {
-                            if (step) {
-                                correction(scroller, property);
+                            if (self.step) {
+                                self.correction(self.scroller, self.property);
                             }
                         });
                     } else {
-                        if (step) {
-                            correction(scroller, property);
+                        if (self.step) {
+                            self.correction(self.scroller, self.property);
                         }
                     }
                 }
-                if (!preventDefaultTest(evt.target, preventDefaultException)) {
+                if (!preventDefaultTest(evt.target, this.preventDefaultException)) {
                     evt.preventDefault();
                 }
-                isTouchStart = false;
+                this.isTouchStart = false;
             }
-        })
-
-        function to(el, property, value, time, ease,onChange,onEnd ) {
-            
+        },
+        to: function (el, property, value, time, ease, onChange, onEnd) {
             var current = el[property];
             var dv = value - current;
             var beginTime = new Date();
+            var self = this;
             var toTick = function () {
-               
+
                 var dt = new Date() - beginTime;
                 if (dt >= time) {
                     el[property] = value;
                     onChange && onChange(value);
-                    onEnd&&onEnd(value);
+                    onEnd && onEnd(value);
                     return;
                 }
                 el[property] = Math.round(dv * ease(dt / time) + current);
-                tickID = requestAnimationFrame(toTick);
+                self.tickID = requestAnimationFrame(toTick);
                 //cancelAnimationFrame必须在 tickID = requestAnimationFrame(toTick);的后面
                 onChange && onChange(el[property]);
             }
             toTick();
-        }
-
-        function correction(el, property) {
-            var value=el[property];
-            var rpt = Math.floor(Math.abs(value / step));
-            var dy = value % step;
-            if (Math.abs(dy) > step / 2) {
-                to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * step, 400, iosEase,change);
+        },
+        correction: function (el, property) {
+            var value = el[property];
+            var rpt = Math.floor(Math.abs(value / this.step));
+            var dy = value % this.step;
+            if (Math.abs(dy) > this.step / 2) {
+                this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, iosEase, this.change);
             } else {
-                to(el, property, (value < 0 ? -1 : 1) * rpt * step, 400, iosEase,change);
+                this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, iosEase, this.change);
             }
         }
     }
+
+    window.AlloyTouch = AlloyTouch;
+
 })();
