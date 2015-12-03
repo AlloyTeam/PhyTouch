@@ -10,7 +10,7 @@
 
 # API
 ```js
-AlloyTouch({
+new AlloyTouch({
             touch:"#wrapper",//反馈触摸的dom
             vertical: true,//不必需，默认是true代表监听竖直方向touch
             target: target, //运动的对象
