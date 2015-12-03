@@ -113,7 +113,6 @@
         this.isTouchStart = false;
         this.step = option.step;
         this.spring = option.spring === undefined ? true : false;
-        console.log(this)
         bind(this.element, "touchstart", this._start.bind(this));
         bind(window, "touchmove", this._move.bind(this));
         bind(window, "touchend", this._end.bind(this));
