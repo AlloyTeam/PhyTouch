@@ -105,6 +105,7 @@
         this.deceleration = 0.0006;
         this.change = option.change || function () { };
         this.touchEnd = option.touchEnd || function () { };
+        this.touchStart = option.touchStart || function () { };
         this.touchMove = option.touchMove || function () { };
         this.reboundEnd = option.reboundEnd || function () { };
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
@@ -121,6 +122,7 @@
     AlloyTouch.prototype = {
         _start: function (evt) {
             this.isTouchStart = true;
+            this.touchStart(this.scroller[this.property]);
             cancelAnimationFrame(this.tickID);
             this.startTime = new Date().getTime();
             this.preX = evt.touches[0].pageX;
