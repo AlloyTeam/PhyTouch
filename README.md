@@ -19,7 +19,12 @@ new AlloyTouch({
             factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
             min: 100, //不必需,运动属性的最小值
             max: 2000, //不必需,滚动属性的最大值
-            change:function(){  } //不必需，属性改变的回调
+            spring: true, //不必需,是否有回弹效果。默认是true
+            change:function(){  }, //不必需，属性改变的回调
+            touchStart:function(value){  },
+            touchMove:function(value){  },
+            touchEnd:function(value){  },
+            reboundEnd:function(value){  } //回弹结束
  })
 ```
 # Demo
