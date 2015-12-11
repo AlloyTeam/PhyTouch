@@ -158,6 +158,7 @@
         },
         _end: function (evt) {
             if (this.isTouchStart) {
+                var self = this;
                 this.touchEnd(this.scroller[this.property]);
                 if (this.hasMax && this.scroller[this.property] > this.max) {
                     this.to(this.scroller, this.property, this.max, 200, iosEase, this.change, this.reboundEnd);
@@ -170,8 +171,8 @@
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
                             speed = Math.abs(distance) / duration,
                             speed2 = this.factor * speed,
-                            destination = this.scroller[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1),
-                            self = this;
+                            destination = this.scroller[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
+                            
                         self.to(this.scroller, this.property, Math.round(destination), Math.round(speed / self.deceleration), self.easing.get, function (value) {
 
                             if (self.spring) {
