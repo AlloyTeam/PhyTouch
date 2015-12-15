@@ -86,7 +86,8 @@
     var AlloyTouch = function (option) {
         this.scroller = option.target;
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
-        this.vertical = option.vertical === undefined ? true : option.vertical;
+        this.vertical = option.vertical;
+        this.vertical === undefined && (this.vertical = true);
         this.property = option.property;
         this.tickID = 0;
         this.preX;
@@ -94,7 +95,7 @@
         this.sensitivity = option.sensitivity === undefined ? 1 : option.sensitivity;
         this.factor = option.factor === undefined ? 1 : option.factor;
         this.sMf = this.sensitivity * this.factor;
-    //拖动时候的摩擦因子
+        //拖动时候的摩擦因子
         this.factor1 = 1;
         this.min = option.min;
         this.max = option.max;
@@ -113,7 +114,8 @@
         this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
         this.step = option.step;
-        this.spring = option.spring === undefined ? true : false;
+        this.spring = option.spring;
+        this.spring === undefined && (this.spring = true);
         bind(this.element, "touchstart", this._start.bind(this));
         bind(window, "touchmove", this._move.bind(this));
         bind(window, "touchend", this._end.bind(this));
