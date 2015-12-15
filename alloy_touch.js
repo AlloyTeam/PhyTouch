@@ -124,18 +124,26 @@
     AlloyTouch.prototype = {
         _start: function (evt) {
             this.isTouchStart = true;
+            this._firstTouchMove = true;
+            this._preventMoveDefault = true;
             this.touchStart(this.scroller[this.property]);
             cancelAnimationFrame(this.tickID);
             this.startTime = new Date().getTime();
-            this.preX = evt.touches[0].pageX;
-            this.preY = evt.touches[0].pageY;
+            this._startX = this.preX = evt.touches[0].pageX;
+            this._startY = this.preY = evt.touches[0].pageY;
             this.start = this.vertical ? this.preY : this.preX;
-            if (!preventDefaultTest(evt.target, this.preventDefaultException)) {
-                evt.preventDefault();
-            }
         },
         _move: function (evt) {
             if (this.isTouchStart) {
+                if (this._firstTouchMove) {
+                    var dDis=Math.abs(evt.touches[0].pageX - this._startX) - Math.abs(evt.touches[0].pageY - this._startY);
+                    if (dDis > 0 && this.vertical) {
+                        this._preventMoveDefault = false;
+                    } else if (dDis < 0 && !this.vertical) {
+                        this._preventMoveDefault = false;
+                    }
+                    this._firstTouchMove = false;
+                }
                 var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sMf;
                 if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
                     this.factor1 = 0.3;
@@ -155,7 +163,9 @@
                     this.start = this.vertical ? this.preY : this.preX;
                 }
                 this.touchMove(this.scroller[this.property]);
-                evt.preventDefault();
+                if (this._preventMoveDefault) {
+                    evt.preventDefault();
+                }
             }
         },
         _end: function (evt) {
