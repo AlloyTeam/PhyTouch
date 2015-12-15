@@ -14,7 +14,7 @@ new AlloyTouch({
             touch:"#wrapper",//反馈触摸的dom
             vertical: true,//不必需，默认是true代表监听竖直方向touch
             target: target, //运动的对象
-            property: "y",  //被运动的属性
+            property: "translateY",  //被运动的属性
             sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
             factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
             min: 100, //不必需,运动属性的最小值
