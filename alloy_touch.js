@@ -147,32 +147,33 @@
                     }
                     this._firstTouchMove = false;
                 }
-                var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sMf;
-                if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
-                    this.factor1 = 0.3;
-                } else if (this.hasMin && this.scroller[this.property] < this.min && d < 0) {
-                    this.factor1 = 0.3;
-                } else {
-                    this.factor1 = 1;
-                }
-                d *= this.factor1;
-                this.preX = evt.touches[0].pageX;
-                this.preY = evt.touches[0].pageY;
-                this.scroller[this.property] += d;
-                this.change(this.scroller[this.property]);
-                var timestamp = new Date().getTime();
-                if (timestamp - this.startTime > 300) {
-                    this.startTime = timestamp;
-                    this.start = this.vertical ? this.preY : this.preX;
-                }
-                this.touchMove(this.scroller[this.property]);
                 if (this._preventMoveDefault) {
+                    var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sMf;
+                    if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
+                        this.factor1 = 0.3;
+                    } else if (this.hasMin && this.scroller[this.property] < this.min && d < 0) {
+                        this.factor1 = 0.3;
+                    } else {
+                        this.factor1 = 1;
+                    }
+                    d *= this.factor1;
+                    this.preX = evt.touches[0].pageX;
+                    this.preY = evt.touches[0].pageY;
+                    this.scroller[this.property] += d;
+                    this.change(this.scroller[this.property]);
+                    var timestamp = new Date().getTime();
+                    if (timestamp - this.startTime > 300) {
+                        this.startTime = timestamp;
+                        this.start = this.vertical ? this.preY : this.preX;
+                    }
+                    this.touchMove(this.scroller[this.property]);
+
                     evt.preventDefault();
                 }
             }
         },
         _end: function (evt) {
-            if (this.isTouchStart) {
+            if (this.isTouchStart && this._preventMoveDefault) {
                 var self = this;
                 this.touchEnd(this.scroller[this.property]);
                 if (this.hasMax && this.scroller[this.property] > this.max) {
