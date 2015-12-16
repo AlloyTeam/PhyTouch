@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <style>
+        html,body{
+            margin:0;
+            padding:0;
+        }
+        .nuclear-carousel {
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .nuclear-nav {
+            position: absolute;
+            bottom: 6px;
+            right: 10px;
+        }
+
+            .nuclear-nav a {
+                display: inline-block;
+                background-color: white;
+                cursor: pointer;
+                width: 10px;
+                height: 10px;
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;
+                border-radius: 5px;
+                border: 1px solid #808080;
+            }
+
+
+                .nuclear-nav a.active {
+                    background-color: #ffd800;
+                }
+
+        .nuclear-carousel-box {
+            position: relative;
+            font-size: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="carouselContainer">
+        <div class="nuclear-carousel">
+            <div style="width: 400%;" class="nuclear-carousel-box">
+                <img style="width: 25%;" src="asset/ci1.jpg">
+                <img style="width: 25%;" src="asset/ci2.jpg">
+                <img style="width: 25%;" src="asset/ci3.jpg">
+                <img style="width: 25%;" src="asset/ci4.jpg">
+            </div>
+            <div class="nuclear-nav">
+                <a data-index="0" class="active"></a>
+                <a data-index="1" class=" "></a>
+                <a data-index="2" class=" "></a>
+                <a data-index="4" class=" "></a>
+            </div>
+        </div>
+    </div>
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/example/asset/img/github.png" alt="">
+    </a>
+    <script src="transform.js"></script>
+    <script src="alloy_touch.js"></script>
+    <script>
+        var scroll = document.querySelector(".nuclear-carousel-box");
+        Transform(scroll);
+        new AlloyTouch({
+            touch: "#carouselContainer",//反馈触摸的dom
+            vertical: false,//不必需，默认是true代表监听竖直方向touch
+            target: scroll, //运动的对象
+            property: "translateX",  //被运动的属性
+            sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
+            factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
+            min: window.innerWidth * -3, //不必需,运动属性的最小值
+            max: 0, //不必需,滚动属性的最大值
+            step: window.innerWidth,
+            spring: true, //不必需,是否有回弹效果。默认是true
+            inertia: false, //不必需,是否有惯性。默认是true
+            correctionEnd: function (value) {
+                var currentIndex = Math.abs(Math.round(value / window.innerWidth));
+                var items = document.querySelectorAll(".nuclear-nav a"),
+                    i = 0,
+                    len = items.length;
+                for (; i < len; i++) {                  
+                    if (i === currentIndex) {
+                        items[i].classList.add("active");
+                    } else {
+                        items[i].classList.remove("active");
+                    }
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>
