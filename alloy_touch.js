@@ -116,6 +116,8 @@
         this.step = option.step;
         this.spring = option.spring;
         this.spring === undefined && (this.spring = true);
+        this.inertia = option.inertia;
+        this.inertia === undefined && (this.inertia = true);
         bind(this.element, "touchstart", this._start.bind(this));
         bind(window, "touchmove", this._move.bind(this));
         bind(window, "touchend", this._end.bind(this));
@@ -176,7 +178,7 @@
                     this.to(this.scroller, this.property, this.max, 200, iosEase, this.change, this.reboundEnd);
                 } else if (this.hasMin && this.scroller[this.property] < this.min) {
                     this.to(this.scroller, this.property, this.min, 200, iosEase, this.change, this.reboundEnd);
-                } else {
+                } else if (this.inertia) {
                     //var y = evt.changedTouches[0].pageY;
                     var duration = new Date().getTime() - this.startTime;
                     if (duration < 300) {
@@ -184,7 +186,7 @@
                             speed = Math.abs(distance) / duration,
                             speed2 = this.factor * speed,
                             destination = this.scroller[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
-                            
+
                         self.to(this.scroller, this.property, Math.round(destination), Math.round(speed / self.deceleration), self.easing.get, function (value) {
 
                             if (self.spring) {
@@ -221,6 +223,10 @@
                         if (self.step) {
                             self.correction(self.scroller, self.property);
                         }
+                    }
+                } else {
+                    if (self.step) {
+                        self.correction(self.scroller, self.property);
                     }
                 }
                 if (!preventDefaultTest(evt.target, this.preventDefaultException)) {
