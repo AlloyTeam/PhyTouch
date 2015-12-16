@@ -118,6 +118,7 @@
         this.spring === undefined && (this.spring = true);
         this.inertia = option.inertia;
         this.inertia === undefined && (this.inertia = true);
+        this.correctionEnd = option.correctionEnd || function () { };
         bind(this.element, "touchstart", this._start.bind(this));
         bind(window, "touchmove", this._move.bind(this));
         bind(window, "touchend", this._end.bind(this));
@@ -261,9 +262,9 @@
             var rpt = Math.floor(Math.abs(value / this.step));
             var dy = value % this.step;
             if (Math.abs(dy) > this.step / 2) {
-                this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, iosEase, this.change);
+                this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, iosEase, this.change, this.correctionEnd);
             } else {
-                this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, iosEase, this.change);
+                this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, iosEase, this.change, this.correctionEnd);
             }
         }
     }
