@@ -269,14 +269,14 @@
                 var d = this.scroller[this.property] - (this.max - prevPage * this.step);
                 if (Math.abs(d) > this.step / 20) {
                     if (d > 0) {
-                        this.to(el, property, (value < 0 ? -1 : 1) * (prevPage - 1) * this.step, 400, iosEase, this.change, function () {
-                            this.correctionEnd();
+                        this.to(el, property, (value < 0 ? -1 : 1) * (prevPage - 1) * this.step, 400, iosEase, this.change, function (value) {
+                            this.correctionEnd(value);
                             this.currentPage = prevPage - 1;
                         }.bind(this));
                        
                     } else {
-                        this.to(el, property, (value < 0 ? -1 : 1) * (prevPage + 1) * this.step, 400, iosEase, this.change, function () {
-                            this.correctionEnd();
+                        this.to(el, property, (value < 0 ? -1 : 1) * (prevPage + 1) * this.step, 400, iosEase, this.change, function (value) {
+                            this.correctionEnd(value);
                             this.currentPage = prevPage + 1;
                         }.bind(this));
                     }
