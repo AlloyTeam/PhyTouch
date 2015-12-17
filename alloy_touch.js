@@ -121,7 +121,7 @@
         this.correctionEnd = option.correctionEnd || function () { };
         this.intelligentCorrection = option.intelligentCorrection;
         if (this.hasMax && this.hasMin) {
-            this.currentPage = Math.floor((this.max - this.scroller[this.property]) / this.step);
+            this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
         }
         bind(this.element, "touchstart", this._start.bind(this));
         bind(window, "touchmove", this._move.bind(this));
@@ -135,6 +135,9 @@
             this._preventMoveDefault = true;
             this.touchStart(this.scroller[this.property]);
             cancelAnimationFrame(this.tickID);
+            if (this.hasMax && this.hasMin) {
+                this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
+            }
             this.startTime = new Date().getTime();
             this._startX = this.preX = evt.touches[0].pageX;
             this._startY = this.preY = evt.touches[0].pageY;
