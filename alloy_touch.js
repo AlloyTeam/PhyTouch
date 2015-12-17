@@ -135,6 +135,7 @@
             this._preventMoveDefault = true;
             this.touchStart(this.scroller[this.property]);
             cancelAnimationFrame(this.tickID);
+            this.correctionEnd(this.scroller[this.property]);
             if (this.hasMax && this.hasMin) {
                 this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
             }
