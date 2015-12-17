@@ -134,7 +134,9 @@
             this._firstTouchMove = true;
             this._preventMoveDefault = true;
             this.touchStart(this.scroller[this.property]);
-            cancelAnimationFrame(this.tickID);
+            if (!this.intelligentCorrection) {
+                cancelAnimationFrame(this.tickID);
+            }
             this.startTime = new Date().getTime();
             this._startX = this.preX = evt.touches[0].pageX;
             this._startY = this.preY = evt.touches[0].pageY;
