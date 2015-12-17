@@ -41,3 +41,6 @@ Rotate Demo: [http://alloyteam.github.io/AlloyTouch/rotate.html](http://alloytea
 
 ![usage](http://alloyteam.github.io/AlloyTouch/demo1.png)
 
+Carousel Demo: [http://alloyteam.github.io/AlloyTouch/carousel.html](http://alloyteam.github.io/AlloyTouch/carousel.html) 
+
+![usage](http://alloyteam.github.io/AlloyTouch/demo4.png)
