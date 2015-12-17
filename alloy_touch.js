@@ -134,9 +134,7 @@
             this._firstTouchMove = true;
             this._preventMoveDefault = true;
             this.touchStart(this.scroller[this.property]);
-            if (!this.intelligentCorrection) {
-                cancelAnimationFrame(this.tickID);
-            }
+            cancelAnimationFrame(this.tickID);
             this.startTime = new Date().getTime();
             this._startX = this.preX = evt.touches[0].pageX;
             this._startY = this.preY = evt.touches[0].pageY;
@@ -268,15 +266,21 @@
             var value = el[property];
             if (this.intelligentCorrection&&this.hasMax && this.hasMin) {              
                 var prevPage = this.currentPage;
-               
-                var d=this.scroller[this.property] - (this.max-prevPage * this.step);
+                var d = this.scroller[this.property] - (this.max - prevPage * this.step);
                 if (Math.abs(d) > this.step / 20) {
                     if (d > 0) {
-                        this.currentPage = prevPage - 1;
+                        this.to(el, property, (value < 0 ? -1 : 1) * (prevPage - 1) * this.step, 400, iosEase, this.change, function () {
+                            this.correctionEnd();
+                            this.currentPage = prevPage - 1;
+                        }.bind(this));
+                       
                     } else {
-                        this.currentPage = prevPage + 1;
+                        this.to(el, property, (value < 0 ? -1 : 1) * (prevPage + 1) * this.step, 400, iosEase, this.change, function () {
+                            this.correctionEnd();
+                            this.currentPage = prevPage + 1;
+                        }.bind(this));
                     }
-                    this.to(el, property, (value < 0 ? -1 : 1) * this.currentPage * this.step, 400, iosEase, this.change, this.correctionEnd);
+                    
                 } else {
                     this.to(el, property, (value < 0 ? -1 : 1) * prevPage * this.step, 400, iosEase, this.change, this.correctionEnd);
                 }
