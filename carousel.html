@@ -60,8 +60,8 @@
             </div>
         </div>
     </div>
-    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
-        <img src="http://alloyteam.github.io/AlloyGameEngine/example/asset/img/github.png" alt="">
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:60px;height:60px;">
+        <img style="width:60px;height:60px;" src="http://alloyteam.github.io/AlloyGameEngine/example/asset/img/github.png" alt="">
     </a>
     <script src="transform.js"></script>
     <script src="alloy_touch.js"></script>
@@ -80,6 +80,7 @@
             step: window.innerWidth,
             spring: true, //不必需,是否有回弹效果。默认是true
             inertia: false, //不必需,是否有惯性。默认是true
+            intelligentCorrection:true,
             correctionEnd: function (value) {
                 var currentIndex = Math.abs(Math.round(value / window.innerWidth));
                 var items = document.querySelectorAll(".nuclear-nav a"),

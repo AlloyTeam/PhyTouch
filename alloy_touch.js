@@ -119,6 +119,10 @@
         this.inertia = option.inertia;
         this.inertia === undefined && (this.inertia = true);
         this.correctionEnd = option.correctionEnd || function () { };
+        this.intelligentCorrection = option.intelligentCorrection;
+        if (this.hasMax && this.hasMin) {
+            this.currentPage = Math.floor((this.max - this.scroller[this.property]) / this.step);
+        }
         bind(this.element, "touchstart", this._start.bind(this));
         bind(window, "touchmove", this._move.bind(this));
         bind(window, "touchend", this._end.bind(this));
@@ -130,7 +134,9 @@
             this._firstTouchMove = true;
             this._preventMoveDefault = true;
             this.touchStart(this.scroller[this.property]);
-            cancelAnimationFrame(this.tickID);
+            if (!this.intelligentCorrection) {
+                cancelAnimationFrame(this.tickID);
+            }
             this.startTime = new Date().getTime();
             this._startX = this.preX = evt.touches[0].pageX;
             this._startY = this.preY = evt.touches[0].pageY;
@@ -260,12 +266,28 @@
         },
         correction: function (el, property) {
             var value = el[property];
-            var rpt = Math.floor(Math.abs(value / this.step));
-            var dy = value % this.step;
-            if (Math.abs(dy) > this.step / 2) {
-                this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, iosEase, this.change, this.correctionEnd);
-            } else {
-                this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, iosEase, this.change, this.correctionEnd);
+            if (this.intelligentCorrection&&this.hasMax && this.hasMin) {              
+                var prevPage = this.currentPage;
+               
+                var d=this.scroller[this.property] - (this.max-prevPage * this.step);
+                if (Math.abs(d) > this.step / 20) {
+                    if (d > 0) {
+                        this.currentPage = prevPage - 1;
+                    } else {
+                        this.currentPage = prevPage + 1;
+                    }
+                    this.to(el, property, (value < 0 ? -1 : 1) * this.currentPage * this.step, 400, iosEase, this.change, this.correctionEnd);
+                } else {
+                    this.to(el, property, (value < 0 ? -1 : 1) * prevPage * this.step, 400, iosEase, this.change, this.correctionEnd);
+                }
+            } else {              
+                var rpt = Math.floor(Math.abs(value / this.step));
+                var dy = value % this.step;
+                if (Math.abs(dy) > this.step / 2) {
+                    this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, iosEase, this.change, this.correctionEnd);
+                } else {
+                    this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, iosEase, this.change, this.correctionEnd);
+                }
             }
         }
     }
