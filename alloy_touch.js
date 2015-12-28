@@ -1,4 +1,4 @@
-/* AlloyTouch
+﻿/* AlloyTouch
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -33,7 +33,6 @@
         element.addEventListener(type, callback, false);
     }
 
-    //http://kmdjs.github.io/dnt/demo43/index.html
     function iosEase(x) {
         return Math.sqrt(1 - Math.pow(x - 1, 2));
     }
