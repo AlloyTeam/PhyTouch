@@ -33,7 +33,6 @@
         element.addEventListener(type, callback, false);
     }
 
-    //http://kmdjs.github.io/dnt/demo43/index.html
     function iosEase(x) {
         return Math.sqrt(1 - Math.pow(x - 1, 2));
     }
