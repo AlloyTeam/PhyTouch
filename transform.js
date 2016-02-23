@@ -82,7 +82,7 @@
             return this;
 
         },
-        appendTransform: function (perspective, x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, regX, regY, regZ) {
+        appendTransform: function (perspective, x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, originX, originY, originZ) {
 
             var rx = rotateX * matrix3D.DEG_TO_RAD;
             var cosx = Math.cos(rx);
@@ -117,11 +117,11 @@
             ));
 
 
-            if (regX || regY || regZ) {
+            if (originX || originY || originZ) {
 
-                this.elements[12] -= regX * this.elements[0] + regY * this.elements[4] + regZ * this.elements[8];
-                this.elements[13] -= regX * this.elements[1] + regY * this.elements[5] + regZ * this.elements[9];
-                this.elements[14] -= regX * this.elements[2] + regY * this.elements[6] + regZ * this.elements[10];
+                this.elements[12] -= originX * this.elements[0] + originY * this.elements[4] + originZ * this.elements[8];
+                this.elements[13] -= originX * this.elements[1] + originY * this.elements[5] + originZ * this.elements[9];
+                this.elements[14] -= originX * this.elements[2] + originY * this.elements[6] + originZ * this.elements[10];
             }
             return this;
         }
@@ -154,9 +154,9 @@
 
         observe(
             element,
-            ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "perspective", "rotateX", "rotateY", "rotateZ", "regX", "regY", "regZ"],
+            ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "perspective", "rotateX", "rotateY", "rotateZ", "originX", "originY", "originZ"],
             function () {
-                var mtx = element.matrix3D.identity().appendTransform(element.perspective, element.translateX, element.translateY, element.translateZ, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.regX, element.regY, element.regZ);
+                var mtx = element.matrix3D.identity().appendTransform(element.perspective, element.translateX, element.translateY, element.translateZ, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.originX, element.originY, element.originZ);
                 element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = "matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
             });
 
@@ -164,7 +164,7 @@
         element.matrix3D = new matrix3D();
         element.perspective = 400;
         element.scaleX = element.scaleY = element.scaleZ = 1;
-        element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.regX = element.regY = element.regZ = 0;
+        element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.originX = element.originY = element.originZ = 0;
 
 
     }
