@@ -64,7 +64,6 @@
         this.max = option.max;
         this.startTime;
         this.start;
-        this.recording = false;
         this.deceleration = 0.0006;
         this.change = option.change || function () { };
         this.touchEnd = option.touchEnd || function () { };
