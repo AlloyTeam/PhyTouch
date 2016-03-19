@@ -220,7 +220,7 @@
                     onEnd && onEnd(value);
                     return;
                 }
-                el[property] = Math.round(dv * ease(dt / time) + current);
+                el[property] = dv * ease(dt / time) + current;
                 self.tickID = requestAnimationFrame(toTick);
                 //cancelAnimationFrame必须在 tickID = requestAnimationFrame(toTick);的后面
                 onChange && onChange(el[property]);
