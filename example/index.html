@@ -167,7 +167,7 @@
         </div>
     </div>
      <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
-        <img src="http://alloyteam.github.io/AlloyGameEngine/example/asset/img/github.png" alt="">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
     </a>
     <script src="../transform.js"></script>
     <script src="../alloy_touch.js"></script>
@@ -185,7 +185,10 @@
             factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
             min: window.innerHeight - 45 - 48 - 2000, //不必需,滚动属性的最小值
             max: 0, //不必需,滚动属性的最大值
-            step:40
+            step: 40,
+            animationEnd: function (value) {
+                console.log(value);
+            }
         })
 
     </script>

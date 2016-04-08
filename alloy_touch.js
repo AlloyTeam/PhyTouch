@@ -70,6 +70,7 @@
         this.touchStart = option.touchStart || function () { };
         this.touchMove = option.touchMove || function () { };
         this.reboundEnd = option.reboundEnd || function () { };
+        this.animationEnd = option.animationEnd || function () { };
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
         this.hasMin = !(this.min === undefined);
         this.hasMax = !(this.max === undefined);
@@ -146,9 +147,15 @@
                 var self = this;
                 this.touchEnd(this.scroller[this.property]);
                 if (this.hasMax && this.scroller[this.property] > this.max) {
-                    this.to(this.scroller, this.property, this.max, 200, iosEase, this.change, this.reboundEnd);
+                    this.to(this.scroller, this.property, this.max, 200, iosEase, this.change,function(value){
+                        this.reboundEnd(value);
+                        this.animationEnd(value);
+                    }.bind(this));
                 } else if (this.hasMin && this.scroller[this.property] < this.min) {
-                    this.to(this.scroller, this.property, this.min, 200, iosEase, this.change, this.reboundEnd);
+                    this.to(this.scroller, this.property, this.min, 200, iosEase, this.change,function(value){
+                        this.reboundEnd(value);
+                        this.animationEnd(value);
+                    }.bind(this));
                 } else if (this.inertia) {
                     //var y = evt.changedTouches[0].pageY;
                     var duration = new Date().getTime() - this.startTime;
@@ -164,12 +171,12 @@
                                 if (self.hasMax && self.scroller[self.property] > self.max) {
                                     setTimeout(function () {
                                         cancelAnimationFrame(self.tickID);
-                                        self.to(self.scroller, self.property, self.max, 200, iosEase, self.change);
+                                        self.to(self.scroller, self.property, self.max, 200, iosEase, self.change, self.animationEnd);
                                     }, 50);
                                 } else if (self.hasMin && self.scroller[self.property] < self.min) {
                                     setTimeout(function () {
                                         cancelAnimationFrame(self.tickID);
-                                        self.to(self.scroller, self.property, self.min, 200, iosEase, self.change);
+                                        self.to(self.scroller, self.property, self.min, 200, iosEase, self.change, self.animationEnd);
                                     }, 50);
                                 }
                             } else {
@@ -177,10 +184,12 @@
                                 if (self.hasMax && self.scroller[self.property] > self.max) {
                                     cancelAnimationFrame(self.tickID);
                                     self.scroller[self.property] = self.max;
+                                    self.animationEnd(self.max);
 
                                 } else if (self.hasMin && self.scroller[self.property] < self.min) {
                                     cancelAnimationFrame(self.tickID);
                                     self.scroller[self.property] = self.min;
+                                    self.animationEnd(self.min);
 
                                 }
                             }
@@ -188,6 +197,8 @@
                         }, function () {
                             if (self.step) {
                                 self.correction(self.scroller, self.property);
+                            } else {
+                                self.animationEnd(self.scroller[self.property]);
                             }
                         });
                     } else {
@@ -237,25 +248,36 @@
                         this.to(el, property, (value < 0 ? -1 : 1) * (prevPage - 1) * this.step, 400, iosEase, this.change, function (value) {
                             this.correctionEnd(value);
                             this.currentPage = prevPage - 1;
+                            this.animationEnd(value);
                         }.bind(this));
                        
                     } else {
                         this.to(el, property, (value < 0 ? -1 : 1) * (prevPage + 1) * this.step, 400, iosEase, this.change, function (value) {
                             this.correctionEnd(value);
                             this.currentPage = prevPage + 1;
+                            this.animationEnd(value);
                         }.bind(this));
                     }
                     
                 } else {
-                    this.to(el, property, (value < 0 ? -1 : 1) * prevPage * this.step, 400, iosEase, this.change, this.correctionEnd);
+                    this.to(el, property, (value < 0 ? -1 : 1) * prevPage * this.step, 400, iosEase, this.change, function (value) {
+                        this.correctionEnd(value);
+                        this.animationEnd(value);
+                    }.bind(this));
                 }
             } else {              
                 var rpt = Math.floor(Math.abs(value / this.step));
                 var dy = value % this.step;
                 if (Math.abs(dy) > this.step / 2) {
-                    this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, iosEase, this.change, this.correctionEnd);
+                    this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, iosEase, this.change,  function (value) {
+                        this.correctionEnd(value);
+                        this.animationEnd(value);
+                    }.bind(this));
                 } else {
-                    this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, iosEase, this.change, this.correctionEnd);
+                    this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, iosEase, this.change, function (value) {
+                        this.correctionEnd(value);
+                        this.animationEnd(value);
+                    }.bind(this));
                 }
             }
         }
