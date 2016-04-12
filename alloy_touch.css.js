@@ -255,7 +255,7 @@
                 this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, ease);
             }
         },
-        destory: function () {
+        destroy: function () {
             unbind(this.element, "touchstart", this._startHandler);
             unbind(this.element, endTransitionEventName, this._transitionEndHandler)
             unbind(window, "touchmove", this._moveHandler);
