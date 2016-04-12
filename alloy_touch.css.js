@@ -3,9 +3,7 @@
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
  */
-; (function () {
-
-    
+; (function () {  
     var lastTime = 0;
     var ticker = function (callback) {
         var currTime = new Date().getTime();
@@ -39,7 +37,9 @@
             throw 'please use a modern browser'
         }
     
-    var ease = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
+    var ease = 'cubic-bezier(0.1, 0.57, 0.1, 1)',
+        backEase = 'cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+
 
     function reverseEase(y) {
         return 1 - Math.sqrt(1 - y * y);
@@ -82,23 +82,21 @@
         this.start;
         this.recording = false;
         this.deceleration = 0.0006;
-        this.change = option.change || function () { };
+        //css版本不再支持change事件
+        //this.change = option.change || function () { };
         this.touchEnd = option.touchEnd || function () { };
         this.touchStart = option.touchStart || function () { };
         this.touchMove = option.touchMove || function () { };
-        this.reboundEnd = option.reboundEnd || function () { };
+        this.animationEnd = option.animationEnd || function () { };
+
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
         this.hasMin = !(this.min === undefined);
         this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
         this.step = option.step;
-        this.spring = option.spring;
-        this.spring === undefined && (this.spring = true);
         this.inertia = option.inertia;
         this.inertia === undefined && (this.inertia = true);
-        this.correctionEnd = option.correctionEnd || function () { };
-        this.animationEnd = option.animationEnd || function () { };
-        this.intelligentCorrection = option.intelligentCorrection;
+        
         if (this.hasMax && this.hasMin) {
             this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
         }
@@ -112,14 +110,25 @@
         bind(this.element, endTransitionEventName, this._transitionEndHandler);
         bind(window, "touchmove", this._moveHandler);
         bind(window, "touchend", this._endHandler);
+        //当有step设置的时候防止执行两次end
+        this._endCallbackTag = true;
     }
 
     AlloyTouch.prototype = {
         _transitionEnd: function () {
-            this.animationEnd(this.getComputedPosition());
+            if (this.step) {
+                this.correction(this.scroller, this.property);
+                if (this._endCallbackTag) {
+                    setTimeout(function () {
+                        this.animationEnd(this.getComputedPosition());
+                    }.bind(this), 400)
+                    this._endCallbackTag = false;
+                }
+            } else {
+                this.animationEnd(this.getComputedPosition());
+            }
         },
-        _cancelAnimation: function () {
-         
+        _cancelAnimation: function () { 
             //console.log(window.getComputedStyle(this.scroller)[transform])
             this.scroller.style[transitionDuration] = '0ms';
             this.scroller.style[transform] = window.getComputedStyle(this.scroller)[transform];
@@ -131,17 +140,16 @@
                 matrix = matrix[transform].split(')')[0].split(', ');
                 x = +(matrix[12] || matrix[4]);
                 y = +(matrix[13] || matrix[5]);
-            
-
             return { x: x, y: y };
         },
         _start: function (evt) {
+            this._endCallbackTag = true;
             this.isTouchStart = true;
             this._firstTouchMove = true;
             this._preventMoveDefault = true;
             this.touchStart(this.scroller[this.property]);
             this._cancelAnimation();
-            this.correctionEnd(this.scroller[this.property]);
+ 
             if (this.hasMax && this.hasMin) {
                 this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
             }
@@ -174,7 +182,7 @@
                     this.preX = evt.touches[0].pageX;
                     this.preY = evt.touches[0].pageY;
                     this.scroller[this.property] += d;
-                    this.change(this.scroller[this.property]);
+                   
                     var timestamp = new Date().getTime();
                     if (timestamp - this.startTime > 300) {
                         this.startTime = timestamp;
@@ -191,9 +199,9 @@
                 var self = this;
                 this.touchEnd(this.scroller[this.property]);
                 if (this.hasMax && this.scroller[this.property] > this.max) {
-                    this.to(this.scroller, this.property, this.max, 200, ease, this.change, this.reboundEnd);
+                    this.to(this.scroller, this.property, this.max, 200, ease);
                 } else if (this.hasMin && this.scroller[this.property] < this.min) {
-                    this.to(this.scroller, this.property, this.min, 200, ease, this.change, this.reboundEnd);
+                    this.to(this.scroller, this.property, this.min, 200, ease);
                 } else if (this.inertia) {
                     //var y = evt.changedTouches[0].pageY;
                     var duration = new Date().getTime() - this.startTime;
@@ -213,48 +221,17 @@
                             destination = this.max;
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
-                        if (duration < 200) duration = 200;
-                        self.to(this.scroller, this.property, Math.round(destination), duration, ease, function (value) {
-
-                            //if (self.spring) {
-                            //    if (self.hasMax && self.scroller[self.property] > self.max) {
-                            //        setTimeout(function () {
-                            //            this._cancelAnimation();
-                            //            self.to(self.scroller, self.property, self.max, 200, ease, self.change);
-                            //        }, 50);
-                            //    } else if (self.hasMin && self.scroller[self.property] < self.min) {
-                            //        setTimeout(function () {
-                            //            this._cancelAnimation();
-                            //            self.to(self.scroller, self.property, self.min, 200, ease, self.change);
-                            //        }, 50);
-                            //    }
-                            //} else {
-
-                            //    if (self.hasMax && self.scroller[self.property] > self.max) {
-                            //        this._cancelAnimation();
-                            //        self.scroller[self.property] = self.max;
-
-                            //    } else if (self.hasMin && self.scroller[self.property] < self.min) {
-                            //        this._cancelAnimation();
-                            //        self.scroller[self.property] = self.min;
-
-                            //    }
-                            //}
-                            //self.change(self.scroller[self.property]);
-                        }, function () {
-                            //if (self.step) {
-                            //    self.correction(self.scroller, self.property);
-                            //}
-                        });
+                        if (duration < 600) duration = 600;
+                        self.to(this.scroller, this.property, Math.round(destination), duration, (tRatio === 1) ? ease : backEase);
                     } else {
-                        //if (self.step) {
-                        //    self.correction(self.scroller, self.property);
-                        //}
+                        if (self.step) {
+                            self.correction(self.scroller, self.property);
+                        }
                     }
                 } else {
-                    //if (self.step) {
-                    //    self.correction(self.scroller, self.property);
-                    //}
+                    if (self.step) {
+                        self.correction(self.scroller, self.property);
+                    }
                 }
                 if (!preventDefaultTest(evt.target, this.preventDefaultException)) {
                     evt.preventDefault();
@@ -262,52 +239,20 @@
                 this.isTouchStart = false;
             }
         },
-        to: function (el, property, value, time, ease, onChange, onEnd) {
+        to: function (el, property, value, time, ease) {
                 var current = el[property];
                 el.style[transitionDuration] = time + 'ms';
                 el.style[transitionTimingFunction] = ease;
-                //if (this.hasMax && value > this.max) {
-                   
-                //    time = time * (this.max - current) / (value - current);
-                //    console.log((this.max - current) / (value - current))
-                //    value = this.max;
-                //} else if (this.hasMin && value < this.min) {
-                //    time = time * (this.min - current) / (value - current);
-                //    value = this.min;
-                //}
                 el[property] = value;        
-            
         },
         correction: function (el, property) {
             var value = el[property];
-            if (this.intelligentCorrection&&this.hasMax && this.hasMin) {              
-                var prevPage = this.currentPage;
-                var d = this.scroller[this.property] - (this.max - prevPage * this.step);
-                if (Math.abs(d) > this.step / 20) {
-                    if (d > 0) {
-                        this.to(el, property, (value < 0 ? -1 : 1) * (prevPage - 1) * this.step, 400, ease, this.change, function (value) {
-                            this.correctionEnd(value);
-                            this.currentPage = prevPage - 1;
-                        }.bind(this));
-                       
-                    } else {
-                        this.to(el, property, (value < 0 ? -1 : 1) * (prevPage + 1) * this.step, 400, ease, this.change, function (value) {
-                            this.correctionEnd(value);
-                            this.currentPage = prevPage + 1;
-                        }.bind(this));
-                    }
-                    
-                } else {
-                    this.to(el, property, (value < 0 ? -1 : 1) * prevPage * this.step, 400, ease, this.change, this.correctionEnd);
-                }
-            } else {              
-                var rpt = Math.floor(Math.abs(value / this.step));
-                var dy = value % this.step;
-                if (Math.abs(dy) > this.step / 2) {
-                    this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease, this.change, this.correctionEnd);
-                } else {
-                    this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, ease, this.change, this.correctionEnd);
-                }
+            var rpt = Math.floor(Math.abs(value / this.step));
+            var dy = value % this.step;
+            if (Math.abs(dy) > this.step / 2) {
+                this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease );
+            } else {
+                this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, ease);
             }
         },
         destory: function () {

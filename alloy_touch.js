@@ -76,8 +76,6 @@
         this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
         this.step = option.step;
-        this.spring = option.spring;
-        this.spring === undefined && (this.spring = true);
         this.inertia = option.inertia;
         this.inertia === undefined && (this.inertia = true);
         this.correctionEnd = option.correctionEnd || function () { };
@@ -167,32 +165,18 @@
 
                         self.to(this.scroller, this.property, Math.round(destination), Math.round(speed / self.deceleration), iosEase, function (value) {
 
-                            if (self.spring) {
-                                if (self.hasMax && self.scroller[self.property] > self.max) {
-                                    setTimeout(function () {
-                                        cancelAnimationFrame(self.tickID);
-                                        self.to(self.scroller, self.property, self.max, 200, iosEase, self.change, self.animationEnd);
-                                    }, 50);
-                                } else if (self.hasMin && self.scroller[self.property] < self.min) {
-                                    setTimeout(function () {
-                                        cancelAnimationFrame(self.tickID);
-                                        self.to(self.scroller, self.property, self.min, 200, iosEase, self.change, self.animationEnd);
-                                    }, 50);
-                                }
-                            } else {
-
-                                if (self.hasMax && self.scroller[self.property] > self.max) {
+                            if (self.hasMax && self.scroller[self.property] > self.max) {
+                                setTimeout(function () {
                                     cancelAnimationFrame(self.tickID);
-                                    self.scroller[self.property] = self.max;
-                                    self.animationEnd(self.max);
-
-                                } else if (self.hasMin && self.scroller[self.property] < self.min) {
+                                    self.to(self.scroller, self.property, self.max, 200, iosEase, self.change, self.animationEnd);
+                                }, 50);
+                            } else if (self.hasMin && self.scroller[self.property] < self.min) {
+                                setTimeout(function () {
                                     cancelAnimationFrame(self.tickID);
-                                    self.scroller[self.property] = self.min;
-                                    self.animationEnd(self.min);
-
-                                }
+                                    self.to(self.scroller, self.property, self.min, 200, iosEase, self.change, self.animationEnd);
+                                }, 50);
                             }
+
                             self.change(self.scroller[self.property]);
                         }, function () {
                             if (self.step) {
