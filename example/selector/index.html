@@ -1,0 +1,366 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <style>
+        /*下拉选择空间样式*/
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .jmu-border-1px {
+            position: relative;
+        }
+
+            .jmu-border-1px:after {
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                -webkit-transform: scale(1);
+                -moz-transform: scale(1);
+                -ms-transform: scale(1);
+                -o-transform: scale(1);
+                transform: scale(1);
+                -webkit-transform-origin: 0 0;
+                -moz-transform-origin: 0 0;
+                -ms-transform-origin: 0 0;
+                -o-transform-origin: 0 0;
+                transform-origin: 0 0;
+                content: "";
+                pointer-events: none;
+            }
+
+    @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+        .jmu-border-1px:after {
+            right: -100%;
+            bottom: -100%;
+            -webkit-transform: scale(.5);
+            -moz-transform: scale(.5);
+            -ms-transform: scale(.5);
+            -o-transform: scale(.5);
+            transform: scale(.5);
+        }
+    }
+
+        .jmu-border-1px.border-bottom:after {
+            border-bottom: 1px solid #cdcdcd;
+        }
+
+        .jmu-border-1px.border-top:after {
+            border-top: 1px solid #cdcdcd;
+        }
+
+
+        .alloy-selector {
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10000;
+            padding: 0;
+            width: 100%;
+        }
+
+
+
+        .alloy-selector-wrap {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            width: 100%;
+            height: 256px;
+            background-color: #fff;
+            -webkit-transition: .3s ease-out all;
+            -moz-transition: .3s ease-out all;
+            -o-transition: .3s ease-out all;
+            transition: .3s ease-out all;
+        }
+
+
+
+        .alloy-selector-head {
+            overflow: hidden;
+            border-color: #bbb;
+            padding: 9px;
+        }
+
+        .alloy-selector-button {
+            display: block;
+            float: right;
+            width: 50px;
+            font-size: 17px;
+            line-height: 26px;
+            text-align: right;
+            color: #1d79eb;
+            outline: 0;
+        }
+
+            .alloy-selector-button:focus,
+            .alloy-selector-button:hover {
+                border: 0;
+            }
+
+        .alloy-selector-body {
+            overflow: hidden;
+            position: relative;
+            padding: 0;
+            text-align: center;
+        }
+
+        .alloy-selector-line {
+            display: inline-block;
+            position: relative;
+            text-align: center;
+            vertical-align: top;
+        }
+
+            .alloy-selector-line ul {
+                list-style: none;
+                margin: -112px 0 0 22%;
+                padding: 0;
+                width: 50%;
+                min-height: 256px;
+            }
+
+        .alloy-selector-tline-top {
+            display: block;
+            position: absolute;
+            top: 84px;
+            left: 0;
+            border-color: #bbb;
+            width: 100%;
+            height: 0;
+            content: "";
+        }
+
+        .alloy-selector-tline-bottom {
+            display: block;
+            position: absolute;
+            top: 119px;
+            left: 0;
+            border-color: #bbb;
+            width: 100%;
+            height: 0;
+            content: "";
+        }
+
+        .alloy-selector-line ul li {
+           
+            height: 33px;
+            font-size: 23px;
+            white-space: nowrap;
+        }
+
+        .alloy-selector-mask {
+            background-color: rgba(0,0,0,.4);
+            position: absolute;
+            z-index: 999;
+            width: 100%;
+            left: 0;
+            top: 0;
+        }
+
+        .alloy-selector-submask1 {
+            background-color: rgba(255,255,255,.7);
+            position: absolute;
+            z-index: 1001;
+            width: 100%;
+            height: 86px;
+            top: 0px;
+            left: 0px;
+        }
+
+        .alloy-selector-submask2 {
+            background-color: rgba(255,255,255,.7);
+            position: absolute;
+            z-index: 1001;
+            width: 100%;
+            height: 90px;
+            top: 122px;
+            left: 0px;
+        }
+
+        .alloy-selector-left {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 50%;
+            height: 500px;
+            z-index: 1002;
+        }
+
+        .alloy-selector-right {
+            position: absolute;
+            left: 50%;
+            top: 0px;
+            width: 50%;
+            height: 500px;
+            z-index: 1002;
+        }
+    </style>
+</head>
+<body>
+    <div class="alloy-selector">
+        <div class="alloy-selector-mask"></div>
+
+        <div class="alloy-selector-wrap">
+            <div class="alloy-selector-head jmu-border-1px border-bottom">
+                <div class="alloy-selector-button" id="alloy-selector-complete-button-1">完成</div>
+            </div>
+            <div class="alloy-selector-body">
+                <div class="alloy-selector-submask1 jmu-border-1px border-bottom"></div>
+                <div class="alloy-selector-submask2 jmu-border-1px border-top"></div>
+                <div class="alloy-selector-line" id="alloy-selector-line-1-0" style="width: 46%;">
+                    <ul data-height="12px" style="height: 1481px; margin-top: -373px;">
+                        <li class="">北京</li>
+                        <li class="">天津</li>
+                        <li class="">河北</li>
+                        <li class="">山西</li>
+                        <li class="">内蒙古</li>
+                        <li class="">辽宁</li>
+                        <li class="">吉林</li>
+                        <li class="">黑龙江</li>
+                        <li class="">上海</li>
+                        <li class="">江苏</li>
+                        <li class="">浙江</li>
+                        <li class="">安徽</li>
+                        <li class="">福建</li>
+                        <li class="">江西</li>
+                        <li class="">山东</li>
+                        <li class="">河南</li>
+                        <li>湖北</li>
+                        <li class="">湖南</li>
+                        <li class="">广东</li>
+                        <li class="">广西</li>
+                        <li class="">海南</li>
+                        <li class="">重庆</li>
+                        <li class="">四川</li>
+                        <li class="">贵州</li>
+                        <li class="">云南</li>
+                        <li class="">西藏</li>
+                        <li class="">陕西</li>
+                        <li class="">甘肃</li>
+                        <li class="">青海</li>
+                        <li class="">宁夏</li>
+                        <li class="">新疆</li>
+                        <li class="">台湾</li>
+                        <li class="">香港</li>
+                        <li class="">澳门</li>
+                        <li class="">海外</li>
+                    </ul>
+                </div>
+                <div class="alloy-selector-line" id="alloy-selector-line-1-1" style="width: 46%;">
+                    <ul data-height="12px" style="height: 851px; margin-top: 92px;">
+                        <li class="">武汉</li>
+                        <li class="">黄石</li>
+                        <li class="">十堰</li>
+                        <li class="">宜昌</li>
+                        <li class="">襄阳</li>
+                        <li class="">鄂州</li>
+                        <li class="">荆门</li>
+                        <li class="">孝感</li>
+                        <li class="">荆州</li>
+                        <li class="">黄冈</li>
+                        <li class="">咸宁</li>
+                        <li class="">随州</li>
+                        <li class="">恩施</li>
+                        <li class="">仙桃</li>
+                        <li class="">潜江</li>
+                        <li class="">天门</li>
+                        <li>神农架</li>
+                    </ul>
+                </div>
+                <div class="alloy-selector-left"></div>
+                <div class="alloy-selector-right"></div>
+            </div>
+        </div>
+    </div>
+    <script src="../../alloy_touch.css.js"></script>
+    <script src="../../transform.js"></script>
+    <script>
+        var selector = document.querySelector(".alloy-selector");
+        selector.style.height = window.innerHeight + "px";
+        var mask = document.querySelector(".alloy-selector-mask");
+        mask.style.height = window.innerHeight + "px";
+        var list = document.querySelectorAll(".alloy-selector-line");
+        var list1 = list[0];
+        var list2 = list[1];
+        var leftDiv = document.querySelector(".alloy-selector-left");
+        var rightDiv = document.querySelector(".alloy-selector-right");
+        Transform(list1);
+        Transform(list2);
+        var at1 = new AlloyTouch({
+            touch: leftDiv,//反馈触摸的dom
+            target: list1, //运动的对象
+            property: "translateY",  //被滚动的属性
+            min:-100000, //不必需,滚动属性的最小值
+            max: 100000,
+            animationEnd: function (value) {
+                console.log(value);
+            },
+            step:33
+        });
+
+        var at2 = new AlloyTouch({
+            touch: rightDiv,//反馈触摸的dom
+            target: list2, //运动的对象
+            property: "translateY",  //被滚动的属性
+            min: -100000, //不必需,滚动属性的最小值
+            max: 100000,
+            animationEnd: function (value) {
+                console.log(value);
+            },
+            step: 33
+        });
+
+
+
+        //待使用
+        var cityData = {
+            "北京": ["东城", "西城", "朝阳", "丰台", "石景山", "海淀", "门头沟", "房山", "通州", "顺义", "昌平", "大兴", "平谷", "怀柔", "密云", "延庆"],
+            "天津": ["和平", "河东", "河西", "南开", "河北", "红桥", "滨海新区", "东丽", "西青", "津南", "北辰", "宁河", "武清", "静海", "宝坻", "蓟县"],
+            "河北": ["石家庄", "唐山", "秦皇岛", "邯郸", "邢台", "保定", "张家口", "承德", "沧州", "廊坊", "衡水"],
+            "山西": ["太原", "大同", "阳泉", "长治", "晋城", "朔州", "晋中", "运城", "忻州", "临汾", "吕梁"],
+            "内蒙古": ["呼和浩特", "包头", "乌海", "赤峰", "通辽", "鄂尔多斯", "呼伦贝尔", "巴彦淖尔", "乌兰察布", "兴安", "锡林郭勒", "阿拉善"],
+            "辽宁": ["沈阳", "大连", "鞍山", "抚顺", "本溪", "丹东", "锦州", "营口", "阜新", "辽阳", "盘锦", "铁岭", "朝阳", "葫芦岛"],
+            "吉林": ["长春", "吉林", "四平", "辽源", "通化", "白山", "松原", "白城", "延边"],
+            "黑龙江": ["哈尔滨", "齐齐哈尔", "鸡西", "鹤岗", "双鸭山", "大庆", "伊春", "佳木斯", "七台河", "牡丹江", "黑河", "绥化", "大兴安岭"],
+            "上海": ["黄浦", "卢湾", "徐汇", "长宁", "静安", "普陀", "闸北", "虹口", "杨浦", "闵行", "宝山", "嘉定", "浦东新区", "金山", "松江", "奉贤", "青浦", "崇明"],
+            "江苏": ["南京", "无锡", "徐州", "常州", "苏州", "南通", "连云港", "淮安", "盐城", "扬州", "镇江", "泰州", "宿迁"],
+            "浙江": ["杭州", "宁波", "温州", "嘉兴", "湖州", "绍兴", "金华", "衢州", "舟山", "台州", "丽水"],
+            "安徽": ["合肥", "芜湖", "蚌埠", "淮南", "马鞍山", "淮北", "铜陵", "安庆", "黄山", "滁州", "阜阳", "宿州", "六安", "亳州", "池州", "宣城"],
+            "福建": ["福州", "厦门", "莆田", "三明", "泉州", "漳州", "南平", "龙岩", "宁德"],
+            "江西": ["南昌", "景德镇", "萍乡", "九江", "新余", "鹰潭", "赣州", "吉安", "宜春", "抚州", "上饶"],
+            "山东": ["济南", "青岛", "淄博", "枣庄", "东营", "烟台", "潍坊", "济宁", "泰安", "威海", "日照", "莱芜", "临沂", "德州", "聊城", "滨州", "菏泽"],
+            "河南": ["郑州", "开封", "洛阳", "平顶山", "安阳", "鹤壁", "新乡", "焦作", "濮阳", "许昌", "漯河", "三门峡", "南阳", "商丘", "信阳", "周口", "驻马店", "济源"],
+            "湖北": ["武汉", "黄石", "十堰", "宜昌", "襄阳", "鄂州", "荆门", "孝感", "荆州", "黄冈", "咸宁", "随州", "恩施", "仙桃", "潜江", "天门", "神农架"],
+            "湖南": ["长沙", "株洲", "湘潭", "衡阳", "邵阳", "岳阳", "常德", "张家界", "益阳", "郴州", "永州", "怀化", "娄底", "湘西"],
+            "广东": ["广州", "韶关", "深圳", "珠海", "汕头", "佛山", "江门", "湛江", "茂名", "肇庆", "惠州", "梅州", "汕尾", "河源", "阳江", "清远", "东莞", "中山", "潮州", "揭阳", "云浮"],
+            "广西": ["南宁", "柳州", "桂林", "梧州", "北海", "防城港", "钦州", "贵港", "玉林", "百色", "贺州", "河池", "来宾", "崇左"],
+            "海南": ["海口", "三亚", "三沙", "五指山", "琼海", "儋州", "文昌", "万宁", "东方", "定安", "屯昌", "澄迈", "临高", "白沙", "昌江", "乐东", "陵水", "保亭", "琼中"],
+            "重庆": ["万州", "涪陵", "渝中", "大渡口", "江北", "沙坪坝", "九龙坡", "南岸", "北碚", "两江新区", "万盛", "双桥", "渝北", "巴南", "长寿", "綦江", "潼南", "铜梁", "大足", "荣昌", "璧山", "梁平", "城口", "丰都", "垫江", "武隆", "忠县", "开县", "云阳", "奉节", "巫山", "巫溪", "黔江", "石柱", "秀山", "酉阳", "彭水", "江津", "合川", "永川", "南川"],
+            "四川": ["成都", "自贡", "攀枝花", "泸州", "德阳", "绵阳", "广元", "遂宁", "内江", "乐山", "南充", "眉山", "宜宾", "广安", "达州", "雅安", "巴中", "资阳", "阿坝", "甘孜", "凉山"],
+            "贵州": ["贵阳", "六盘水", "遵义", "安顺", "铜仁", "黔西南", "毕节", "黔东南", "黔南"],
+            "云南": ["昆明", "曲靖", "玉溪", "保山", "昭通", "丽江", "普洱", "临沧", "楚雄", "红河", "文山", "西双版纳", "大理", "德宏", "怒江", "迪庆"],
+            "西藏": ["拉萨", "昌都", "山南", "日喀则", "那曲", "阿里", "林芝"],
+            "陕西": ["西安", "铜川", "宝鸡", "咸阳", "渭南", "延安", "汉中", "榆林", "安康", "商洛"],
+            "甘肃": ["兰州市", "嘉峪关", "金昌", "白银", "天水", "武威", "张掖", "平凉", "酒泉", "庆阳", "定西", "陇南", "临夏", "甘南"],
+            "青海": ["西宁", "海东", "海北", "黄南", "海南", "果洛", "玉树", "海西"],
+            "宁夏": ["银川", "石嘴山", "吴忠", "固原", "中卫"],
+            "新疆": ["乌鲁木齐", "克拉玛依", "吐鲁番", "哈密", "昌吉", "博尔塔拉", "巴音郭楞", "阿克苏", "克孜勒苏", "喀什", "和田", "伊犁", "塔城", "阿勒泰", "石河子", "阿拉尔", "图木舒克", "五家渠", "北屯"],
+            "台湾": ["台北市", "高雄市", "基隆市", "台中市", "台南市", "新竹市", "嘉义市", "台北县", "宜兰县", "桃园县", "新竹县", "苗栗县", "台中县", "彰化县", "南投县", "云林县", "嘉义县", "台南县", "高雄县", "屏东县", "台东县", "花莲县", "澎湖县"],
+            "香港": ["中西区", "东区", "九龙城区", "观塘区", "南区", "深水埗区", "黄大仙区", "湾仔区", "油尖旺区", "离岛区", "葵青区", "北区", "西贡区", "沙田区", "屯门区", "大埔区", "荃湾区", "元朗区"],
+            "澳门": ["花地玛堂区", "圣安多尼堂区", "大堂区", "望德堂区", "风顺堂区", "氹仔", "路环"],
+            "海外": [""]
+        };
+    </script>
+</body>
+</html>

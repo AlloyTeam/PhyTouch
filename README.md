@@ -24,7 +24,7 @@ new AlloyTouch({
             touchStart:function(value){  },
             touchMove:function(value){  },
             touchEnd:function(value){  },
-            reboundEnd:function(value){  } //回弹结束
+            animationEnd:function(value){  } //运动结束
  })
 ```
 # Demo
