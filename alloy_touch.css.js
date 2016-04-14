@@ -107,7 +107,7 @@
         this._endHandler = this._end.bind(this);
 
         bind(this.element, "touchstart", this._startHandler);
-        bind(this.element, endTransitionEventName, this._transitionEndHandler);
+        bind(this.scroller, endTransitionEventName, this._transitionEndHandler);
         bind(window, "touchmove", this._moveHandler);
         bind(window, "touchend", this._endHandler);
         //当有step设置的时候防止执行两次end
