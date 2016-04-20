@@ -20,7 +20,7 @@ new AlloyTouch({
             min: 100, //不必需,运动属性的最小值
             max: 2000, //不必需,滚动属性的最大值
             spring: true, //不必需,是否有回弹效果。默认是true
-            change:function(){  }, //不必需，属性改变的回调
+            change:function(){  }, //不必需，属性改变的回调。alloytouch.css版本不支持该事件
             touchStart:function(value){  },
             touchMove:function(value){  },
             touchEnd:function(value){  },
