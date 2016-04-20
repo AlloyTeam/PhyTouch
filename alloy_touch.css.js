@@ -98,6 +98,7 @@
         this.inertia === undefined && (this.inertia = true);
         
         if (this.hasMax && this.hasMin) {
+            if (this.min > this.max) throw "min value can't be greater than max value";
             this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
         }
 

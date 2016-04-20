@@ -81,6 +81,7 @@
         this.correctionEnd = option.correctionEnd || function () { };
         this.intelligentCorrection = option.intelligentCorrection;
         if (this.hasMax && this.hasMin) {
+            if (this.min > this.max) throw "min value can't be greater than max value";
             this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
         }
         bind(this.element, "touchstart", this._start.bind(this));
