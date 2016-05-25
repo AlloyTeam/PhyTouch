@@ -1,0 +1,27 @@
+{
+  "name": "alloytouch",
+  "version": "0.1.0",
+  "description": "60FPS的触摸运动",
+  "main": "alloy_touch.css.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlloyTeam/Alloytouch.git"
+  },
+  "keywords": [
+    "touch",
+    "scroll",
+    "smooth"
+  ],
+  "author": "dntzhang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlloyTeam/Alloytouch/issues"
+  },
+  "homepage": "https://github.com/AlloyTeam/Alloytouch#readme"
+}

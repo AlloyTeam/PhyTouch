@@ -3,7 +3,7 @@
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
  */
-﻿; (function () {
+;(function () {
     (function () {
         var lastTime = 0;
         var vendors = ['webkit', 'moz'];
