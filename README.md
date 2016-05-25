@@ -8,6 +8,11 @@
 * 高效率的运动方式
 * 真实的物理运动轨迹
 
+# Install
+```js
+npm install alloytouch
+```
+
 # API
 ```js
 new AlloyTouch({
