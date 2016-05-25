@@ -1,4 +1,4 @@
-﻿/* AlloyTouch
+﻿/* AlloyTouch v0.1.0
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
