@@ -3,19 +3,7 @@
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
  */
-; (function () {  
-    var lastTime = 0;
-    var ticker = function (callback) {
-        var currTime = new Date().getTime();
-        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-        var id = window.setTimeout(function () {
-            callback(currTime + timeToCall);
-        }, timeToCall);
-        lastTime = currTime + timeToCall;
-        return id;
-    };
-
-    var clearTicker = window.clearTimeout;
+; (function () {
 
     var _elementStyle = document.createElement('div').style,
         endTransitionEventName,
@@ -39,7 +27,6 @@
     
     var ease = 'cubic-bezier(0.1, 0.57, 0.1, 1)',
         backEase = 'cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-
 
     function reverseEase(y) {
         return 1 - Math.sqrt(1 - y * y);
@@ -121,27 +108,18 @@
                 this.correction(this.scroller, this.property);
                 if (this._endCallbackTag) {
                     setTimeout(function () {
-                        this.animationEnd(this.getComputedPosition());
+                        this.animationEnd(this.scroller[this.property]);
                     }.bind(this), 400)
                     this._endCallbackTag = false;
                 }
             } else {
-                this.animationEnd(this.getComputedPosition());
+                this.animationEnd(this.scroller[this.property]);
             }
         },
-        _cancelAnimation: function () { 
-            //console.log(window.getComputedStyle(this.scroller)[transform])
+        _cancelAnimation: function () {
             this.scroller.style[transitionDuration] = '0ms';
             this.scroller.style[transform] = window.getComputedStyle(this.scroller)[transform];
            
-        },
-        getComputedPosition: function () {
-            var matrix = window.getComputedStyle(this.scroller, null),
-                x, y;
-                matrix = matrix[transform].split(')')[0].split(', ');
-                x = +(matrix[12] || matrix[4]);
-                y = +(matrix[13] || matrix[5]);
-            return { x: x, y: y };
         },
         _start: function (evt) {
             this._endCallbackTag = true;
@@ -241,7 +219,6 @@
             }
         },
         to: function (el, property, value, time, ease) {
-                var current = el[property];
                 el.style[transitionDuration] = time + 'ms';
                 el.style[transitionTimingFunction] = ease;
                 el[property] = value;        
