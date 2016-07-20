@@ -246,6 +246,7 @@
             unbind(this.element, endTransitionEventName, this._transitionEndHandler)
             unbind(window, "touchmove", this._moveHandler);
             unbind(window, "touchend", this._endHandler);
+            unbind(window, "touchcancel", this._cancelHandler);
         }
     }
 
