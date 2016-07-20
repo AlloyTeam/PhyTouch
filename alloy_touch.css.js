@@ -93,13 +93,16 @@
         this._moveHandler = this._move.bind(this);
         this._transitionEndHandler = this._transitionEnd.bind(this);
         this._endHandler = this._end.bind(this);
-
+        this._cancelHandler = this._cancel.bind(this);
         bind(this.element, "touchstart", this._startHandler);
         bind(this.scroller, endTransitionEventName, this._transitionEndHandler);
         bind(window, "touchmove", this._moveHandler);
         bind(window, "touchend", this._endHandler);
+        bind(window, "touchcancel", this._cancelHandler);
         //当有step设置的时候防止执行两次end
         this._endCallbackTag = true;
+
+        this._endTimeout = null;
     }
 
     AlloyTouch.prototype = {
@@ -107,7 +110,7 @@
             if (this.step) {
                 this.correction(this.scroller, this.property);
                 if (this._endCallbackTag) {
-                    setTimeout(function () {
+                    this._endTimeout = setTimeout(function () {
                         this.animationEnd(this.scroller[this.property]);
                     }.bind(this), 400)
                     this._endCallbackTag = false;
@@ -128,7 +131,7 @@
             this._preventMoveDefault = true;
             this.touchStart(this.scroller[this.property]);
             this._cancelAnimation();
- 
+            clearTimeout(this._endTimeout);
             if (this.hasMax && this.hasMin) {
                 this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
             }
@@ -216,6 +219,11 @@
                     evt.preventDefault();
                 }
                 this.isTouchStart = false;
+            }
+        },
+        _cancel:function(){
+            if (this.step) {
+                this.correction(this.scroller, this.property);
             }
         },
         to: function (el, property, value, time, ease) {
