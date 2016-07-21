@@ -243,7 +243,7 @@
         },
         destroy: function () {
             unbind(this.element, "touchstart", this._startHandler);
-            unbind(this.element, endTransitionEventName, this._transitionEndHandler)
+            unbind(this.scroller, endTransitionEventName, this._transitionEndHandler)
             unbind(window, "touchmove", this._moveHandler);
             unbind(window, "touchend", this._endHandler);
             unbind(window, "touchcancel", this._cancelHandler);
