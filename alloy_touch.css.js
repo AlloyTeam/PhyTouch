@@ -237,7 +237,8 @@
                 el[property] = value;        
         },
         correction: function (el, property) {
-            var value = el[property];
+            var m_str= window.getComputedStyle(this.scroller)[transform];
+            var value = this.vertical ? parseInt(m_str.split(',')[13]) : parseInt(m_str.split(',')[12]);
             var rpt = Math.floor(Math.abs(value / this.step));
             var dy = value % this.step;
             if (Math.abs(dy) > this.step / 2) {
