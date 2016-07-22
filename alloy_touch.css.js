@@ -55,7 +55,8 @@
         this.vertical = option.vertical;
         this.vertical === undefined && (this.vertical = true);
         this.property = option.property;
-
+        this.preventDefault = option.preventDefault;
+        this.preventDefault === undefined && (this.preventDefault = true);
         this.preX;
         this.preY;
         this.sensitivity = option.sensitivity === undefined ? 1 : option.sensitivity;
@@ -172,7 +173,9 @@
                     }
                     this.touchMove(this.scroller[this.property]);
 
-                    evt.preventDefault();
+                    if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
+                        evt.preventDefault();
+                    }
                 }
             }
         },
@@ -215,7 +218,7 @@
                         self.correction(self.scroller, self.property);
                     }
                 }
-                if (!preventDefaultTest(evt.target, this.preventDefaultException)) {
+                if (this.preventDefault&&!preventDefaultTest(evt.target, this.preventDefaultException)) {
                     evt.preventDefault();
                 }
                 this.isTouchStart = false;
