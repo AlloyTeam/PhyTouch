@@ -143,8 +143,9 @@
         },
         _move: function (evt) {
             if (this.isTouchStart) {
+                var dx = Math.abs(evt.touches[0].pageX - this._startX),dy = Math.abs(evt.touches[0].pageY - this._startY);
                 if (this._firstTouchMove) {
-                    var dDis=Math.abs(evt.touches[0].pageX - this._startX) - Math.abs(evt.touches[0].pageY - this._startY);
+                    var dDis= dx-dy ;
                     if (dDis > 0 && this.vertical) {
                         this._preventMoveDefault = false;
                     } else if (dDis < 0 && !this.vertical) {
@@ -152,6 +153,7 @@
                     }
                     this._firstTouchMove = false;
                 }
+                if (dx < 10 && dy < 10) return;
                 if (this._preventMoveDefault) {
                     var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sMf;
                     if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
