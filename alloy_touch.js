@@ -71,6 +71,7 @@
         this.touchMove = option.touchMove || function () { };
         this.reboundEnd = option.reboundEnd || function () { };
         this.animationEnd = option.animationEnd || function () { };
+        this.preventDefault = option.preventDefault === undefined ? true : false;
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
         this.hasMin = !(this.min === undefined);
         this.hasMax = !(this.max === undefined);
@@ -196,7 +197,7 @@
                         self.correction(self.scroller, self.property);
                     }
                 }
-                if (!preventDefaultTest(evt.target, this.preventDefaultException)) {
+                if (this.preventDefault&&!preventDefaultTest(evt.target, this.preventDefaultException)) {
                     evt.preventDefault();
                 }
                 this.isTouchStart = false;
