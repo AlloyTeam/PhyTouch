@@ -13,18 +13,18 @@
 
     if ('transform' in _elementStyle) {
         transform = 'transform';
-            endTransitionEventName = 'transitionend';
-            transitionDuration = 'transitionDuration';
-            transitionTimingFunction = 'transitionTimingFunction';
+        endTransitionEventName = 'transitionend';
+        transitionDuration = 'transitionDuration';
+        transitionTimingFunction = 'transitionTimingFunction';
     } else if ('webkitTransform' in _elementStyle) {
         transform = 'webkitTransform';
-            endTransitionEventName = 'webkitTransitionEnd';
-            transitionDuration = 'webkitTransitionDuration';
-            transitionTimingFunction = 'webkitTransitionTimingFunction';
-        } else {
-            throw 'please use a modern browser'
-        }
-    
+        endTransitionEventName = 'webkitTransitionEnd';
+        transitionDuration = 'webkitTransitionDuration';
+        transitionTimingFunction = 'webkitTransitionTimingFunction';
+    } else {
+        throw 'please use a modern browser'
+    }
+
     var ease = 'cubic-bezier(0.1, 0.57, 0.1, 1)',
         backEase = 'cubic-bezier(0.175, 0.885, 0.32, 1.275)';
 
@@ -84,7 +84,7 @@
         this.step = option.step;
         this.inertia = option.inertia;
         this.inertia === undefined && (this.inertia = true);
-        
+
         if (this.hasMax && this.hasMin) {
             if (this.min > this.max) throw "min value can't be greater than max value";
             this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
@@ -123,7 +123,7 @@
         _cancelAnimation: function () {
             this.scroller.style[transitionDuration] = '0ms';
             this.scroller.style[transform] = window.getComputedStyle(this.scroller)[transform];
-           
+
         },
         _start: function (evt) {
             this._endCallbackTag = true;
@@ -143,9 +143,9 @@
         },
         _move: function (evt) {
             if (this.isTouchStart) {
-                var dx = Math.abs(evt.touches[0].pageX - this._startX),dy = Math.abs(evt.touches[0].pageY - this._startY);
+                var dx = Math.abs(evt.touches[0].pageX - this._startX), dy = Math.abs(evt.touches[0].pageY - this._startY);
                 if (this._firstTouchMove) {
-                    var dDis= dx-dy ;
+                    var dDis = dx - dy;
                     if (dDis > 0 && this.vertical) {
                         this._preventMoveDefault = false;
                     } else if (dDis < 0 && !this.vertical) {
@@ -167,7 +167,7 @@
                     this.preX = evt.touches[0].pageX;
                     this.preY = evt.touches[0].pageY;
                     this.scroller[this.property] += d;
-                   
+
                     var timestamp = new Date().getTime();
                     if (timestamp - this.startTime > 300) {
                         this.startTime = timestamp;
@@ -220,31 +220,37 @@
                         self.correction(self.scroller, self.property);
                     }
                 }
-                if (this.preventDefault&&!preventDefaultTest(evt.target, this.preventDefaultException)) {
+                if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
                     evt.preventDefault();
                 }
                 this.isTouchStart = false;
             }
         },
-        _cancel:function(){
+        _cancel: function () {
             if (this.step) {
                 this.correction(this.scroller, this.property);
             }
         },
         to: function (el, property, value, time, ease) {
-                el.style[transitionDuration] = time + 'ms';
-                el.style[transitionTimingFunction] = ease;
-                el[property] = value;        
+            el.style[transitionDuration] = time + 'ms';
+            el.style[transitionTimingFunction] = ease;
+            el[property] = value;
         },
         correction: function (el, property) {
-            var m_str= window.getComputedStyle(this.scroller)[transform];
+            var m_str = window.getComputedStyle(this.scroller)[transform];
             var value = this.vertical ? parseInt(m_str.split(',')[13]) : parseInt(m_str.split(',')[12]);
             var rpt = Math.floor(Math.abs(value / this.step));
             var dy = value % this.step;
             if (Math.abs(dy) > this.step / 2) {
-                this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease );
+                var result = (value < 0 ? -1 : 1) * (rpt + 1) * this.step;
+                if (result > this.max) result = this.max;
+                if (result < this.min) result = this.min;
+                this.to(el, property, result, 400, ease);
             } else {
-                this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, ease);
+                var result = (value < 0 ? -1 : 1) * rpt * this.step;
+                if (result > this.max) result = this.max;
+                if (result < this.min) result = this.min;
+                this.to(el, property, result, 400, ease);
             }
         },
         destroy: function () {

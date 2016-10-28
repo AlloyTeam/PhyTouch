@@ -80,7 +80,6 @@
             step: window.innerWidth,
             spring: true, //不必需,是否有回弹效果。默认是true
             inertia: false, //不必需,是否有惯性。默认是true
-            intelligentCorrection:true,
             correctionEnd: function (value) {
                 var currentIndex = Math.abs(Math.round(value / window.innerWidth));
                 var items = document.querySelectorAll(".nuclear-nav a"),
