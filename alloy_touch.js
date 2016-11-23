@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.1.0
+﻿/* AlloyTouch v0.1.1
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -30,7 +30,7 @@ if (!Date.now)
     }
 }());
 
-;(function () {
+; (function () {
 
     function bind(element, type, callback) {
         element.addEventListener(type, callback, false);
@@ -44,7 +44,7 @@ if (!Date.now)
         return Math.sqrt(1 - Math.pow(x - 1, 2));
     }
 
-    function preventDefaultTest (el, exceptions) {
+    function preventDefaultTest(el, exceptions) {
         for (var i in exceptions) {
             if (exceptions[i].test(el[i])) {
                 return true;
@@ -61,7 +61,7 @@ if (!Date.now)
         this.tickID = 0;
         this.preX;
         this.preY;
-        this.sensitivity = this._getValue(option.sensitivity, 1); 
+        this.sensitivity = this._getValue(option.sensitivity, 1);
         this.factor = this._getValue(option.factor, 1);
         this.sMf = this.sensitivity * this.factor;
         //拖动时候的摩擦因子
@@ -80,18 +80,15 @@ if (!Date.now)
         this.animationEnd = option.animationEnd || function () { };
         this.correctionEnd = option.correctionEnd || function () { };
 
-        this.preventDefault = this._getValue(option.preventDefault, true); 
+        this.preventDefault = this._getValue(option.preventDefault, true);
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
         this.hasMin = !(this.min === undefined);
         this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
         this.step = option.step;
-        this.inertia = this._getValue(option.inertia, true); 
-        
-        if (this.hasMax && this.hasMin) {
-            if (this.min > this.max) throw "min value can't be greater than max value";
-            this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
-        }
+        this.inertia = this._getValue(option.inertia, true);
+
+        this._calculateIndex();
 
         bind(this.element, "touchstart", this._start.bind(this));
         bind(window, "touchmove", this._move.bind(this));
@@ -100,7 +97,7 @@ if (!Date.now)
     }
 
     AlloyTouch.prototype = {
-        _getValue: function (obj,defaultValue) {
+        _getValue: function (obj, defaultValue) {
             return obj === undefined ? defaultValue : obj;
         },
         _start: function (evt) {
@@ -110,9 +107,7 @@ if (!Date.now)
             this.touchStart(this.scroller[this.property]);
             cancelAnimationFrame(this.tickID);
             //this.correctionEnd(this.scroller[this.property]);
-            if (this.hasMax && this.hasMin) {
-                this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
-            }
+            this._calculateIndex();
             this.startTime = new Date().getTime();
             this._startX = this.preX = evt.touches[0].pageX;
             this._startY = this.preY = evt.touches[0].pageY;
@@ -154,10 +149,31 @@ if (!Date.now)
                 }
             }
         },
+        goto: function (v) {
+            if (v > this.max) {
+                v = this.max;
+            } else if (v < this.min) {
+                v = this.min;
+            }
+
+            this.to(this.scroller, this.property, v, 400, ease, this.change, function (value) {
+                this._calculateIndex();
+                this.reboundEnd(value, this.currentPage);
+                this.animationEnd(value, this.currentPage);
+
+            }.bind(this));
+
+        },
+        _calculateIndex: function () {
+            if (this.hasMax && this.hasMin) {
+                this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
+            }
+        },
         _end: function (evt) {
             if (this.isTouchStart && this._preventMoveDefault) {
+                this.isTouchStart = false;
                 var self = this;
-                this.touchEnd(this.scroller[this.property]);
+                if (this.touchEnd.call(this, this.scroller[this.property], this.currentPage) === false) return;
                 if (this.hasMax && this.scroller[this.property] > this.max) {
                     this.to(this.scroller, this.property, this.max, 200, ease, this.change, function (value) {
                         this.reboundEnd(value);
@@ -212,7 +228,7 @@ if (!Date.now)
                 if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
                     evt.preventDefault();
                 }
-                this.isTouchStart = false;
+
             }
         },
         _cancel: function () {
@@ -258,13 +274,15 @@ if (!Date.now)
             var dy = value % this.step;
             if (Math.abs(dy) > this.step / 2) {
                 this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease, this.change, function (value) {
-                    this.correctionEnd(value);
-                    this.animationEnd(value);
+                    this._calculateIndex();
+                    this.correctionEnd(value, this.currentPage);
+                    this.animationEnd(value, this.currentPage);
                 }.bind(this));
             } else {
                 this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, ease, this.change, function (value) {
-                    this.correctionEnd(value);
-                    this.animationEnd(value);
+                    this._calculateIndex();
+                    this.correctionEnd(value, this.currentPage);
+                    this.animationEnd(value, this.currentPage);
                 }.bind(this));
             }
         }

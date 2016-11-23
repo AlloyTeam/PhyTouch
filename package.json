@@ -1,7 +1,7 @@
 {
   "name": "alloytouch",
-  "version": "0.1.0",
-  "description": "60FPS的触摸运动",
+  "version": "0.1.1",
+  "description": "super tiny size touch and physical motion library for the web ",
   "main": "alloy_touch.css.js",
   "directories": {
     "example": "example"
