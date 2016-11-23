@@ -56,16 +56,18 @@
                 <a data-index="0" class="active"></a>
                 <a data-index="1" class=" "></a>
                 <a data-index="2" class=" "></a>
-                <a data-index="4" class=" "></a>
+                <a data-index="3" class=" "></a>
             </div>
         </div>
     </div>
     <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:60px;height:60px;">
         <img style="width:60px;height:60px;" src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
     </a>
-    <script src="../../transformjs/transform.js"></script>
+
+    <script src="../transformjs/transform.js"></script>
     <script src="../alloy_touch.js"></script>
     <script>
+        var items = document.querySelectorAll(".nuclear-nav a");
         var scroll = document.querySelector(".nuclear-carousel-box");
         Transform(scroll);
         new AlloyTouch({
@@ -80,13 +82,31 @@
             step: window.innerWidth,
             spring: true, //不必需,是否有回弹效果。默认是true
             inertia: false, //不必需,是否有惯性。默认是true
-            correctionEnd: function (value) {
-                var currentIndex = Math.abs(Math.round(value / window.innerWidth));
-                var items = document.querySelectorAll(".nuclear-nav a"),
-                    i = 0,
+            touchEnd: function (v, index) {
+
+                var step_v = index * this.step * -1;
+                var dx = v - step_v;
+
+                if (Math.abs(dx) < 30) {
+                    this.goto(step_v);
+
+                }
+                else if (dx > 0) {
+                    this.goto(step_v + this.step);
+
+                } else {
+
+                    this.goto(step_v - this.step);
+                }
+
+                return false;
+
+            },
+            animationEnd: function (v, page) {
+                var i = 0,
                     len = items.length;
-                for (; i < len; i++) {                  
-                    if (i === currentIndex) {
+                for (; i < len; i++) {
+                    if (i === page) {
                         items[i].classList.add("active");
                     } else {
                         items[i].classList.remove("active");
