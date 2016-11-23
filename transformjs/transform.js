@@ -1,10 +1,11 @@
-﻿/* transformjs
+﻿/* transformjs 1.0.1
  * By dntzhang
+ * Github: https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs
  */
-;(function () {
+; (function () {
 
     var Matrix3D = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-        this.elements =window.Float32Array ? new Float32Array(16) : [];
+        this.elements = window.Float32Array ? new Float32Array(16) : [];
         var te = this.elements;
         te[0] = (n11 !== undefined) ? n11 : 1; te[4] = n12 || 0; te[8] = n13 || 0; te[12] = n14 || 0;
         te[1] = n21 || 0; te[5] = (n22 !== undefined) ? n22 : 1; te[9] = n23 || 0; te[13] = n24 || 0;
@@ -70,51 +71,56 @@
 
         },
         // 解决角度为90的整数倍导致Math.cos得到极小的数，其实是0。导致不渲染
-        _rounded: function (value) {
+        _rounded: function (value, i) {
+            i = Math.pow(10, i || 15);
             // default
-            return Math.round(value * 10) / 10;
+            return Math.round(value * i) / i;
         },
-        appendTransform: function (x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ,skewX,skewY, originX, originY, originZ) {
+        _arrayWrap: function (arr) {
+            return window.Float32Array ? new Float32Array(arr) : arr;
+        },
+        appendTransform: function (x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, skewX, skewY, originX, originY, originZ) {
 
             var rx = rotateX * Matrix3D.DEG_TO_RAD;
-            var cosx =this._rounded( Math.cos(rx));
+            var cosx = this._rounded(Math.cos(rx));
             var sinx = this._rounded(Math.sin(rx));
             var ry = rotateY * Matrix3D.DEG_TO_RAD;
-            var cosy =this._rounded( Math.cos(ry));
+            var cosy = this._rounded(Math.cos(ry));
             var siny = this._rounded(Math.sin(ry));
             var rz = rotateZ * Matrix3D.DEG_TO_RAD;
-            var cosz =this._rounded( Math.cos(rz * -1));
-            var sinz =this._rounded( Math.sin(rz * -1));
+            var cosz = this._rounded(Math.cos(rz * -1));
+            var sinz = this._rounded(Math.sin(rz * -1));
 
-            this.multiplyMatrices(this, [
+            this.multiplyMatrices(this, this._arrayWrap([
                 1, 0, 0, x,
                 0, cosx, sinx, y,
                 0, -sinx, cosx, z,
                 0, 0, 0, 1
-            ]);
+            ]));
 
-            this.multiplyMatrices(this, [
+            this.multiplyMatrices(this, this._arrayWrap([
                 cosy, 0, siny, 0,
                 0, 1, 0, 0,
                 -siny, 0, cosy, 0,
                 0, 0, 0, 1
-            ]);
+            ]));
 
-            this.multiplyMatrices(this,[
+            this.multiplyMatrices(this, this._arrayWrap([
                 cosz * scaleX, sinz * scaleY, 0, 0,
                 -sinz * scaleX, cosz * scaleY, 0, 0,
                 0, 0, 1 * scaleZ, 0,
                 0, 0, 0, 1
-            ]);
+            ]));
 
-            if(skewX||skewY){
-                this.multiplyMatrices(this,[
-                    this._rounded(Math.cos(skewX* Matrix3D.DEG_TO_RAD)), this._rounded( Math.sin(skewX* Matrix3D.DEG_TO_RAD)), 0, 0,
-                    -1*this._rounded(Math.sin(skewY* Matrix3D.DEG_TO_RAD)), this._rounded( Math.cos(skewY* Matrix3D.DEG_TO_RAD)), 0, 0,
+            if (skewX || skewY) {
+                this.multiplyMatrices(this, this._arrayWrap([
+                    this._rounded(Math.cos(skewX * Matrix3D.DEG_TO_RAD)), this._rounded(Math.sin(skewX * Matrix3D.DEG_TO_RAD)), 0, 0,
+                    -1 * this._rounded(Math.sin(skewY * Matrix3D.DEG_TO_RAD)), this._rounded(Math.cos(skewY * Matrix3D.DEG_TO_RAD)), 0, 0,
                     0, 0, 1, 0,
                     0, 0, 0, 1
-                ]);
+                ]));
             }
+
 
             if (originX || originY || originZ) {
                 this.elements[12] -= originX * this.elements[0] + originY * this.elements[4] + originZ * this.elements[8];
@@ -135,11 +141,11 @@
     function watch(target, prop, callback) {
         Object.defineProperty(target, prop, {
             get: function () {
-                return this["__" + prop];
+                return this["_" + prop];
             },
             set: function (value) {
-                if (value !== this["__" + prop]) {
-                    this["__" + prop] = value;
+                if (value !== this["_" + prop]) {
+                    this["_" + prop] = value;
                     callback();
                 }
 
@@ -147,14 +153,14 @@
         });
     }
 
-    window.Transform = function (element,notPerspective) {
+    window.Transform = function (element, notPerspective) {
 
         observe(
             element,
             ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"],
             function () {
                 var mtx = element.matrix3D.identity().appendTransform(element.translateX, element.translateY, element.translateZ, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.skewX, element.skewY, element.originX, element.originY, element.originZ);
-                element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform =(notPerspective?"":"perspective(" + (element.perspective===undefined?500:element.perspective) + "px) ")+ "matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
+                element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = (notPerspective ? "" : "perspective(" + (element.perspective === undefined ? 500 : element.perspective) + "px) ") + "matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
             });
 
         element.matrix3D = new Matrix3D();
