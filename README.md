@@ -3,8 +3,8 @@
 # AlloyTouch
 super tiny size touch and physical motion library
 
-* super tiny size library
-* highly abstract component
+* super tiny size 
+* highly abstract 
 * real touch feedback
 * independent of style layout
 * simple API design
