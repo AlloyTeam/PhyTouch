@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <img  src="alloy.png" id="test" style="display: block; width: 210px;height: 210px;position: absolute;left: 50%;margin-left: -105px;margin-top: -105px;top:50%;">
+
+    <script src="../transform.min.js" ></script>
+    <script src="tween.js"></script>
+
+    <script>
+        var element = document.querySelector("#test");
+        Transform(element);
+        element.originY=100;
+        element.skewX=-20;
+
+        var Tween = createjs.Tween,
+            Ease = createjs.Tween;
+        Tween.get(element,{loop:true}).to({scaleY:.8},450,Ease.sineInOut).to({scaleY:1},450,Ease.sineInOut);
+        Tween.get(element,{loop:true}).to({skewX:20},900,Ease.sineInOut).to({skewX:-20},900,Ease.sineInOut)
+    </script>
+</body>
+</html>
