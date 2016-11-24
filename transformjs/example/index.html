@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>transform.js - Made css3 transform super easy</title>
+    <link href="index.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>transform.js</h1>
+    <p class="dir">Made css3 transform super easy.</p>
+    <p>Supported properties(get and set): translateX, translateY, translateZ, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, skewX, skewY, originX, originY, originZ</p>
+    <h2>Examples</h2>
+
+    <a href="https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs" target="_blank" style="position: absolute; right: 0; top: 0;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="" />
+    </a>
+
+    <div id="examples">
+        <div id="example-1" class="example">
+            <h3>rotateZ</h3>
+            <p>Set <em>rotateZ</em> to <em>45deg</em>.</p>
+            <div class="panel">
+                <div class="sandbox">
+                    <div class="box small" id="test1">transformjs</div>
+                </div>
+                <pre class="source">
+          <code>
+    var element1 = document.querySelector("#test1");
+    Transform(element1);
+    element1.rotateZ = 45;
+          </code>
+        </pre>
+            </div>
+        </div>
+
+    </div>
+
+     <div>
+        <div  class="example">
+            <h3>rotating animation</h3>
+            <p>animate the the <em>rotateY</em> property.</p>
+            <div class="panel">
+                <div class="sandbox">
+                    <div class="box small" id="test2">transformjs</div>
+                </div>
+                <pre class="source">
+          <code>
+    var element2 = document.querySelector("#test2");
+    Transform(element2);
+
+    function animate() {
+        element2.rotateY++;
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+          </code>
+        </pre>
+            </div>
+        </div>
+
+    </div>
+    <script src="../transform.js"></script>
+
+    <script>
+        var element1 = document.querySelector("#test1");
+        Transform(element1);
+        element1.rotateZ = 45;
+
+        var element2 = document.querySelector("#test2");
+        Transform(element2);
+
+        function animate() {
+            element2.rotateY++;
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        //摇摆特效
+    </script>
+</body>
+</html>
