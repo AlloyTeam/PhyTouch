@@ -26,9 +26,7 @@
           <code>
     var element1 = document.querySelector("#test1");
     Transform(element1);
-    element1.rotateZ = 45;
-          </code>
-        </pre>
+    element1.rotateZ = 45;</code></pre>
             </div>
         </div>
 
@@ -46,9 +44,7 @@
 
     tick(function () {
         element2.rotateY++;
-    });
-          </code>
-        </pre>
+    });</code></pre>
             </div>
         </div>
 
@@ -67,9 +63,7 @@
 
     tick(function () {
         element3.rotateX++;
-    });
-          </code>
-        </pre>
+    });</code></pre>
             </div>
         </div>
 
@@ -89,9 +83,7 @@
 
     tick(function () {
         element4.rotateZ++;
-    });
-          </code>
-        </pre>
+    });</code></pre>
             </div>
         </div>
 
@@ -113,9 +105,7 @@
         element5.scaleX > 1.5 && (step *= -1);
         element5.scaleX += step;
         element5.scaleY += step;
-    });
-          </code>
-        </pre>
+    });</code></pre>
             </div>
         </div>
 
@@ -137,9 +127,7 @@
         element5.scaleX > 1.5 && (step *= -1);
         element5.scaleX += step;
         element5.scaleY += step;
-    });
-          </code>
-        </pre>
+    });</code></pre>
             </div>
         </div>
 
@@ -160,13 +148,15 @@
         element7.skewY > 30 && (skewStep *= -1);
         element7.skewY < -30 && (skewStep *= -1);
         element7.skewY += skewStep;
-    });
-          </code>
-        </pre>
+    });</code></pre>
             </div>
         </div>
 
 
+    </div>
+    <div>
+        <p> The above demonstration is based on <a href="https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs">transform.js</a> and <a href="https://github.com/AlloyTeam/AlloyTouch/blob/master/transformjs/example/tick.js">tick.js</a></p>
+        <p>That's all. Have fun.</p>
     </div>
     <script src="../transform.min.js"></script>
     <script src="tick.js"></script>
