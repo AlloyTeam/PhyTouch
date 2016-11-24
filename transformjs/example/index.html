@@ -46,7 +46,7 @@
 
     tick(function () {
         element2.rotateY++;
-    })
+    });
           </code>
         </pre>
             </div>
@@ -67,7 +67,7 @@
 
     tick(function () {
         element3.rotateX++;
-    })
+    });
           </code>
         </pre>
             </div>
@@ -89,7 +89,7 @@
 
     tick(function () {
         element4.rotateZ++;
-    })
+    });
           </code>
         </pre>
             </div>
@@ -113,7 +113,7 @@
         element5.scaleX > 1.5 && (step *= -1);
         element5.scaleX += step;
         element5.scaleY += step;
-    })
+    });
           </code>
         </pre>
             </div>
@@ -121,7 +121,7 @@
 
         <div class="example">
             <h3>translate</h3>
-            <p>moving elment using the <em>translateX</em>,<em>translateY</em> and <em>translateZ</em> property.</p>
+            <p>moving elment using the <em>translateX</em>, <em>translateY</em> and <em>translateZ</em> properties.</p>
             <div class="panel">
                 <div class="sandbox">
                     <div class="box small" id="test6">transformjs</div>
@@ -130,19 +130,41 @@
           <code>
     var element5 = document.querySelector("#test5");
     Transform(element5);
-       
+
     var step = 0.02;
     tick(function () {
         element5.scaleX < 0.5 && (step *= -1);
         element5.scaleX > 1.5 && (step *= -1);
         element5.scaleX += step;
         element5.scaleY += step;
-    })
+    });
           </code>
         </pre>
             </div>
         </div>
 
+        <div class="example">
+            <h3>skew</h3>
+            <p>skew element using the <em>skewX</em> and <em>skewY</em> properties.</p>
+            <div class="panel">
+                <div class="sandbox">
+                    <div class="box small" id="test7">transformjs</div>
+                </div>
+                <pre class="source">
+          <code>
+    var element7 = document.querySelector("#test7");
+    Transform(element7);
+
+    var skewStep = 1;
+    tick(function () {
+        element7.skewY > 30 && (skewStep *= -1);
+        element7.skewY < -30 && (skewStep *= -1);
+        element7.skewY += skewStep;
+    });
+          </code>
+        </pre>
+            </div>
+        </div>
 
 
     </div>
@@ -158,14 +180,14 @@
 
         tick(function () {
             element2.rotateY++;
-        })
+        });
 
         var element3 = document.querySelector("#test3");
         Transform(element3, true);
 
         tick(function () {
             element3.rotateX++;
-        })
+        });
 
         var element4 = document.querySelector("#test4");
         Transform(element4); 
@@ -174,7 +196,7 @@
 
         tick(function () {
             element4.rotateZ++;
-        })
+        });
 
         var element5 = document.querySelector("#test5");
         Transform(element5);
@@ -185,7 +207,7 @@
             element5.scaleX > 1.5 && (step *= -1);
             element5.scaleX += step;
             element5.scaleY += step;
-        })
+        });
         
 
         var element6 = document.querySelector("#test6");
@@ -196,7 +218,19 @@
             element6.translateX < -50 && (xStep *= -1);
             element6.translateX > 50 && (xStep *= -1);
             element6.translateX += xStep;
-        })
+        });
+
+
+        var element7 = document.querySelector("#test7");
+        Transform(element7);
+
+        var skewStep = 1;
+        tick(function () {
+            element7.skewY > 30 && (skewStep *= -1);
+            element7.skewY < -30 && (skewStep *= -1);
+            element7.skewY += skewStep;
+
+        });
         //摇摆
     </script>
 </body>
