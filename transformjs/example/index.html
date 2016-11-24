@@ -32,10 +32,7 @@
             </div>
         </div>
 
-    </div>
-
-     <div>
-        <div  class="example">
+        <div class="example">
             <h3>rotating animation</h3>
             <p>animate the the <em>rotateY</em> property.</p>
             <div class="panel">
@@ -47,20 +44,110 @@
     var element2 = document.querySelector("#test2");
     Transform(element2);
 
-    function animate() {
+    tick(function () {
         element2.rotateY++;
-        requestAnimationFrame(animate);
-    }
-
-    animate();
+    })
           </code>
         </pre>
             </div>
         </div>
 
-    </div>
-    <script src="../transform.js"></script>
 
+        <div class="example">
+            <h3>not perspective</h3>
+            <p>using orthogonal projection if second argument is ture.</p>
+            <div class="panel">
+                <div class="sandbox">
+                    <div class="box small" id="test3">transformjs</div>
+                </div>
+                <pre class="source">
+          <code>
+    var element3 = document.querySelector("#test3");
+    Transform(element3, true);
+
+    tick(function () {
+        element3.rotateX++;
+    })
+          </code>
+        </pre>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>origin</h3>
+            <p>rotate around the left top.</p>
+            <div class="panel">
+                <div class="sandbox">
+                    <div class="box small" id="test4">transformjs</div>
+                </div>
+                <pre class="source">
+          <code>
+    var element4 = document.querySelector("#test4");
+    Transform(element4); 
+    element4.originX = -40;
+    element4.originY = -40;
+
+    tick(function () {
+        element4.rotateZ++;
+    })
+          </code>
+        </pre>
+            </div>
+        </div>
+
+                <div class="example">
+            <h3>zoom</h3>
+            <p>zoom using the <em>scaleX</em> and <em>scaleY</em> property.</p>
+            <div class="panel">
+                <div class="sandbox">
+                    <div class="box small" id="test5">transformjs</div>
+                </div>
+                <pre class="source">
+          <code>
+    var element5 = document.querySelector("#test5");
+    Transform(element5);
+       
+    var step = 0.02;
+    tick(function () {
+        element5.scaleX < 0.5 && (step *= -1);
+        element5.scaleX > 1.5 && (step *= -1);
+        element5.scaleX += step;
+        element5.scaleY += step;
+    })
+          </code>
+        </pre>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>translate</h3>
+            <p>moving elment using the <em>translateX</em>,<em>translateY</em> and <em>translateZ</em> property.</p>
+            <div class="panel">
+                <div class="sandbox">
+                    <div class="box small" id="test6">transformjs</div>
+                </div>
+                <pre class="source">
+          <code>
+    var element5 = document.querySelector("#test5");
+    Transform(element5);
+       
+    var step = 0.02;
+    tick(function () {
+        element5.scaleX < 0.5 && (step *= -1);
+        element5.scaleX > 1.5 && (step *= -1);
+        element5.scaleX += step;
+        element5.scaleY += step;
+    })
+          </code>
+        </pre>
+            </div>
+        </div>
+
+
+
+    </div>
+    <script src="../transform.min.js"></script>
+    <script src="tick.js"></script>
     <script>
         var element1 = document.querySelector("#test1");
         Transform(element1);
@@ -69,14 +156,48 @@
         var element2 = document.querySelector("#test2");
         Transform(element2);
 
-        function animate() {
+        tick(function () {
             element2.rotateY++;
-            requestAnimationFrame(animate);
-        }
+        })
 
-        animate();
+        var element3 = document.querySelector("#test3");
+        Transform(element3, true);
 
-        //摇摆特效
+        tick(function () {
+            element3.rotateX++;
+        })
+
+        var element4 = document.querySelector("#test4");
+        Transform(element4); 
+        element4.originX = -40;
+        element4.originY = -40;
+
+        tick(function () {
+            element4.rotateZ++;
+        })
+
+        var element5 = document.querySelector("#test5");
+        Transform(element5);
+       
+        var step = 0.02;
+        tick(function () {
+            element5.scaleX < 0.5 && (step *= -1);
+            element5.scaleX > 1.5 && (step *= -1);
+            element5.scaleX += step;
+            element5.scaleY += step;
+        })
+        
+
+        var element6 = document.querySelector("#test6");
+        Transform(element6);
+
+        var xStep = 3;
+        tick(function () {
+            element6.translateX < -50 && (xStep *= -1);
+            element6.translateX > 50 && (xStep *= -1);
+            element6.translateX += xStep;
+        })
+        //摇摆
     </script>
 </body>
 </html>

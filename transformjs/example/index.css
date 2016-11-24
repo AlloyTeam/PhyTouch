@@ -5,6 +5,11 @@
    
 }
 
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
 h1, h2, h3 {
   font-size: 33px;
   font-weight: normal;
