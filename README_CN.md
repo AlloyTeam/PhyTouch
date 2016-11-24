@@ -35,11 +35,9 @@ new AlloyTouch({
             animationEnd:function(value){  } //运动结束
  })
 ```
-# Demo
+# Demo(Mobile)
 
 Simple Demo: [http://alloyteam.github.io/AlloyTouch/](http://alloyteam.github.io/AlloyTouch/) 
-
-![usage](http://alloyteam.github.io/AlloyTouch/demo2.png)
 
 3D Demo: [http://alloyteam.github.io/AlloyTouch/3d.html](http://alloyteam.github.io/AlloyTouch/example/3d.html) 
 
