@@ -118,15 +118,14 @@
                 </div>
                 <pre class="source">
           <code>
-    var element5 = document.querySelector("#test5");
-    Transform(element5);
+    var element6 = document.querySelector("#test6");
+    Transform(element6);
 
-    var step = 0.02;
+    var xStep = 3;
     tick(function () {
-        element5.scaleX < 0.5 && (step *= -1);
-        element5.scaleX > 1.5 && (step *= -1);
-        element5.scaleX += step;
-        element5.scaleY += step;
+        element6.translateX < -50 && (xStep *= -1);
+        element6.translateX > 50 && (xStep *= -1);
+        element6.translateX += xStep;
     });</code></pre>
             </div>
         </div>
