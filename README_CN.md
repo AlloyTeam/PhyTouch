@@ -23,10 +23,10 @@ new AlloyTouch({
             vertical: true,//不必需，默认是true代表监听竖直方向touch
             target: target, //运动的对象
             property: "translateY",  //被运动的属性
-            sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
-            factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
             min: 100, //不必需,运动属性的最小值
             max: 2000, //不必需,滚动属性的最大值
+            sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
+            factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
             spring: true, //不必需,是否有回弹效果。默认是true
             change:function(){  }, //不必需，属性改变的回调。alloytouch.css版本不支持该事件
             touchStart:function(value){  },
