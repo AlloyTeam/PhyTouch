@@ -35,7 +35,7 @@ new AlloyTouch({
             animationEnd:function(value){  } //运动结束
  })
 ```
-# Demo(Mobile)
+# 演示(Mobile)
 
 Simple Demo: [http://alloyteam.github.io/AlloyTouch/](http://alloyteam.github.io/AlloyTouch/) 
 
@@ -44,3 +44,14 @@ Simple Demo: [http://alloyteam.github.io/AlloyTouch/](http://alloyteam.github.io
 Rotate Demo: [http://alloyteam.github.io/AlloyTouch/rotate.html](http://alloyteam.github.io/AlloyTouch/example/rotate.html) 
 
 Carousel Demo: [http://alloyteam.github.io/AlloyTouch/carousel.html](http://alloyteam.github.io/AlloyTouch/example/carousel.html) 
+
+
+# 感谢
+[transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
+
+# 谁用AlloyTouch?
+
+![preview](http://sqimg.qq.com/qq_product_operations/im/qqlogo/imlogo.png)
+
+# License
+This content is released under the [MIT](http://opensource.org/licenses/MIT) License.
