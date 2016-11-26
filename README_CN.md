@@ -1,4 +1,4 @@
-﻿[English](./README.md) | 简体中文
+﻿[English](https://github.com/AlloyTeam/AlloyTouch) | 简体中文
 
 # AlloyTouch
 60FPS的触摸运动
