@@ -1,4 +1,7 @@
-﻿; (function () {
+﻿/* tick https://github.com/AlloyTeam/AlloyTouch/blob/master/transformjs/asset/tick.js
+ * By dntzhang|当耐特
+ */
+; (function () {
 
     if (!Date.now)
         Date.now = function () { return new Date().getTime(); };
@@ -26,7 +29,7 @@
 
     var tick = function (fn) {
         tickArr.push(fn);
-    }
+    };
 
     var execTick = function () {
         var i = 0, len = tickArr.length;
@@ -34,7 +37,7 @@
             tickArr[i]();
         }
         requestAnimationFrame(execTick);
-    }
+    };
     execTick();
 
     window.tick = tick;
