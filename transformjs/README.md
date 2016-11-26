@@ -33,3 +33,13 @@ domElement.originX = 0.5;
 //get "translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"
 //console.log(domElement.translateX )
 ```
+
+# Many thanks to 
+[transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
+
+# Who is using AlloyTouch?
+
+![preview](http://sqimg.qq.com/qq_product_operations/im/qqlogo/imlogo.png)
+
+# License
+This content is released under the [MIT](http://opensource.org/licenses/MIT) License.
