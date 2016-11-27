@@ -14,12 +14,13 @@
     <script src="../asset/to.js"></script>
     <script src="../asset/alloy_flow.js"></script>
     <script>
+
         var element = document.querySelector("#test");
         Transform(element);
-        element.originY=100;
-        element.skewX=-20;
+        element.originY = 100;
+        element.skewX = -20;
 
-        function sineInOut(a){
+        function sineInOut(a) {
             return 0.5 * (1 - Math.cos(Math.PI * a));
         }
 
