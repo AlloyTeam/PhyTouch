@@ -28,6 +28,7 @@ new AlloyTouch({
             sensitivity: 1,
             factor: 1,
             spring: true,
+            step: 45,
             change:function(){  }, 
             touchStart:function(value){  },
             touchMove:function(value){  },

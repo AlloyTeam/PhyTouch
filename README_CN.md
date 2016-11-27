@@ -28,6 +28,7 @@ new AlloyTouch({
             sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
             factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
             spring: true, //不必需,是否有回弹效果。默认是true
+            step: 45,//用于校正到step的整数倍
             change:function(){  }, //不必需，属性改变的回调。alloytouch.css版本不支持该事件
             touchStart:function(value){  },
             touchMove:function(value){  },
