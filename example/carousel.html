@@ -90,15 +90,15 @@
                 var dx = v - step_v;
 
                 if (Math.abs(dx) < 30) {
-                    this.goto(step_v);
+                    this.go(step_v);
 
                 }
                 else if (dx > 0) {
-                    this.goto(step_v + this.step);
+                    this.go(step_v + this.step);
 
                 } else {
 
-                    this.goto(step_v - this.step);
+                    this.go(step_v - this.step);
                 }
 
                 return false;
