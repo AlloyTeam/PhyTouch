@@ -64,17 +64,19 @@
         this.max = option.max;
         this.deceleration = 0.0006;
 
-        var noop = function () { };
+        var noop = function () {
+        };
         this.change = option.change || noop;
         this.touchEnd = option.touchEnd || noop;
         this.touchStart = option.touchStart || noop;
         this.touchMove = option.touchMove || noop;
+        this.touchCancel = option.touchCancel || noop;
         this.reboundEnd = option.reboundEnd || noop;
         this.animationEnd = option.animationEnd || noop;
         this.correctionEnd = option.correctionEnd || noop;
 
         this.preventDefault = this._getValue(option.preventDefault, true);
-        this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
+        this.preventDefaultException = {tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/};
         this.hasMin = !(this.min === undefined);
         this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
@@ -97,7 +99,7 @@
             this.isTouchStart = true;
             this._firstTouchMove = true;
             this._preventMoveDefault = true;
-            this.touchStart(this.target[this.property]);
+            this.touchStart.call(this, evt, this.target[this.property]);
             cancelAnimationFrame(this.tickID);
             this._calculateIndex();
             this.startTime = new Date().getTime();
@@ -129,16 +131,32 @@
                     this.preX = evt.touches[0].pageX;
                     this.preY = evt.touches[0].pageY;
                     this.target[this.property] += d;
-                    this.change(this.target[this.property]);
+                    this.change.call(this, this.target[this.property]);
                     var timestamp = new Date().getTime();
                     if (timestamp - this.startTime > 300) {
                         this.startTime = timestamp;
                         this.start = this.vertical ? this.preY : this.preX;
                     }
-                    this.touchMove(this.target[this.property]);
+                    this.touchMove.call(this, evt, this.target[this.property]);
 
                     evt.preventDefault();
                 }
+            }
+        },
+        _cancel: function (evt) {
+            this.touchCancel.call(this, evt, this.target[this.property]);
+            if (this.hasMax && this.target[this.property] > this.max) {
+                this.to(this.max, 200, ease, this.change, function (value) {
+                    this.reboundEnd.call(this, value);
+                    this.animationEnd.call(this, value);
+                }.bind(this));
+            } else if (this.hasMin && this.target[this.property] < this.min) {
+                this.to(this.min, 200, ease, this.change, function (value) {
+                    this.reboundEnd.call(this, value);
+                    this.animationEnd.call(this, value);
+                }.bind(this));
+            } else {
+                this.correction();
             }
         },
         go: function (v) {
@@ -150,8 +168,8 @@
 
             this.to(v, 400, ease, this.change, function (value) {
                 this._calculateIndex();
-                this.reboundEnd(value, this.currentPage);
-                this.animationEnd(value, this.currentPage);
+                this.reboundEnd.call(this, value, this.currentPage);
+                this.animationEnd.call(this, value, this.currentPage);
 
             }.bind(this));
 
@@ -165,16 +183,16 @@
             if (this.isTouchStart && this._preventMoveDefault) {
                 this.isTouchStart = false;
                 var self = this;
-                if (this.touchEnd.call(this, this.target[this.property], this.currentPage) === false) return;
+                if (this.touchEnd.call(this, evt, this.target[this.property], this.currentPage) === false) return;
                 if (this.hasMax && this.target[this.property] > this.max) {
                     this.to(this.max, 200, ease, this.change, function (value) {
-                        this.reboundEnd(value);
-                        this.animationEnd(value);
+                        this.reboundEnd.call(this, value);
+                        this.animationEnd.call(this, value);
                     }.bind(this));
                 } else if (this.hasMin && this.target[this.property] < this.min) {
                     this.to(this.min, 200, ease, this.change, function (value) {
-                        this.reboundEnd(value);
-                        this.animationEnd(value);
+                        this.reboundEnd.call(this, value);
+                        this.animationEnd.call(this, value);
                     }.bind(this));
                 } else if (this.inertia) {
                     //var y = evt.changedTouches[0].pageY;
@@ -199,12 +217,12 @@
                                 }, 50);
                             }
 
-                            self.change(value);
+                            self.change.call(this, value);
                         }, function () {
                             if (self.step) {
                                 self.correction();
                             } else {
-                                self.animationEnd(self.target[self.property]);
+                                self.animationEnd.call(self, self.target[self.property]);
                             }
                         });
                     } else {
@@ -219,21 +237,6 @@
 
             }
         },
-        _cancel: function () {
-            if (this.hasMax && this.target[this.property] > this.max) {
-                this.to(this.max, 200, ease, this.change, function (value) {
-                    this.reboundEnd(value);
-                    this.animationEnd(value);
-                }.bind(this));
-            } else if (this.hasMin && this.target[this.property] < this.min) {
-                this.to(this.min, 200, ease, this.change, function (value) {
-                    this.reboundEnd(value);
-                    this.animationEnd(value);
-                }.bind(this));
-            } else {
-                this.correction();
-            }
-        },
         to: function (value, time, ease, onChange, onEnd) {
             var el = this.target,
                 property = this.property;
@@ -246,14 +249,14 @@
                 var dt = new Date() - beginTime;
                 if (dt >= time) {
                     el[property] = value;
-                    onChange && onChange(value);
-                    onEnd && onEnd(value);
+                    onChange && onChange.call(self, value);
+                    onEnd && onEnd.call(self, value);
                     return;
                 }
                 el[property] = dv * ease(dt / time) + current;
                 self.tickID = requestAnimationFrame(toTick);
                 //cancelAnimationFrame必须在 tickID = requestAnimationFrame(toTick);的后面
-                onChange && onChange(el[property]);
+                onChange && onChange.call(self, el[property]);
             };
             toTick();
         },
@@ -267,14 +270,14 @@
             if (Math.abs(dy) > this.step / 2) {
                 this.to((value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease, this.change, function (value) {
                     this._calculateIndex();
-                    this.correctionEnd(value, this.currentPage);
-                    this.animationEnd(value, this.currentPage);
+                    this.correctionEnd.call(this, value, this.currentPage);
+                    this.animationEnd.call(this, value, this.currentPage);
                 }.bind(this));
             } else {
                 this.to((value < 0 ? -1 : 1) * rpt * this.step, 400, ease, this.change, function (value) {
                     this._calculateIndex();
-                    this.correctionEnd(value, this.currentPage);
-                    this.animationEnd(value, this.currentPage);
+                    this.correctionEnd.call(this, value, this.currentPage);
+                    this.animationEnd.call(this, value, this.currentPage);
                 }.bind(this));
             }
         }

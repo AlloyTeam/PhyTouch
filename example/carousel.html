@@ -84,11 +84,12 @@
             step: window.innerWidth,
             spring: true, //不必需,是否有回弹效果。默认是true
             inertia: false, //不必需,是否有惯性。默认是true
-            touchEnd: function (v, index) {
+            touchEnd: function (evt, v, index) {
 
                 var step_v = index * this.step * -1;
                 var dx = v - step_v;
 
+                console.log(v)
                 if (Math.abs(dx) < 30) {
                     this.go(step_v);
 
