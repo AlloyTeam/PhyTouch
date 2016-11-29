@@ -30,14 +30,10 @@ if (!Date.now)
     }
 }());
 
-; (function () {
+(function () {
 
     function bind(element, type, callback) {
         element.addEventListener(type, callback, false);
-    }
-
-    function unbind(element, type, callback) {
-        element.removeEventListener(type, callback);
     }
 
     function ease(x) {
@@ -54,13 +50,12 @@ if (!Date.now)
     }
 
     var AlloyTouch = function (option) {
-        this.scroller = option.target;
+        this.target = option.target;
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
         this.vertical = this._getValue(option.vertical, true);
         this.property = option.property;
         this.tickID = 0;
-        this.preX;
-        this.preY;
+
         this.sensitivity = this._getValue(option.sensitivity, 1);
         this.factor = this._getValue(option.factor, 1);
         this.sMf = this.sensitivity * this.factor;
@@ -68,8 +63,7 @@ if (!Date.now)
         this.factor1 = 1;
         this.min = option.min;
         this.max = option.max;
-        this.startTime;
-        this.start;
+
         this.deceleration = 0.0006;
 
         this.change = option.change || function () { };
@@ -94,7 +88,7 @@ if (!Date.now)
         bind(window, "touchmove", this._move.bind(this));
         bind(window, "touchend", this._end.bind(this));
         bind(window, "touchcancel", this._cancel.bind(this));
-    }
+    };
 
     AlloyTouch.prototype = {
         _getValue: function (obj, defaultValue) {
@@ -104,9 +98,8 @@ if (!Date.now)
             this.isTouchStart = true;
             this._firstTouchMove = true;
             this._preventMoveDefault = true;
-            this.touchStart(this.scroller[this.property]);
+            this.touchStart(this.target[this.property]);
             cancelAnimationFrame(this.tickID);
-            //this.correctionEnd(this.scroller[this.property]);
             this._calculateIndex();
             this.startTime = new Date().getTime();
             this._startX = this.preX = evt.touches[0].pageX;
@@ -126,9 +119,9 @@ if (!Date.now)
                 }
                 if (this._preventMoveDefault) {
                     var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sMf;
-                    if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
+                    if (this.hasMax && this.target[this.property] > this.max && d > 0) {
                         this.factor1 = 0.3;
-                    } else if (this.hasMin && this.scroller[this.property] < this.min && d < 0) {
+                    } else if (this.hasMin && this.target[this.property] < this.min && d < 0) {
                         this.factor1 = 0.3;
                     } else {
                         this.factor1 = 1;
@@ -136,14 +129,14 @@ if (!Date.now)
                     d *= this.factor1;
                     this.preX = evt.touches[0].pageX;
                     this.preY = evt.touches[0].pageY;
-                    this.scroller[this.property] += d;
-                    this.change(this.scroller[this.property]);
+                    this.target[this.property] += d;
+                    this.change(this.target[this.property]);
                     var timestamp = new Date().getTime();
                     if (timestamp - this.startTime > 300) {
                         this.startTime = timestamp;
                         this.start = this.vertical ? this.preY : this.preX;
                     }
-                    this.touchMove(this.scroller[this.property]);
+                    this.touchMove(this.target[this.property]);
 
                     evt.preventDefault();
                 }
@@ -156,7 +149,7 @@ if (!Date.now)
                 v = this.min;
             }
 
-            this.to(this.scroller, this.property, v, 400, ease, this.change, function (value) {
+            this.to( v, 400, ease, this.change, function (value) {
                 this._calculateIndex();
                 this.reboundEnd(value, this.currentPage);
                 this.animationEnd(value, this.currentPage);
@@ -166,21 +159,21 @@ if (!Date.now)
         },
         _calculateIndex: function () {
             if (this.hasMax && this.hasMin) {
-                this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
+                this.currentPage = Math.round((this.max - this.target[this.property]) / this.step);
             }
         },
         _end: function (evt) {
             if (this.isTouchStart && this._preventMoveDefault) {
                 this.isTouchStart = false;
                 var self = this;
-                if (this.touchEnd.call(this, this.scroller[this.property], this.currentPage) === false) return;
-                if (this.hasMax && this.scroller[this.property] > this.max) {
-                    this.to(this.scroller, this.property, this.max, 200, ease, this.change, function (value) {
+                if (this.touchEnd.call(this, this.target[this.property], this.currentPage) === false) return;
+                if (this.hasMax && this.target[this.property] > this.max) {
+                    this.to( this.max, 200, ease, this.change, function (value) {
                         this.reboundEnd(value);
                         this.animationEnd(value);
                     }.bind(this));
-                } else if (this.hasMin && this.scroller[this.property] < this.min) {
-                    this.to(this.scroller, this.property, this.min, 200, ease, this.change, function (value) {
+                } else if (this.hasMin && this.target[this.property] < this.min) {
+                    this.to( this.min, 200, ease, this.change, function (value) {
                         this.reboundEnd(value);
                         this.animationEnd(value);
                     }.bind(this));
@@ -191,38 +184,38 @@ if (!Date.now)
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
                             speed = Math.abs(distance) / duration,
                             speed2 = this.factor * speed,
-                            destination = this.scroller[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
+                            destination = this.target[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
 
-                        self.to(this.scroller, this.property, Math.round(destination), Math.round(speed / self.deceleration), ease, function (value) {
+                        self.to( Math.round(destination), Math.round(speed / self.deceleration), ease, function (value) {
 
-                            if (self.hasMax && self.scroller[self.property] > self.max) {
+                            if (self.hasMax && self.target[self.property] > self.max) {
                                 setTimeout(function () {
                                     cancelAnimationFrame(self.tickID);
-                                    self.to(self.scroller, self.property, self.max, 200, ease, self.change, self.animationEnd);
+                                    self.to( self.max, 200, ease, self.change, self.animationEnd);
                                 }, 50);
-                            } else if (self.hasMin && self.scroller[self.property] < self.min) {
+                            } else if (self.hasMin && self.target[self.property] < self.min) {
                                 setTimeout(function () {
                                     cancelAnimationFrame(self.tickID);
-                                    self.to(self.scroller, self.property, self.min, 200, ease, self.change, self.animationEnd);
+                                    self.to( self.min, 200, ease, self.change, self.animationEnd);
                                 }, 50);
                             }
 
-                            self.change(self.scroller[self.property]);
+                            self.change(value);
                         }, function () {
                             if (self.step) {
-                                self.correction(self.scroller, self.property);
+                                self.correction(self.target, self.property);
                             } else {
-                                self.animationEnd(self.scroller[self.property]);
+                                self.animationEnd(self.target[self.property]);
                             }
                         });
                     } else {
                         if (self.step) {
-                            self.correction(self.scroller, self.property);
+                            self.correction(self.target, self.property);
                         }
                     }
                 } else {
                     if (self.step) {
-                        self.correction(self.scroller, self.property);
+                        self.correction(self.target, self.property);
                     }
                 }
                 if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
@@ -233,21 +226,23 @@ if (!Date.now)
         },
         _cancel: function () {
             //校正位置
-            if (this.hasMax && this.scroller[this.property] > this.max) {
-                this.to(this.scroller, this.property, this.max, 200, ease, this.change, function (value) {
+            if (this.hasMax && this.target[this.property] > this.max) {
+                this.to(this.max, 200, ease, this.change, function (value) {
                     this.reboundEnd(value);
                     this.animationEnd(value);
                 }.bind(this));
-            } else if (this.hasMin && this.scroller[this.property] < this.min) {
-                this.to(this.scroller, this.property, this.min, 200, ease, this.change, function (value) {
+            } else if (this.hasMin && this.target[this.property] < this.min) {
+                this.to(this.min, 200, ease, this.change, function (value) {
                     this.reboundEnd(value);
                     this.animationEnd(value);
                 }.bind(this));
             } else if (this.step) {
-                this.correction(this.scroller, this.property);
+                this.correction(this.target, this.property);
             }
         },
-        to: function (el, property, value, time, ease, onChange, onEnd) {
+        to: function (  value, time, ease, onChange, onEnd) {
+            var el = this.target,
+                property=this.property;
             var current = el[property];
             var dv = value - current;
             var beginTime = new Date();
@@ -265,21 +260,23 @@ if (!Date.now)
                 self.tickID = requestAnimationFrame(toTick);
                 //cancelAnimationFrame必须在 tickID = requestAnimationFrame(toTick);的后面
                 onChange && onChange(el[property]);
-            }
+            };
             toTick();
         },
-        correction: function (el, property) {
+        correction: function () {
+            var el = this.target,
+                property=this.property;
             var value = el[property];
             var rpt = Math.floor(Math.abs(value / this.step));
             var dy = value % this.step;
             if (Math.abs(dy) > this.step / 2) {
-                this.to(el, property, (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease, this.change, function (value) {
+                this.to( (value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease, this.change, function (value) {
                     this._calculateIndex();
                     this.correctionEnd(value, this.currentPage);
                     this.animationEnd(value, this.currentPage);
                 }.bind(this));
             } else {
-                this.to(el, property, (value < 0 ? -1 : 1) * rpt * this.step, 400, ease, this.change, function (value) {
+                this.to( (value < 0 ? -1 : 1) * rpt * this.step, 400, ease, this.change, function (value) {
                     this._calculateIndex();
                     this.correctionEnd(value, this.currentPage);
                     this.animationEnd(value, this.currentPage);
@@ -287,8 +284,12 @@ if (!Date.now)
             }
         }
 
-    }
+    };
 
-    window.AlloyTouch = AlloyTouch;
+    if (typeof module !== 'undefined' && typeof exports === 'object') {
+        module.exports = AlloyTouch;
+    } else {
+        window.AlloyTouch = AlloyTouch;
+    }
 
 })();
