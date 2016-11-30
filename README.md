@@ -25,6 +25,8 @@ new AlloyTouch({
             property: "translateY", 
             min: 100, 
             max: 2000, 
+            sensitivity: 1,
+            factor: 1,
             spring: true,
             step: 45,
             change:function(){  }, 
