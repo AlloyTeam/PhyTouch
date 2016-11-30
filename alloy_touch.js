@@ -40,6 +40,10 @@
         return Math.sqrt(1 - Math.pow(x - 1, 2));
     }
 
+    function quadratic(k) {
+        return k * ( 2 - k );
+    }
+
     function preventDefaultTest(el, exceptions) {
         for (var i in exceptions) {
             if (exceptions[i].test(el[i])) {
@@ -202,18 +206,21 @@
                             speed = Math.abs(distance) / duration,
                             speed2 = this.factor * speed,
                             destination = this.target[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
+                        var end = Math.round(destination);
+                        var currentEase = ease;
+                        if (end > this.max || end < this.min)currentEase = quadratic;
 
-                        self.to(Math.round(destination), Math.round(speed / self.deceleration), ease, function (value) {
+                        self.to(end, Math.round(speed / self.deceleration), currentEase, function (value) {
 
                             if (self.hasMax && self.target[self.property] > self.max) {
                                 setTimeout(function () {
                                     cancelAnimationFrame(self.tickID);
-                                    self.to(self.max, 200, ease, self.change, self.animationEnd);
+                                    self.to(self.max, 600, ease, self.change, self.animationEnd);
                                 }, 50);
                             } else if (self.hasMin && self.target[self.property] < self.min) {
                                 setTimeout(function () {
                                     cancelAnimationFrame(self.tickID);
-                                    self.to(self.min, 200, ease, self.change, self.animationEnd);
+                                    self.to(self.min, 600, ease, self.change, self.animationEnd);
                                 }, 50);
                             }
 

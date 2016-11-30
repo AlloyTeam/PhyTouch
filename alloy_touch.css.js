@@ -57,8 +57,6 @@
         this.property = option.property;
         this.preventDefault = option.preventDefault;
         this.preventDefault === undefined && (this.preventDefault = true);
-        this.preX;
-        this.preY;
         this.sensitivity = option.sensitivity === undefined ? 1 : option.sensitivity;
         this.factor = option.factor === undefined ? 1 : option.factor;
         this.sMf = this.sensitivity * this.factor;
@@ -66,9 +64,7 @@
         this.factor1 = 1;
         this.min = option.min;
         this.max = option.max;
-        this.startTime;
-        this.start;
-        this.recording = false;
+
         this.deceleration = 0.0006;
         //css版本不再支持change事件
         //this.change = option.change || function () { };
@@ -113,7 +109,7 @@
                 if (this._endCallbackTag) {
                     this._endTimeout = setTimeout(function () {
                         this.animationEnd(this.scroller[this.property]);
-                    }.bind(this), 400)
+                    }.bind(this), 400);
                     this._endCallbackTag = false;
                 }
             } else {
@@ -190,12 +186,11 @@
                 } else if (this.hasMin && this.scroller[this.property] < this.min) {
                     this.to(this.scroller, this.property, this.min, 200, ease);
                 } else if (this.inertia) {
-                    //var y = evt.changedTouches[0].pageY;
-                    var duration = new Date().getTime() - this.startTime;
-                    if (duration < 300) {
+                    var dt = new Date().getTime() - this.startTime;
+                    if (dt < 300) {
 
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
-                            speed = Math.abs(distance) / duration,
+                            speed = Math.abs(distance) / dt,
                             speed2 = this.factor * speed,
                             destination = this.scroller[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
                         var tRatio = 1;
@@ -208,7 +203,7 @@
                             destination = this.max;
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
-                        if (duration < 600) duration = 600;
+                        if (tRatio !== 1) duration += 600;
                         self.to(this.scroller, this.property, Math.round(destination), duration, (tRatio === 1) ? ease : backEase);
                     } else {
                         if (self.step) {
@@ -255,12 +250,12 @@
         },
         destroy: function () {
             unbind(this.element, "touchstart", this._startHandler);
-            unbind(this.scroller, endTransitionEventName, this._transitionEndHandler)
+            unbind(this.scroller, endTransitionEventName, this._transitionEndHandler);
             unbind(window, "touchmove", this._moveHandler);
             unbind(window, "touchend", this._endHandler);
             unbind(window, "touchcancel", this._cancelHandler);
         }
-    }
+    };
 
     if (typeof module !== 'undefined' && typeof exports === 'object') {
         module.exports = AlloyTouch;
