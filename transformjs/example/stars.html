@@ -10,14 +10,14 @@
 
 
     (function() {
-        var imgArr = [];
-        var centreOfCirclePosition = {x: 300, y: 300, z: 0};
-        var cameraPosition = {x: 300, y: 300, z: 400};
+        var img_list = [];
+        var center = {x: 300, y: 300, z: 0};
+        var camera_position = {x: 300, y: 300, z: 400};
         var r = 250;
         var distance = 300;
-        var starPositions = [],
-                starPositionsForShow = [],
-                currentAngle = Math.PI / 60;
+        var positions = [],
+                rd_positions = [],
+                current_angle = Math.PI / 60;
 
         function randomPoints() {
             var xTemp;
@@ -25,16 +25,14 @@
             var zTemp;
             var i;
             var j = -1;
-            /** @type {number} */
             i = 0;
             for (; i < 440; i++) {
                 xTemp = getRandomNumber(-250, 250);
                 yTemp = getRandomNumber(-250, 250);
                 j *= -1;
                 if (xTemp * xTemp + yTemp * yTemp <= r * r) {
-                    /** @type {number} */
                     zTemp = j * Math.sqrt(Math.abs(r * r - xTemp * xTemp - yTemp * yTemp));
-                    starPositions.push({x: xTemp, y: yTemp, z: zTemp});
+                    positions.push({x: xTemp, y: yTemp, z: zTemp});
                 }
             }
         }
@@ -43,16 +41,12 @@
             return min + Math.floor(Math.random() * (max - min + 1));
         }
 
-        /**
-         * @return {undefined}
-         */
         function positionsProjection() {
             var copies;
-            /** @type {number} */
             var conditionIndex = 0;
-            for (; conditionIndex < starPositions.length; conditionIndex++) {
-                copies = projection(starPositions[conditionIndex]);
-                starPositionsForShow.push(copies);
+            for (; conditionIndex < positions.length; conditionIndex++) {
+                copies = projection(positions[conditionIndex]);
+                rd_positions.push(copies);
             }
         }
 
@@ -60,38 +54,30 @@
             return degrees / (180 / Math.PI);
         }
 
-        /**
-         * @param {?} rot
-         * @return {undefined}
-         */
         function rotate(rot) {
             var cx;
             var z;
-            /** @type {number} */
             var n1 = 0;
-            for (; n1 < starPositions.length; n1++) {
-                cx = starPositions[n1].x;
-                z = starPositions[n1].z;
-                /** @type {number} */
-                starPositions[n1].x = starPositions[n1].x * Math.cos(rot) - starPositions[n1].z * Math.sin(rot);
-                /** @type {number} */
-                starPositions[n1].z = starPositions[n1].z * Math.cos(rot) + cx * Math.sin(rot);
+            for (; n1 < positions.length; n1++) {
+                cx = positions[n1].x;
+                z = positions[n1].z;
+                positions[n1].x = positions[n1].x * Math.cos(rot) - positions[n1].z * Math.sin(rot);
+                positions[n1].z = positions[n1].z * Math.cos(rot) + cx * Math.sin(rot);
             }
         }
 
         function projection(pos3d) {
 
             return {
-                x: pos3d.x * distance / Math.abs(cameraPosition.z - pos3d.z),
-                y: pos3d.y * distance / Math.abs(cameraPosition.z - pos3d.z),
+                x: pos3d.x * distance / Math.abs(camera_position.z - pos3d.z),
+                y: pos3d.y * distance / Math.abs(camera_position.z - pos3d.z),
                 z: pos3d.z
             };
         }
 
-
         function createImgs() {
             var i = 0,
-                    len = starPositionsForShow.length;
+                    len = rd_positions.length;
 
             for (; i < len; i++) {
                 var img = document.createElement("img");
@@ -101,34 +87,28 @@
                 img.src = "../asset/star.png";
                 document.body.appendChild(img);
                 Transform(img);
-                img.translateX = centreOfCirclePosition.x + starPositionsForShow[i].x;
-                img.translateY = centreOfCirclePosition.x + starPositionsForShow[i].y;
-                /** @type {number} */
-                img.scaleX = img.scaleY = 0.5 * distance / Math.abs(cameraPosition.z - starPositionsForShow[i].z);
-                img.style.opacity = starPositionsForShow[i].z < 50 ? 0.5 : 1;
+                img.translateX = center.x + rd_positions[i].x;
+                img.translateY = center.x + rd_positions[i].y;
+                img.scaleX = img.scaleY = 0.5 * distance / Math.abs(camera_position.z - rd_positions[i].z);
+                img.style.opacity = rd_positions[i].z < 50 ? 0.5 : 1;
 
-                imgArr.push(img);
+                img_list.push(img);
             }
         }
 
-        /**
-         * @return {undefined}
-         */
         function tick() {
             var i;
-            /** @type {number} */
-            starPositionsForShow.length = 0;
-            rotate(degToRad(currentAngle));
+            rd_positions.length = 0;
+            rotate(degToRad(current_angle));
             positionsProjection();
-            /** @type {number} */
+
             i = 0;
-            for (; i < starPositionsForShow.length; i++) {
-                var img = imgArr[i];
-                img.translateX = centreOfCirclePosition.x + starPositionsForShow[i].x;
-                img.translateY = centreOfCirclePosition.x + starPositionsForShow[i].y;
-                /** @type {number} */
-                img.scaleX = img.scaleY = 0.5 * distance / Math.abs(cameraPosition.z - starPositionsForShow[i].z);
-                img.style.opacity = starPositionsForShow[i].z < 50 ? 0.5 : 1;
+            for (; i < rd_positions.length; i++) {
+                var img = img_list[i];
+                img.translateX = center.x + rd_positions[i].x;
+                img.translateY = center.x + rd_positions[i].y;
+                img.scaleX = img.scaleY = 0.5 * distance / Math.abs(camera_position.z - rd_positions[i].z);
+                img.style.opacity = rd_positions[i].z < 50 ? 0.5 : 1;
             }
             requestAnimationFrame(tick);
         }
