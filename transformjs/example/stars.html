@@ -8,8 +8,6 @@
     <script src="../transform.min.js" ></script>
     <script>
 
-
-    (function() {
         var img_list = [];
         var center = {x: 300, y: 300, z: 0};
         var camera_position = {x: 300, y: 300, z: 400};
@@ -17,7 +15,8 @@
         var distance = 300;
         var positions = [],
                 rd_positions = [],
-                current_angle = Math.PI / 60;
+                step_angle =  1,
+                size=400;
 
         function randomPoints() {
             var xTemp;
@@ -26,13 +25,14 @@
             var i;
             var j = -1;
             i = 0;
-            for (; i < 440; i++) {
+            for (; i < size; i++) {
                 xTemp = getRandomNumber(-250, 250);
                 yTemp = getRandomNumber(-250, 250);
                 j *= -1;
                 if (xTemp * xTemp + yTemp * yTemp <= r * r) {
                     zTemp = j * Math.sqrt(Math.abs(r * r - xTemp * xTemp - yTemp * yTemp));
                     positions.push({x: xTemp, y: yTemp, z: zTemp});
+                    rd_positions.push({x: xTemp, y: yTemp, z: zTemp});
                 }
             }
         }
@@ -42,42 +42,35 @@
         }
 
         function positionsProjection() {
-            var copies;
-            var conditionIndex = 0;
-            for (; conditionIndex < positions.length; conditionIndex++) {
-                copies = projection(positions[conditionIndex]);
-                rd_positions.push(copies);
+
+            var index = 0,
+                    len=positions.length;
+            for (; index < len; index++) {
+                var p = positions[index];
+                var rp = rd_positions[index];
+                //projection
+                rp.x = p.x * distance / Math.abs(camera_position.z - p.z);
+                rp.y =  p.y * distance / Math.abs(camera_position.z - p.z);
+
             }
         }
 
-        function degToRad(degrees) {
-            return degrees / (180 / Math.PI);
-        }
-
-        function rotate(rot) {
+        function rotate() {
+            var ag = step_angle * Math.PI / 180;
             var cx;
             var z;
             var n1 = 0;
             for (; n1 < positions.length; n1++) {
                 cx = positions[n1].x;
                 z = positions[n1].z;
-                positions[n1].x = positions[n1].x * Math.cos(rot) - positions[n1].z * Math.sin(rot);
-                positions[n1].z = positions[n1].z * Math.cos(rot) + cx * Math.sin(rot);
+                positions[n1].x = positions[n1].x * Math.cos(ag) - positions[n1].z * Math.sin(ag);
+                positions[n1].z = positions[n1].z * Math.cos(ag) + cx * Math.sin(ag);
             }
-        }
-
-        function projection(pos3d) {
-
-            return {
-                x: pos3d.x * distance / Math.abs(camera_position.z - pos3d.z),
-                y: pos3d.y * distance / Math.abs(camera_position.z - pos3d.z),
-                z: pos3d.z
-            };
         }
 
         function createImgs() {
             var i = 0,
-                    len = rd_positions.length;
+                len = rd_positions.length;
 
             for (; i < len; i++) {
                 var img = document.createElement("img");
@@ -97,13 +90,13 @@
         }
 
         function tick() {
-            var i;
-            rd_positions.length = 0;
-            rotate(degToRad(current_angle));
+
+            rotate();
             positionsProjection();
 
-            i = 0;
-            for (; i < rd_positions.length; i++) {
+            var i = 0,
+                    len=rd_positions.length;
+            for (; i < len; i++) {
                 var img = img_list[i];
                 img.translateX = center.x + rd_positions[i].x;
                 img.translateY = center.x + rd_positions[i].y;
@@ -120,8 +113,6 @@
             createImgs();
             tick();
         })();
-
-    })()
 
 
 
