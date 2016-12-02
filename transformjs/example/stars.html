@@ -8,15 +8,15 @@
     <script src="../transform.min.js" ></script>
     <script>
 
-        var img_list = [];
-        var center = {x: 300, y: 300, z: 0};
-        var camera_position = {x: 300, y: 300, z: 400};
-        var r = 250;
-        var distance = 300;
-        var positions = [],
-                rd_positions = [],
-                step_angle =  1,
-                size=400;
+        var img_list = [],
+         center = {x: 300, y: 300, z: 0},
+         camera_position = {x: 300, y: 300, z: 400},
+         r = 250,
+         distance = 300,
+         positions = [],
+         rd_positions = [],
+         step_angle =  Math.PI/180,
+         size=400;
 
         function randomPoints() {
             var xTemp;
@@ -56,15 +56,15 @@
         }
 
         function rotate() {
-            var ag = step_angle * Math.PI / 180;
-            var cx;
-            var z;
-            var n1 = 0;
-            for (; n1 < positions.length; n1++) {
-                cx = positions[n1].x;
-                z = positions[n1].z;
-                positions[n1].x = positions[n1].x * Math.cos(ag) - positions[n1].z * Math.sin(ag);
-                positions[n1].z = positions[n1].z * Math.cos(ag) + cx * Math.sin(ag);
+            var cx,
+                    z,
+                    i = 0,
+                    len=positions.length;
+            for (; i < len; i++) {
+                cx = positions[i].x;
+                z = positions[i].z;
+                positions[i].x = positions[i].x * Math.cos(step_angle) - positions[i].z * Math.sin(step_angle);
+                positions[i].z = positions[i].z * Math.cos(step_angle) + cx * Math.sin(step_angle);
             }
         }
 
@@ -80,29 +80,33 @@
                 img.src = "../asset/star.png";
                 document.body.appendChild(img);
                 Transform(img);
-                img.translateX = center.x + rd_positions[i].x;
-                img.translateY = center.x + rd_positions[i].y;
-                img.scaleX = img.scaleY = 0.5 * distance / Math.abs(camera_position.z - rd_positions[i].z);
-                img.style.opacity = rd_positions[i].z < 50 ? 0.5 : 1;
+
+                transformImg(img,i);
 
                 img_list.push(img);
             }
         }
 
-        function tick() {
+        function transformImg(img, i) {
+            var z = positions[i].z;
+            img.translateX = center.x + rd_positions[i].x;
+            img.translateY = center.x + rd_positions[i].y;
+            img.scaleX = img.scaleY = 0.5 * distance / Math.abs(camera_position.z - z);
+            img.style.opacity = 1 - (r - z) / (2 * r);
+        }
 
+        function render(){
+            var i = 0,
+                len=rd_positions.length;
+            for (; i < len; i++) {
+                transformImg(img_list[i],i);
+            }
+        }
+
+        function tick() {
             rotate();
             positionsProjection();
-
-            var i = 0,
-                    len=rd_positions.length;
-            for (; i < len; i++) {
-                var img = img_list[i];
-                img.translateX = center.x + rd_positions[i].x;
-                img.translateY = center.x + rd_positions[i].y;
-                img.scaleX = img.scaleY = 0.5 * distance / Math.abs(camera_position.z - rd_positions[i].z);
-                img.style.opacity = rd_positions[i].z < 50 ? 0.5 : 1;
-            }
+            render();
             requestAnimationFrame(tick);
         }
 
