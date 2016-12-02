@@ -14,6 +14,7 @@
          r = 250,
          distance = 300,
          positions = [],
+         rd_positions=[],
          step_angle =  Math.PI/180,
          size=400;
 
@@ -31,6 +32,7 @@
                 if (xTemp * xTemp + yTemp * yTemp <= r * r) {
                     zTemp = j * Math.sqrt(Math.abs(r * r - xTemp * xTemp - yTemp * yTemp));
                     positions.push({x: xTemp, y: yTemp, z: zTemp});
+                    rd_positions.push({x: xTemp, y: yTemp, z: zTemp});
                 }
             }
         }
@@ -74,8 +76,8 @@
 
         function transformImg(img, i) {
             var z = positions[i].z;
-            img.translateX = center.x + positions[i].x;
-            img.translateY = center.x + positions[i].y;
+            img.translateX = center.x + rd_positions[i].x;
+            img.translateY = center.x + rd_positions[i].y;
             //projection
             img.scaleX = img.scaleY = 0.5 * distance / Math.abs(camera_position.z - z);
             img.style.opacity =0.1+ 1 - (r - z) / (2 * r);
@@ -89,8 +91,25 @@
             }
         }
 
+        function positionsProjection() {
+
+            var index = 0,
+                    len=positions.length;
+            for (; index < len; index++) {
+                var p = positions[index];
+                var rp = rd_positions[index];
+                //perspective projection
+                //rp.x = p.x * distance / Math.abs(camera_position.z - p.z);
+                //rp.y =  p.y * distance / Math.abs(camera_position.z - p.z);
+                //orthogonal projection
+                rp.x = p.x ;
+                rp.y =  p.y ;
+            }
+        }
+
         function tick() {
             rotate();
+            positionsProjection();
             render();
             requestAnimationFrame(tick);
         }
@@ -98,6 +117,7 @@
         (function () {
             randomPoints();
             createImgs();
+            positionsProjection();
             tick();
         })();
 
