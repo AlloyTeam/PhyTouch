@@ -156,7 +156,7 @@
                 <div id="arrow" class="arrow arrow_up">
                     <img src="asset/arrow.png">
                 </div>
-                <div class="wording">
+                <div id="wording" class="wording">
                     下拉刷新
                 </div>
             </div>
@@ -230,6 +230,7 @@
     var arrow = document.querySelector("#arrow");
     var pull_refresh= document.querySelector("#pull_refresh");
     var list= document.querySelector("#list");
+    var wording= document.querySelector("#wording");
 
     //给element注入transform属性
     Transform(target);
@@ -251,8 +252,10 @@
             if (value > 10) {
                 //http://caniuse.com/#search=classList
                 arrow.classList.add("arrow_up");
+                wording.innerHTML ="松开刷新";
             } else {
                 arrow.classList.remove("arrow_up");
+                wording.innerHTML ="下拉刷新";
             }
         },
         touchEnd:function(evt,value) {
