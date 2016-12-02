@@ -3,14 +3,36 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #ctn{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            perspective-origin: 50% 50%;
+            perspective: 10000px;
+
+        }
+    </style>
 </head>
 <body style="background-color: black;">
+    <div id="ctn"></div>
     <script src="../transform.min.js" ></script>
     <script>
-
+        var ctn  =document.querySelector("#ctn");
         var img_list = [],
-         center = {x: 300, y: 300, z: 0},
-         camera_position = {x: 300, y: 300, z: 400},
+         center = {x: window.innerHeight/2, y: window.innerWidth/2, z: 0},
          r = 250,
          distance = 300,
          positions = [],
@@ -39,7 +61,6 @@
             return min + Math.floor(Math.random() * (max - min + 1));
         }
 
-
         function rotate() {
             var cx,
                     z,
@@ -63,7 +84,7 @@
                 img.style.left = "0px";
                 img.style.top = "0px";
                 img.src = "../asset/star.png";
-                document.body.appendChild(img);
+                ctn.appendChild(img);
                 Transform(img);
 
                 transformImg(img,i);
@@ -73,12 +94,11 @@
         }
 
         function transformImg(img, i) {
-            var z = positions[i].z;
-            img.translateX = center.x + positions[i].x;
-            img.translateY = center.x + positions[i].y;
-            //projection
-            img.scaleX = img.scaleY = 0.5 * distance / Math.abs(camera_position.z - z);
-            img.style.opacity =0.1+ 1 - (r - z) / (2 * r);
+            var p = positions[i];
+            img.translateX =  p.x;
+            img.translateY =  p.y;
+            img.translateZ = p.z;
+            img.style.opacity =0.1+ 1 - (r - p.z) / (2 * r);
         }
 
         function render(){
@@ -100,6 +120,9 @@
             createImgs();
             tick();
         })();
+
+
+
 
     </script>
     <a href="https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs" target="_blank" style="position: absolute; right: 0; top: 0;">
