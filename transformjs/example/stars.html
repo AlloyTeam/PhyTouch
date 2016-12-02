@@ -92,7 +92,7 @@
             img.translateX = center.x + rd_positions[i].x;
             img.translateY = center.x + rd_positions[i].y;
             img.scaleX = img.scaleY = 0.5 * distance / Math.abs(camera_position.z - z);
-            img.style.opacity = 1 - (r - z) / (2 * r);
+            img.style.opacity =0.1+ 1 - (r - z) / (2 * r);
         }
 
         function render(){
