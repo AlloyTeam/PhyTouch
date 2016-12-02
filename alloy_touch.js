@@ -60,6 +60,9 @@
         this.property = option.property;
         this.tickID = 0;
 
+        this.initial_vaule = this._getValue(option.initial_vaule, this.target[this.property] );
+        this.target[this.property] = this.initial_vaule;
+
         this.sensitivity = this._getValue(option.sensitivity, 1);
         this.factor = this._getValue(option.factor, 1);
         this.sf = this.sensitivity * this.factor;
@@ -164,12 +167,6 @@
             }
         },
         go: function (v) {
-            if (v > this.max) {
-                v = this.max;
-            } else if (v < this.min) {
-                v = this.min;
-            }
-
             this.to(v, 400, ease, this.change, function (value) {
                 this._calculateIndex();
                 this.reboundEnd.call(this, value, this.currentPage);
