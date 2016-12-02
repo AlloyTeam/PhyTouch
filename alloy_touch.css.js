@@ -182,9 +182,9 @@
                 var self = this;
                 this.touchEnd(this.scroller[this.property]);
                 if (this.hasMax && this.scroller[this.property] > this.max) {
-                    this.to(this.scroller, this.property, this.max, 200, ease);
+                    this.to(this.scroller, this.property, this.max, 600, ease);
                 } else if (this.hasMin && this.scroller[this.property] < this.min) {
-                    this.to(this.scroller, this.property, this.min, 200, ease);
+                    this.to(this.scroller, this.property, this.min, 600, ease);
                 } else if (this.inertia) {
                     var dt = new Date().getTime() - this.startTime;
                     if (dt < 300) {
