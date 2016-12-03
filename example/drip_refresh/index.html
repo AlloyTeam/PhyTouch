@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body style="background-color: black;">
+    <canvas width="300" height="300" id="dripCanvas"></canvas>
+    <script>
+        var Drip = function(selector , r){
+            this.canvas = typeof selector === "string" ? document.querySelector(selector) : selector;
+            this.ctx = this.canvas.getContext("2d");
+            this.ctx.fillStyle = "#1d79eb";
+            this.x = this.canvas.width / 2;
+            this.y = r+1;
+            this.r = r;
+            this.distance = 30;
+            this.drawBigCircle();
+            this.drawSmallCircle();
+            this.drawTransition();
+        };
+
+        Drip.prototype = {
+            drawBigCircle:function(){
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y,  this.r, -Math.PI,0, false);
+
+                this.ctx.fill();
+            },
+            drawSmallCircle:function(){
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y+ this.distance,  this.r-this.distance/4, 0,Math.PI, false);
+
+                this.ctx.fill();
+            },
+            drawTransition:function(){
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.x-this.r,this.y);
+                this.ctx.quadraticCurveTo(this.x-this.r+this.distance/4,this.y+this.distance/2,this.x-this.r+this.distance/4,this.y+this.distance);
+
+                this.ctx.lineTo(this.x+this.r-this.distance/4,this.y+this.distance);
+
+                this.ctx.quadraticCurveTo(this.x+this.r-this.distance/4,this.y+this.distance/2,this.x+this.r,this.y);
+                this.ctx.closePath();
+                this.ctx.fill();
+            },
+            setDistance:function(d){
+                this.distance = d;
+                this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+                this.drawBigCircle();
+                this.drawSmallCircle();
+                this.drawTransition();
+            }
+        };
+
+        var drip = new Drip("#dripCanvas" ,30);
+
+        var distance = 0,step =1;
+        function tick() {
+            ( distance > 80 || distance < 0) && (step *= -1);
+            distance += step;
+
+            drip.setDistance(distance);
+            requestAnimationFrame(tick);
+        }
+
+        tick();
+    </script>
+
+    <a href="https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs" target="_blank" style="position: absolute; right: 0; top: 0;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="" />
+    </a>
+</body>
+</html>
