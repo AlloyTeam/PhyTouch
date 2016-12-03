@@ -250,7 +250,7 @@
            // console.log(value);
         },
         touchMove:function(evt,value) {
-            if (value > 10) {
+            if (value > 70) {
                 //http://caniuse.com/#search=classList
                 arrow.classList.add("arrow_up");
                 wording.innerHTML ="Release to refresh";
@@ -260,8 +260,8 @@
             }
         },
         touchEnd:function(evt,value) {
-            if (value > 10) {
-                this.go(0);
+            if (value > 70) {
+                this.go(60);
                 pull_refresh.classList.add("refreshing");
                 var self = this;
                 setTimeout(function(){
