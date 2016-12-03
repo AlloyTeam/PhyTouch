@@ -72,11 +72,11 @@
             z-index: 1;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
             width: 100%;
-            -webkit-transform: translateY(-60px);
-            -moz-transform: translateY(-60px);
-            -ms-transform: translateY(-60px);
-            -o-transform: translateY(-60px);
-            transform: translateY(-60px);
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            -o-transform: translateZ(0);
+            transform: translateZ(0);
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -87,6 +87,7 @@
             -ms-text-size-adjust: none;
             -o-text-size-adjust: none;
             text-size-adjust: none;
+            top: 62px;
         }
 
         #scroller ul {
@@ -241,9 +242,9 @@
         vertical: true,//不必需，默认是true代表监听竖直方向touch
         target: target, //运动的对象
         property: "translateY",  //被滚动的属性
-        initial_vaule :-60,
-        min: window.innerHeight - 45 - 48 - 2000 -60, //不必需,滚动属性的最小值
-        max: -60, //不必需,滚动属性的最大值
+        initial_vaule :0,
+        min: window.innerHeight - 45 - 48 - 2000 , //不必需,滚动属性的最小值
+        max: 0, //不必需,滚动属性的最大值
 
         animationEnd: function (value) {
            // console.log(value);
