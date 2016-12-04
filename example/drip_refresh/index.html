@@ -23,7 +23,7 @@
         Drip.prototype = {
             drawBigCircle:function(){
                 this.ctx.beginPath();
-                this.ctx.arc(this.x, this.y,  this.r, -Math.PI,0, false);
+                this.ctx.arc(this.x, this.y,  this.r-this.distance/7, -Math.PI,0, false);
 
                 this.ctx.fill();
             },
@@ -35,12 +35,12 @@
             },
             drawTransition:function(){
                 this.ctx.beginPath();
-                this.ctx.moveTo(this.x-this.r,this.y);
+                this.ctx.moveTo(this.x-this.r+this.distance/7,this.y);
                 this.ctx.quadraticCurveTo(this.x-this.r+this.distance/4,this.y+this.distance/2,this.x-this.r+this.distance/4,this.y+this.distance);
 
                 this.ctx.lineTo(this.x+this.r-this.distance/4,this.y+this.distance);
 
-                this.ctx.quadraticCurveTo(this.x+this.r-this.distance/4,this.y+this.distance/2,this.x+this.r,this.y);
+                this.ctx.quadraticCurveTo(this.x+this.r-this.distance/4,this.y+this.distance/2,this.x+this.r-this.distance/7,this.y);
                 this.ctx.closePath();
                 this.ctx.fill();
             },
@@ -57,7 +57,7 @@
 
         var distance = 0,step =1;
         function tick() {
-            ( distance > 80 || distance < 0) && (step *= -1);
+            ( distance > 90 || distance < 0) && (step *= -1);
             distance += step;
 
             drip.setDistance(distance);
