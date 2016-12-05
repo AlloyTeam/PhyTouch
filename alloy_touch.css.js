@@ -25,8 +25,7 @@
         throw 'please use a modern browser'
     }
 
-    var ease = 'cubic-bezier(0.1, 0.57, 0.1, 1)',
-        backEase = 'cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    var ease = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
 
     function reverseEase(y) {
         return 1 - Math.sqrt(1 - y * y);
@@ -65,15 +64,21 @@
         this.min = option.min;
         this.max = option.max;
 
+        this.maxRegion = 60;
+
         this.deceleration = 0.0006;
         //css版本不再支持change事件
         //this.change = option.change || function () { };
-        this.touchEnd = option.touchEnd || function () { };
-        this.touchStart = option.touchStart || function () { };
-        this.touchMove = option.touchMove || function () { };
-        this.animationEnd = option.animationEnd || function () { };
+        this.touchEnd = option.touchEnd || function () {
+            };
+        this.touchStart = option.touchStart || function () {
+            };
+        this.touchMove = option.touchMove || function () {
+            };
+        this.animationEnd = option.animationEnd || function () {
+            };
 
-        this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
+        this.preventDefaultException = {tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/};
         this.hasMin = !(this.min === undefined);
         this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
@@ -104,16 +109,25 @@
 
     AlloyTouch.prototype = {
         _transitionEnd: function () {
+            var current = this.scroller[this.property];
+            if (current < this.min) {
+                this.to(this.min, 600, ease);
+                return;
+            } else if (current > this.max) {
+                this.to(this.max, 600, ease);
+                return;
+            }
+
             if (this.step) {
                 this.correction();
                 if (this._endCallbackTag) {
                     this._endTimeout = setTimeout(function () {
-                        this.animationEnd(this.scroller[this.property]);
+                        this.animationEnd(current);
                     }.bind(this), 400);
                     this._endCallbackTag = false;
                 }
             } else {
-                this.animationEnd(this.scroller[this.property]);
+                this.animationEnd(current);
             }
         },
         _cancelAnimation: function () {
@@ -194,17 +208,17 @@
                             speed2 = this.factor * speed,
                             destination = this.scroller[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
                         var tRatio = 1;
-                        if (destination < this.min) {
-                            tRatio = reverseEase((this.scroller[this.property] - this.min) / (this.scroller[this.property] - destination));
-                            destination = this.min;
+                        if (destination < this.min - this.maxRegion) {
+                            tRatio = reverseEase((this.scroller[this.property] - this.min + this.maxRegion) / (this.scroller[this.property] - destination));
+                            destination = this.min - this.maxRegion;
 
-                        } else if (destination > this.max) {
-                            tRatio = reverseEase((this.max - this.scroller[this.property]) / (destination - this.scroller[this.property]));
-                            destination = this.max;
+                        } else if (destination > this.max + this.maxRegion) {
+                            tRatio = reverseEase((this.max + this.maxRegion - this.scroller[this.property]) / (destination - this.scroller[this.property]));
+                            destination = this.max + this.maxRegion;
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
-                        if (tRatio !== 1) duration += 600;
-                        self.to(Math.round(destination), duration, (tRatio === 1) ? ease : backEase);
+
+                        self.to(Math.round(destination), duration, ease);
                     } else {
                         if (self.step) {
                             self.correction();
