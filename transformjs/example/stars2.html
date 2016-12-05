@@ -18,10 +18,6 @@
             top: 50%;
             width: 100%;
             height: 100%;
-            transform-style: preserve-3d;
-            -webkit-transform-style: preserve-3d;
-            perspective-origin: 50% 50%;
-            perspective: 10000px;
 
         }
     </style>
@@ -85,7 +81,7 @@
                 img.style.top = "0px";
                 img.src = "../asset/star.png";
                 ctn.appendChild(img);
-                Transform(img);
+                Transform(img,false);
 
                 transformImg(img,i);
 
