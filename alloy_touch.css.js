@@ -100,12 +100,12 @@
         this._endCallbackTag = true;
 
         this._endTimeout = null;
-    }
+    };
 
     AlloyTouch.prototype = {
         _transitionEnd: function () {
             if (this.step) {
-                this.correction(this.scroller, this.property);
+                this.correction();
                 if (this._endCallbackTag) {
                     this._endTimeout = setTimeout(function () {
                         this.animationEnd(this.scroller[this.property]);
@@ -182,9 +182,9 @@
                 var self = this;
                 this.touchEnd(this.scroller[this.property]);
                 if (this.hasMax && this.scroller[this.property] > this.max) {
-                    this.to(this.scroller, this.property, this.max, 600, ease);
+                    this.to(this.max, 600, ease);
                 } else if (this.hasMin && this.scroller[this.property] < this.min) {
-                    this.to(this.scroller, this.property, this.min, 600, ease);
+                    this.to(this.min, 600, ease);
                 } else if (this.inertia) {
                     var dt = new Date().getTime() - this.startTime;
                     if (dt < 300) {
@@ -204,15 +204,15 @@
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
                         if (tRatio !== 1) duration += 600;
-                        self.to(this.scroller, this.property, Math.round(destination), duration, (tRatio === 1) ? ease : backEase);
+                        self.to(Math.round(destination), duration, (tRatio === 1) ? ease : backEase);
                     } else {
                         if (self.step) {
-                            self.correction(self.scroller, self.property);
+                            self.correction();
                         }
                     }
                 } else {
                     if (self.step) {
-                        self.correction(self.scroller, self.property);
+                        self.correction();
                     }
                 }
                 if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
@@ -223,15 +223,17 @@
         },
         _cancel: function () {
             if (this.step) {
-                this.correction(this.scroller, this.property);
+                this.correction();
             }
         },
-        to: function (el, property, value, time, ease) {
+        to: function (value, time, ease) {
+            var el = this.scroller,
+                property = this.property;
             el.style[transitionDuration] = time + 'ms';
             el.style[transitionTimingFunction] = ease;
             el[property] = value;
         },
-        correction: function (el, property) {
+        correction: function () {
             var m_str = window.getComputedStyle(this.scroller)[transform];
             var value = this.vertical ? parseInt(m_str.split(',')[13]) : parseInt(m_str.split(',')[12]);
             var rpt = Math.floor(Math.abs(value / this.step));
@@ -240,12 +242,12 @@
                 var result = (value < 0 ? -1 : 1) * (rpt + 1) * this.step;
                 if (result > this.max) result = this.max;
                 if (result < this.min) result = this.min;
-                this.to(el, property, result, 400, ease);
+                this.to(result, 400, ease);
             } else {
                 var result = (value < 0 ? -1 : 1) * rpt * this.step;
                 if (result > this.max) result = this.max;
                 if (result < this.min) result = this.min;
-                this.to(el, property, result, 400, ease);
+                this.to(result, 400, ease);
             }
         },
         destroy: function () {
