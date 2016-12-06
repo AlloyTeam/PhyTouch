@@ -40,7 +40,7 @@
     var text = "AlloyTouch",
 
             height = 20,
-            size = 30,
+            size = 28,
             hover = 30,
 
             curveSegments = 4,
@@ -52,7 +52,7 @@
 
             font = undefined,
 
-            fontName = "optimer", // helvetiker, optimer, gentilis, droid sans, droid serif
+            fontName = "helvetiker", // helvetiker, optimer, gentilis, droid sans, droid serif
             fontWeight = "bold"; // normal bold
 
     var mirror = true;
@@ -228,7 +228,7 @@
     function loadFont() {
 
         var loader = new THREE.FontLoader();
-        loader.load( 'asset/' + fontName + '_' + fontWeight + '.typeface.json', function ( response ) {
+        loader.load( 'asset/helvetiker_' + fontWeight + '.typeface.json', function ( response ) {
 
             font = response;
 
