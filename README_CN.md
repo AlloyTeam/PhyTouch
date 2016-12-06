@@ -79,7 +79,6 @@ new Vue({
 ```
 # 感谢
 - [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
-- [iscroll](https://github.com/cubiq/iscroll)
 
 # 谁用AlloyTouch?
 

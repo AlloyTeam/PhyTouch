@@ -10,27 +10,24 @@
 
         var img_list = [],
          center = {x: 300, y: 300, z: 0},
-         camera_position = {x: 300, y: 300, z: 400},
+         camera_position = {x: 300, y: 300, z: 500},
          r = 250,
          distance = 300,
          positions = [],
+         rd_positions=[],
          step_angle =  Math.PI/180,
          size=400;
 
         function randomPoints() {
-            var xTemp;
-            var yTemp;
-            var zTemp;
-            var i;
-            var j = -1;
-            i = 0;
+            var x, y, z, j = -1, i = 0;
             for (; i < size; i++) {
-                xTemp = getRandomNumber(-250, 250);
-                yTemp = getRandomNumber(-250, 250);
+                x = getRandomNumber(-250, 250);
+                y = getRandomNumber(-250, 250);
                 j *= -1;
-                if (xTemp * xTemp + yTemp * yTemp <= r * r) {
-                    zTemp = j * Math.sqrt(Math.abs(r * r - xTemp * xTemp - yTemp * yTemp));
-                    positions.push({x: xTemp, y: yTemp, z: zTemp});
+                if (x * x + y * y <= r * r) {
+                    z = j * Math.sqrt(Math.abs(r * r - x * x - y * y));
+                    positions.push({x: x, y: y, z: z});
+                    rd_positions.push({x: x, y: y, z: z});
                 }
             }
         }
@@ -64,7 +61,7 @@
                 img.style.top = "0px";
                 img.src = "../asset/star.png";
                 document.body.appendChild(img);
-                Transform(img);
+                Transform(img,true);
 
                 transformImg(img,i);
 
@@ -74,8 +71,8 @@
 
         function transformImg(img, i) {
             var z = positions[i].z;
-            img.translateX = center.x + positions[i].x;
-            img.translateY = center.x + positions[i].y;
+            img.translateX = center.x + rd_positions[i].x;
+            img.translateY = center.x + rd_positions[i].y;
             //projection
             img.scaleX = img.scaleY = 0.5 * distance / Math.abs(camera_position.z - z);
             img.style.opacity =0.1+ 1 - (r - z) / (2 * r);
@@ -89,8 +86,25 @@
             }
         }
 
+        function positionsProjection() {
+
+            var index = 0,
+                    len=positions.length;
+            for (; index < len; index++) {
+                var p = positions[index];
+                var rp = rd_positions[index];
+                //perspective projection
+                //rp.x = p.x * distance / Math.abs(camera_position.z - p.z);
+                //rp.y =  p.y * distance / Math.abs(camera_position.z - p.z);
+                //orthogonal projection
+                rp.x = p.x ;
+                rp.y =  p.y ;
+            }
+        }
+
         function tick() {
             rotate();
+            positionsProjection();
             render();
             requestAnimationFrame(tick);
         }
@@ -98,11 +112,12 @@
         (function () {
             randomPoints();
             createImgs();
+            positionsProjection();
             tick();
         })();
 
     </script>
-    <a href="https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs" target="_blank" style="position: absolute; right: 0; top: 0;">
+    <a href="https://github.com/AlloyTeam/AlloyTouch/blob/master/transformjs/example/stars.html" target="_blank" style="position: absolute; right: 0; top: 0;">
         <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="" />
     </a>
 </body>

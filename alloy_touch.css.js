@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.1.0
+﻿/* AlloyTouch v0.1.2
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -25,8 +25,7 @@
         throw 'please use a modern browser'
     }
 
-    var ease = 'cubic-bezier(0.1, 0.57, 0.1, 1)',
-        backEase = 'cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    var ease = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
 
     function reverseEase(y) {
         return 1 - Math.sqrt(1 - y * y);
@@ -52,34 +51,40 @@
     var AlloyTouch = function (option) {
         this.scroller = option.target;
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
-        this.vertical = option.vertical;
-        this.vertical === undefined && (this.vertical = true);
+        this.vertical = this._getValue(option.vertical,true) ;
         this.property = option.property;
-        this.preventDefault = option.preventDefault;
-        this.preventDefault === undefined && (this.preventDefault = true);
-        this.sensitivity = option.sensitivity === undefined ? 1 : option.sensitivity;
-        this.factor = option.factor === undefined ? 1 : option.factor;
-        this.sMf = this.sensitivity * this.factor;
-        //拖动时候的摩擦因子
-        this.factor1 = 1;
+        this.preventDefault = this._getValue(option.preventDefault,true) ;
+        this.sensitivity =  this._getValue(option.sensitivity,1);
+
+
+        this.moveFactor = this._getValue(option.moveFactor, 1);
+        this.factor = this._getValue(option.factor, 1);
+        this.sf = this.sensitivity * this.factor;
+        this.outFactor =  this._getValue(option.outFactor, 0.3);
+
         this.min = option.min;
         this.max = option.max;
+
+        this.maxRegion = this._getValue(option.maxRegion,60);
 
         this.deceleration = 0.0006;
         //css版本不再支持change事件
         //this.change = option.change || function () { };
-        this.touchEnd = option.touchEnd || function () { };
-        this.touchStart = option.touchStart || function () { };
-        this.touchMove = option.touchMove || function () { };
-        this.animationEnd = option.animationEnd || function () { };
+        this.touchEnd = option.touchEnd || function () {
+            };
+        this.touchStart = option.touchStart || function () {
+            };
+        this.touchMove = option.touchMove || function () {
+            };
+        this.animationEnd = option.animationEnd || function () {
+            };
 
-        this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
+        this.preventDefaultException = {tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/};
         this.hasMin = !(this.min === undefined);
         this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
         this.step = option.step;
-        this.inertia = option.inertia;
-        this.inertia === undefined && (this.inertia = true);
+        this.inertia = this._getValue(option.inertia,true);
 
         if (this.hasMax && this.hasMin) {
             if (this.min > this.max) throw "min value can't be greater than max value";
@@ -100,20 +105,32 @@
         this._endCallbackTag = true;
 
         this._endTimeout = null;
-    }
+    };
 
     AlloyTouch.prototype = {
+        _getValue: function (obj, defaultValue) {
+            return obj === undefined ? defaultValue : obj;
+        },
         _transitionEnd: function () {
+            var current = this.scroller[this.property];
+            if (current < this.min) {
+                this.to(this.min, 600, ease);
+                return;
+            } else if (current > this.max) {
+                this.to(this.max, 600, ease);
+                return;
+            }
+
             if (this.step) {
-                this.correction(this.scroller, this.property);
+                this.correction();
                 if (this._endCallbackTag) {
                     this._endTimeout = setTimeout(function () {
-                        this.animationEnd(this.scroller[this.property]);
+                        this.animationEnd(current);
                     }.bind(this), 400);
                     this._endCallbackTag = false;
                 }
             } else {
-                this.animationEnd(this.scroller[this.property]);
+                this.animationEnd(current);
             }
         },
         _cancelAnimation: function () {
@@ -150,16 +167,16 @@
                     this._firstTouchMove = false;
                 }
                 if (dx < 10 && dy < 10) return;
+
                 if (this._preventMoveDefault) {
-                    var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sMf;
+                    var f = this.moveFactor;
+                    var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sf;
                     if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
-                        this.factor1 = 0.3;
+                        f = this.outFactor;
                     } else if (this.hasMin && this.scroller[this.property] < this.min && d < 0) {
-                        this.factor1 = 0.3;
-                    } else {
-                        this.factor1 = 1;
+                        f = this.outFactor;
                     }
-                    d *= this.factor1;
+                    d *= f;
                     this.preX = evt.touches[0].pageX;
                     this.preY = evt.touches[0].pageY;
                     this.scroller[this.property] += d;
@@ -182,9 +199,9 @@
                 var self = this;
                 this.touchEnd(this.scroller[this.property]);
                 if (this.hasMax && this.scroller[this.property] > this.max) {
-                    this.to(this.scroller, this.property, this.max, 200, ease);
+                    this.to(this.max, 600, ease);
                 } else if (this.hasMin && this.scroller[this.property] < this.min) {
-                    this.to(this.scroller, this.property, this.min, 200, ease);
+                    this.to(this.min, 600, ease);
                 } else if (this.inertia) {
                     var dt = new Date().getTime() - this.startTime;
                     if (dt < 300) {
@@ -194,25 +211,25 @@
                             speed2 = this.factor * speed,
                             destination = this.scroller[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
                         var tRatio = 1;
-                        if (destination < this.min) {
-                            tRatio = reverseEase((this.scroller[this.property] - this.min) / (this.scroller[this.property] - destination));
-                            destination = this.min;
+                        if (destination < this.min - this.maxRegion) {
+                            tRatio = reverseEase((this.scroller[this.property] - this.min + this.maxRegion) / (this.scroller[this.property] - destination));
+                            destination = this.min - this.maxRegion;
 
-                        } else if (destination > this.max) {
-                            tRatio = reverseEase((this.max - this.scroller[this.property]) / (destination - this.scroller[this.property]));
-                            destination = this.max;
+                        } else if (destination > this.max + this.maxRegion) {
+                            tRatio = reverseEase((this.max + this.maxRegion - this.scroller[this.property]) / (destination - this.scroller[this.property]));
+                            destination = this.max + this.maxRegion;
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
-                        if (tRatio !== 1) duration += 600;
-                        self.to(this.scroller, this.property, Math.round(destination), duration, (tRatio === 1) ? ease : backEase);
+
+                        self.to(Math.round(destination), duration, ease);
                     } else {
                         if (self.step) {
-                            self.correction(self.scroller, self.property);
+                            self.correction();
                         }
                     }
                 } else {
                     if (self.step) {
-                        self.correction(self.scroller, self.property);
+                        self.correction();
                     }
                 }
                 if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
@@ -223,29 +240,32 @@
         },
         _cancel: function () {
             if (this.step) {
-                this.correction(this.scroller, this.property);
+                this.correction();
             }
         },
-        to: function (el, property, value, time, ease) {
+        to: function (value, time, ease) {
+            var el = this.scroller,
+                property = this.property;
             el.style[transitionDuration] = time + 'ms';
             el.style[transitionTimingFunction] = ease;
             el[property] = value;
         },
-        correction: function (el, property) {
+        correction: function () {
             var m_str = window.getComputedStyle(this.scroller)[transform];
             var value = this.vertical ? parseInt(m_str.split(',')[13]) : parseInt(m_str.split(',')[12]);
             var rpt = Math.floor(Math.abs(value / this.step));
             var dy = value % this.step;
+            var result;
             if (Math.abs(dy) > this.step / 2) {
-                var result = (value < 0 ? -1 : 1) * (rpt + 1) * this.step;
+                result = (value < 0 ? -1 : 1) * (rpt + 1) * this.step;
                 if (result > this.max) result = this.max;
                 if (result < this.min) result = this.min;
-                this.to(el, property, result, 400, ease);
+                this.to(result, 400, ease);
             } else {
-                var result = (value < 0 ? -1 : 1) * rpt * this.step;
+                result = (value < 0 ? -1 : 1) * rpt * this.step;
                 if (result > this.max) result = this.max;
                 if (result < this.min) result = this.min;
-                this.to(el, property, result, 400, ease);
+                this.to(result, 400, ease);
             }
         },
         destroy: function () {

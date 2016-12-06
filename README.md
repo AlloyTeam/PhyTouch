@@ -45,7 +45,6 @@ new AlloyTouch({
 
 # Many thanks to 
 - [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
-- [iscroll](https://github.com/cubiq/iscroll)
 
 # Who is using AlloyTouch?
 
