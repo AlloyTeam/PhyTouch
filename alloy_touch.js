@@ -64,9 +64,10 @@
         this.target[this.property] = this.initial_vaule;
 
         this.sensitivity = this._getValue(option.sensitivity, 1);
+        this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
         this.sf = this.sensitivity * this.factor;
-        this.dragFactor = 1;
+        this.outFactor =  this._getValue(option.outFactor, 0.3);
         this.min = option.min;
         this.max = option.max;
         this.deceleration = 0.0006;
@@ -127,14 +128,13 @@
                 }
                 if (this._preventMoveDefault) {
                     var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sf;
+                    var f = this.moveFactor;
                     if (this.hasMax && this.target[this.property] > this.max && d > 0) {
-                        this.dragFactor = 0.3;
+                        f = this.outFactor;
                     } else if (this.hasMin && this.target[this.property] < this.min && d < 0) {
-                        this.dragFactor = 0.3;
-                    } else {
-                        this.dragFactor = 1;
+                        f = this.outFactor;
                     }
-                    d *= this.dragFactor;
+                    d *= f;
                     this.preX = evt.touches[0].pageX;
                     this.preY = evt.touches[0].pageY;
                     this.target[this.property] += d;
