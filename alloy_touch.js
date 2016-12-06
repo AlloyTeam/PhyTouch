@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.1.1
+﻿/* AlloyTouch v0.1.2
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -40,9 +40,10 @@
         return Math.sqrt(1 - Math.pow(x - 1, 2));
     }
 
-    function quadratic(k) {
-        return k * ( 2 - k );
+    function reverseEase(y) {
+        return 1 - Math.sqrt(1 - y * y);
     }
+
 
     function preventDefaultTest(el, exceptions) {
         for (var i in exceptions) {
@@ -71,6 +72,7 @@
         this.min = option.min;
         this.max = option.max;
         this.deceleration = 0.0006;
+        this.maxRegion = this._getValue(option.maxRegion,60);
 
         var noop = function () {
         };
@@ -197,38 +199,41 @@
                     }.bind(this));
                 } else if (this.inertia) {
                     //var y = evt.changedTouches[0].pageY;
-                    var duration = new Date().getTime() - this.startTime;
-                    if (duration < 300) {
+                    var dt = new Date().getTime() - this.startTime;
+                    if (dt < 300) {
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
-                            speed = Math.abs(distance) / duration,
+                            speed = Math.abs(distance) / dt,
                             speed2 = this.factor * speed,
                             destination = this.target[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
-                        var end = Math.round(destination);
-                        var currentEase = ease;
-                        if (end > this.max || end < this.min)currentEase = quadratic;
 
-                        self.to(end, Math.round(speed / self.deceleration), currentEase, function (value) {
+                        var tRatio = 1;
+                        if (destination < this.min - this.maxRegion) {
+                            tRatio = reverseEase((this.target[this.property] - this.min + this.maxRegion) / (this.target[this.property] - destination));
+                            destination = this.min - this.maxRegion;
 
+                        } else if (destination > this.max + this.maxRegion) {
+                            tRatio = reverseEase((this.max + this.maxRegion - this.target[this.property]) / (destination - this.target[this.property]));
+                            destination = this.max + this.maxRegion;
+                        }
+                        var duration = Math.round(speed / self.deceleration) * tRatio;
+
+                        self.to(Math.round(destination), duration, ease,self.change,function (value) {
                             if (self.hasMax && self.target[self.property] > self.max) {
-                                setTimeout(function () {
+
                                     cancelAnimationFrame(self.tickID);
                                     self.to(self.max, 600, ease, self.change, self.animationEnd);
-                                }, 50);
+
                             } else if (self.hasMin && self.target[self.property] < self.min) {
-                                setTimeout(function () {
+
                                     cancelAnimationFrame(self.tickID);
                                     self.to(self.min, 600, ease, self.change, self.animationEnd);
-                                }, 50);
+
                             }
 
                             self.change.call(this, value);
-                        }, function () {
-                            if (self.step) {
-                                self.correction();
-                            } else {
-                                self.animationEnd.call(self, self.target[self.property]);
-                            }
                         });
+
+
                     } else {
                         self.correction();
                     }

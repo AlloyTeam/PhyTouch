@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.1.0
+﻿/* AlloyTouch v0.1.2
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -51,20 +51,21 @@
     var AlloyTouch = function (option) {
         this.scroller = option.target;
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
-        this.vertical = option.vertical;
-        this.vertical === undefined && (this.vertical = true);
+        this.vertical = this._getValue(option.vertical,true) ;
         this.property = option.property;
-        this.preventDefault = option.preventDefault;
-        this.preventDefault === undefined && (this.preventDefault = true);
-        this.sensitivity = option.sensitivity === undefined ? 1 : option.sensitivity;
-        this.factor = option.factor === undefined ? 1 : option.factor;
-        this.sMf = this.sensitivity * this.factor;
-        //拖动时候的摩擦因子
-        this.factor1 = 1;
+        this.preventDefault = this._getValue(option.preventDefault,true) ;
+        this.sensitivity =  this._getValue(option.sensitivity,1);
+
+
+        this.moveFactor = this._getValue(option.moveFactor, 1);
+        this.factor = this._getValue(option.factor, 1);
+        this.sf = this.sensitivity * this.factor;
+        this.outFactor =  this._getValue(option.outFactor, 0.3);
+
         this.min = option.min;
         this.max = option.max;
 
-        this.maxRegion = 60;
+        this.maxRegion = this._getValue(option.maxRegion,60);
 
         this.deceleration = 0.0006;
         //css版本不再支持change事件
@@ -83,8 +84,7 @@
         this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
         this.step = option.step;
-        this.inertia = option.inertia;
-        this.inertia === undefined && (this.inertia = true);
+        this.inertia = this._getValue(option.inertia,true);
 
         if (this.hasMax && this.hasMin) {
             if (this.min > this.max) throw "min value can't be greater than max value";
@@ -108,6 +108,9 @@
     };
 
     AlloyTouch.prototype = {
+        _getValue: function (obj, defaultValue) {
+            return obj === undefined ? defaultValue : obj;
+        },
         _transitionEnd: function () {
             var current = this.scroller[this.property];
             if (current < this.min) {
@@ -164,16 +167,16 @@
                     this._firstTouchMove = false;
                 }
                 if (dx < 10 && dy < 10) return;
+
                 if (this._preventMoveDefault) {
-                    var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sMf;
+                    var f = this.moveFactor;
+                    var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sf;
                     if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
-                        this.factor1 = 0.3;
+                        f = this.outFactor;
                     } else if (this.hasMin && this.scroller[this.property] < this.min && d < 0) {
-                        this.factor1 = 0.3;
-                    } else {
-                        this.factor1 = 1;
+                        f = this.outFactor;
                     }
-                    d *= this.factor1;
+                    d *= f;
                     this.preX = evt.touches[0].pageX;
                     this.preY = evt.touches[0].pageY;
                     this.scroller[this.property] += d;
@@ -252,13 +255,14 @@
             var value = this.vertical ? parseInt(m_str.split(',')[13]) : parseInt(m_str.split(',')[12]);
             var rpt = Math.floor(Math.abs(value / this.step));
             var dy = value % this.step;
+            var result;
             if (Math.abs(dy) > this.step / 2) {
-                var result = (value < 0 ? -1 : 1) * (rpt + 1) * this.step;
+                result = (value < 0 ? -1 : 1) * (rpt + 1) * this.step;
                 if (result > this.max) result = this.max;
                 if (result < this.min) result = this.min;
                 this.to(result, 400, ease);
             } else {
-                var result = (value < 0 ? -1 : 1) * rpt * this.step;
+                result = (value < 0 ? -1 : 1) * rpt * this.step;
                 if (result > this.max) result = this.max;
                 if (result < this.min) result = this.min;
                 this.to(result, 400, ease);
