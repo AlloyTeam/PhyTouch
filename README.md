@@ -42,7 +42,7 @@ new AlloyTouch({
 - 3D : [http://alloyteam.github.io/AlloyTouch/3d.html](http://alloyteam.github.io/AlloyTouch/example/3d.html)
 - Rotate : [http://alloyteam.github.io/AlloyTouch/rotate.html](http://alloyteam.github.io/AlloyTouch/example/rotate.html)
 - Carousel : [http://alloyteam.github.io/AlloyTouch/carousel.html](http://alloyteam.github.io/AlloyTouch/example/carousel.html)
-- Three.js : [http://alloyteam.github.io/AlloyTouch/example/threejs/)
+- Three.js : [http://alloyteam.github.io/AlloyTouch/example/threejs/](http://alloyteam.github.io/AlloyTouch/example/threejs/)
 
 # Many thanks to 
 - [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
