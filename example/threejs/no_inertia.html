@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AlloyTouch + three.js</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            font-family: Monospace;
+            background-color: #000;
+            color: #fff;
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<a href="https://github.com/AlloyTeam/AlloyTouch/blob/master/example/threejs/index.html" target="_blank" style="position: absolute; right: 0; top: 0;z-index: 100;">
+    <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="" />
+</a>
+<script src="asset/three.js"></script>
+
+<script src="../../alloy_touch.js"></script>
+
+<script>
+
+    var camera, scene, renderer;
+    var mesh;
+
+    init();
+    animate();
+
+    function init() {
+
+        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+        camera.position.z = 500;
+
+        scene = new THREE.Scene();
+
+        var texture = new THREE.TextureLoader().load( 'asset/crate.gif' );
+
+        var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
+        var material = new THREE.MeshBasicMaterial( { map: texture } );
+
+        mesh = new THREE.Mesh( geometry, material );
+        scene.add( mesh );
+
+        renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio( window.devicePixelRatio );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+
+        window.addEventListener( 'resize', onWindowResize, false );
+
+    }
+
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+    }
+
+    function animate() {
+        requestAnimationFrame( animate );
+        renderer.render( scene, camera );
+    }
+
+    new AlloyTouch({
+        touch: document,
+        vertical: false,
+        target: mesh.rotation,
+        property: "y",
+        factor: 0.08,
+        moveFactor: 0.2,
+        preventDefault: false,
+        inertia: false
+    })
+</script>
+
+
+</body>
+</html>
