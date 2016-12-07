@@ -89,8 +89,11 @@
                 var step_v = index * this.step * -1;
                 var dx = v - step_v;
 
-                console.log(v)
-                if (Math.abs(dx) < 30) {
+                if (v < this.min) {
+                    this.go(this.min);
+                } else if (v > this.max) {
+                    this.go(this.max);
+                } else if (Math.abs(dx) < 30) {
                     this.go(step_v);
 
                 }
@@ -105,11 +108,11 @@
                 return false;
 
             },
-            animationEnd: function (v, page) {
+            animationEnd: function (evt , v) {
                 var i = 0,
                     len = items.length;
                 for (; i < len; i++) {
-                    if (i === page) {
+                    if (i === this.currentPage) {
                         items[i].classList.add("active");
                     } else {
                         items[i].classList.remove("active");

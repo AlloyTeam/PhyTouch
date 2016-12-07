@@ -168,11 +168,12 @@
                 this.correction();
             }
         },
-        go: function (v) {
-            this.to(v, 400, ease, this.change, function (value) {
+        go: function (v, time ,user_ease) {
+           
+            this.to(v, this._getValue(time, 600), user_ease || ease , this.change, function (value) {
                 this._calculateIndex();
-                this.reboundEnd.call(this, value, this.currentPage);
-                this.animationEnd.call(this, value, this.currentPage);
+                this.reboundEnd.call(this, value);
+                this.animationEnd.call(this, value);
 
             }.bind(this));
 
@@ -279,14 +280,14 @@
             if (Math.abs(dy) > this.step / 2) {
                 this.to((value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease, this.change, function (value) {
                     this._calculateIndex();
-                    this.correctionEnd.call(this, value, this.currentPage);
-                    this.animationEnd.call(this, value, this.currentPage);
+                    this.correctionEnd.call(this, value);
+                    this.animationEnd.call(this, value);
                 }.bind(this));
             } else {
                 this.to((value < 0 ? -1 : 1) * rpt * this.step, 400, ease, this.change, function (value) {
                     this._calculateIndex();
-                    this.correctionEnd.call(this, value, this.currentPage);
-                    this.animationEnd.call(this, value, this.currentPage);
+                    this.correctionEnd.call(this, value);
+                    this.animationEnd.call(this, value);
                 }.bind(this));
             }
         }
