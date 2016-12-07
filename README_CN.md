@@ -43,7 +43,7 @@ new AlloyTouch({
 - Rotate Demo: [http://alloyteam.github.io/AlloyTouch/rotate.html](http://alloyteam.github.io/AlloyTouch/example/rotate.html) 
 - Carousel Demo: [http://alloyteam.github.io/AlloyTouch/carousel.html](http://alloyteam.github.io/AlloyTouch/example/carousel.html) 
 
-## Vue2 Version（暂时不支持Vue1）
+## Vue1 & Vue2 Version
 
 ### Demo(Mobile)
 
