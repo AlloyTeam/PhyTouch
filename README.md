@@ -48,7 +48,8 @@ new AlloyTouch({
 
 ### Demo(Mobile)
 
-- ScrollList: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/)
+- ScrollList Vue1: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/vue1)
+- ScrollList Vue2: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/vue2)
 
 ```html
 <div id="wrapper" v-alloytouch="{options: options, methods:{animationEnd: onAnimationEnd}}">

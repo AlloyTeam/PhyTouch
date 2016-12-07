@@ -47,7 +47,8 @@ new AlloyTouch({
 
 ### Demo(Mobile)
 
-- 滚动列表: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/)
+- 滚动列表Vue1: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/vue1)
+- 滚动列表Vue2: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/vue2)
 
 
 ```html
