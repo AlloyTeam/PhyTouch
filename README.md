@@ -43,6 +43,48 @@ new AlloyTouch({
 - Rotate Demo: [http://alloyteam.github.io/AlloyTouch/rotate.html](http://alloyteam.github.io/AlloyTouch/example/rotate.html) 
 - Carousel Demo: [http://alloyteam.github.io/AlloyTouch/carousel.html](http://alloyteam.github.io/AlloyTouch/example/carousel.html) 
 
+## Vue2 Version
+
+### Demo(Mobile)
+
+- ScrollList: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/)
+
+```html
+<div id="wrapper" v-alloytouch="{options: options, methods:{animationEnd: onAnimationEnd}}">
+      <div id="scroller" class="alloytouch-target">
+            <ul>
+            ...  
+            </ul>
+      </div>
+</div>
+```
+```js
+new Vue({
+      el: '#page',
+      data: {
+            options: {
+                  touch:"",//dom for touching
+                  target: '#scroller', //dom for transform
+                  vertical: true,
+                  property: "translateY",  
+                  sensitivity: 1,
+                  factor: 1,
+                  min: window.innerHeight - 45 - 48 - 2000, 
+                  max: 0, 
+                  step: 40
+            }
+      },
+      methods: {
+            onAnimationEnd(){
+                  console.log('onAnimationEnd')
+            }
+      },
+      //dynamic set property
+      //min: xxx,
+      //max: xxx
+});
+```
+
 # Many thanks to 
 - [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
 

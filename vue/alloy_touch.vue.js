@@ -21,8 +21,10 @@ vueAlloyTouch.install = function(Vue){
         throw new Error('you need include transform.js')
     }
 
+    var directiveBinding = null;
+
     if(isVue2){
-        Vue.directive('alloytouch',{
+        directiveBinding = {
             bind: function(el, binding){
                 //注册时的赋值 value, el已经挂载
                 var options = getAlloyTouchConfig(el, binding.value);
@@ -40,8 +42,30 @@ vueAlloyTouch.install = function(Vue){
             unbind: function(el){
                 el.__alloytouch__handle = null;
             }
-        });
+        };
+    }else {
+        directiveBinding = {
+            bind: function(){
+                this.el.__alloytouch__handle = null;
+            
+            } ,
+            update: function(binding){
+                if(!this.el.__alloytouch__handle){
+                    var options = getAlloyTouchConfig(this.el, binding);
+                    Transform(options.target);
+                    this.el.__alloytouch__handle = new AlloyTouch(options);
+                }else {
+                    this.el.__alloytouch__handle.min = binding.min;
+                    this.el.__alloytouch__handle.max = binding.max; 
+                }
+            },
+           unbind: function(){
+                this.el.__alloytouch__handle = null;
+           }
+        }
     }
+
+    Vue.directive('alloytouch', directiveBinding)
     function noop(){
 
     }
@@ -72,6 +96,12 @@ vueAlloyTouch.install = function(Vue){
             reboundEnd : methods.reboundEnd || noop,
             animationEnd : methods.animationEnd || noop,
             correctionEnd : methods.correctionEnd || noop
+        }
+        if(value.min !=undefined) {
+            result.min = value.min;
+        }
+        if(value.max !=undefined) {
+            result.max = value.max;
         }
         if(!!options.touch){
             var touchEl = el.querySelector(options.touch);
