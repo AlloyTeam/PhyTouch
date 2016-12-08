@@ -155,12 +155,12 @@
         _cancel: function (evt) {
             this.touchCancel.call(this, evt, this.target[this.property]);
             if (this.hasMax && this.target[this.property] > this.max) {
-                this.to(this.max, 200, ease, this.change, function (value) {
+                this._to(this.max, 200, ease, this.change, function (value) {
                     this.reboundEnd.call(this, value);
                     this.animationEnd.call(this, value);
                 }.bind(this));
             } else if (this.hasMin && this.target[this.property] < this.min) {
-                this.to(this.min, 200, ease, this.change, function (value) {
+                this._to(this.min, 200, ease, this.change, function (value) {
                     this.reboundEnd.call(this, value);
                     this.animationEnd.call(this, value);
                 }.bind(this));
@@ -168,9 +168,9 @@
                 this.correction();
             }
         },
-        go: function (v, time ,user_ease) {
+        to: function (v, time ,user_ease) {
            
-            this.to(v, this._getValue(time, 600), user_ease || ease , this.change, function (value) {
+            this._to(v, this._getValue(time, 600), user_ease || ease , this.change, function (value) {
                 this._calculateIndex();
                 this.reboundEnd.call(this, value);
                 this.animationEnd.call(this, value);
@@ -189,12 +189,12 @@
                 var self = this;
                 if (this.touchEnd.call(this, evt, this.target[this.property], this.currentPage) === false) return;
                 if (this.hasMax && this.target[this.property] > this.max) {
-                    this.to(this.max, 200, ease, this.change, function (value) {
+                    this._to(this.max, 200, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
                 } else if (this.hasMin && this.target[this.property] < this.min) {
-                    this.to(this.min, 200, ease, this.change, function (value) {
+                    this._to(this.min, 200, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
@@ -218,16 +218,16 @@
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
 
-                        self.to(Math.round(destination), duration, ease,self.change,function (value) {
+                        self._to(Math.round(destination), duration, ease,self.change,function (value) {
                             if (self.hasMax && self.target[self.property] > self.max) {
 
                                     cancelAnimationFrame(self.tickID);
-                                    self.to(self.max, 600, ease, self.change, self.animationEnd);
+                                    self._to(self.max, 600, ease, self.change, self.animationEnd);
 
                             } else if (self.hasMin && self.target[self.property] < self.min) {
 
                                     cancelAnimationFrame(self.tickID);
-                                    self.to(self.min, 600, ease, self.change, self.animationEnd);
+                                    self._to(self.min, 600, ease, self.change, self.animationEnd);
 
                             }
 
@@ -247,7 +247,7 @@
 
             }
         },
-        to: function (value, time, ease, onChange, onEnd) {
+        _to: function (value, time, ease, onChange, onEnd) {
             var el = this.target,
                 property = this.property;
             var current = el[property];
@@ -278,13 +278,13 @@
             var rpt = Math.floor(Math.abs(value / this.step));
             var dy = value % this.step;
             if (Math.abs(dy) > this.step / 2) {
-                this.to((value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease, this.change, function (value) {
+                this._to((value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease, this.change, function (value) {
                     this._calculateIndex();
                     this.correctionEnd.call(this, value);
                     this.animationEnd.call(this, value);
                 }.bind(this));
             } else {
-                this.to((value < 0 ? -1 : 1) * rpt * this.step, 400, ease, this.change, function (value) {
+                this._to((value < 0 ? -1 : 1) * rpt * this.step, 400, ease, this.change, function (value) {
                     this._calculateIndex();
                     this.correctionEnd.call(this, value);
                     this.animationEnd.call(this, value);

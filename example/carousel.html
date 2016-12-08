@@ -90,19 +90,19 @@
                 var dx = v - step_v;
 
                 if (v < this.min) {
-                    this.go(this.min);
+                    this.to(this.min);
                 } else if (v > this.max) {
-                    this.go(this.max);
+                    this.to(this.max);
                 } else if (Math.abs(dx) < 30) {
-                    this.go(step_v);
+                    this.to(step_v);
 
                 }
                 else if (dx > 0) {
-                    this.go(step_v + this.step);
+                    this.to(step_v + this.step);
 
                 } else {
 
-                    this.go(step_v - this.step);
+                    this.to(step_v - this.step);
                 }
 
                 return false;
