@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.1.2
+﻿/* AlloyTouch v0.1.3
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -44,7 +44,6 @@
         return 1 - Math.sqrt(1 - y * y);
     }
 
-
     function preventDefaultTest(el, exceptions) {
         for (var i in exceptions) {
             if (exceptions[i].test(el[i])) {
@@ -61,21 +60,20 @@
         this.property = option.property;
         this.tickID = 0;
 
-        this.initial_vaule = this._getValue(option.initial_vaule, this.target[this.property] );
-        this.target[this.property] = this.initial_vaule;
+        this.initialVaule = this._getValue(option.initialVaule, this.target[this.property]);
+        this.target[this.property] = this.initialVaule;
 
         this.sensitivity = this._getValue(option.sensitivity, 1);
         this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
         this.sf = this.sensitivity * this.factor;
-        this.outFactor =  this._getValue(option.outFactor, 0.3);
+        this.outFactor = this._getValue(option.outFactor, 0.3);
         this.min = option.min;
         this.max = option.max;
         this.deceleration = 0.0006;
-        this.maxRegion = this._getValue(option.maxRegion,60);
+        this.maxRegion = this._getValue(option.maxRegion, 60);
 
-        var noop = function () {
-        };
+        var noop = function () { };
         this.change = option.change || noop;
         this.touchEnd = option.touchEnd || noop;
         this.touchStart = option.touchStart || noop;
@@ -86,7 +84,7 @@
         this.correctionEnd = option.correctionEnd || noop;
 
         this.preventDefault = this._getValue(option.preventDefault, true);
-        this.preventDefaultException = {tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/};
+        this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
         this.hasMin = !(this.min === undefined);
         this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
@@ -165,16 +163,15 @@
                     this.animationEnd.call(this, value);
                 }.bind(this));
             } else {
-                this.correction();
+                this._correction();
             }
         },
-        to: function (v, time ,user_ease) {
-           
-            this._to(v, this._getValue(time, 600), user_ease || ease , this.change, function (value) {
+        to: function (v, time, user_ease) {
+
+            this._to(v, this._getValue(time, 600), user_ease || ease, this.change, function (value) {
                 this._calculateIndex();
                 this.reboundEnd.call(this, value);
                 this.animationEnd.call(this, value);
-
             }.bind(this));
 
         },
@@ -218,17 +215,19 @@
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
 
-                        self._to(Math.round(destination), duration, ease,self.change,function (value) {
+                        self._to(Math.round(destination), duration, ease, self.change, function (value) {
                             if (self.hasMax && self.target[self.property] > self.max) {
 
-                                    cancelAnimationFrame(self.tickID);
-                                    self._to(self.max, 600, ease, self.change, self.animationEnd);
+                                cancelAnimationFrame(self.tickID);
+                                self._to(self.max, 600, ease, self.change, self.animationEnd);
 
                             } else if (self.hasMin && self.target[self.property] < self.min) {
 
-                                    cancelAnimationFrame(self.tickID);
-                                    self._to(self.min, 600, ease, self.change, self.animationEnd);
+                                cancelAnimationFrame(self.tickID);
+                                self._to(self.min, 600, ease, self.change, self.animationEnd);
 
+                            } else {
+                                self._correction();
                             }
 
                             self.change.call(this, value);
@@ -236,10 +235,10 @@
 
 
                     } else {
-                        self.correction();
+                        self._correction();
                     }
                 } else {
-                    self.correction();
+                    self._correction();
                 }
                 if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
                     evt.preventDefault();
@@ -270,8 +269,8 @@
             };
             toTick();
         },
-        correction: function () {
-            if (this.step === undefined)return;
+        _correction: function () {
+            if (this.step === undefined) return;
             var el = this.target,
                 property = this.property;
             var value = el[property];
