@@ -87,6 +87,9 @@
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
         this.hasMin = !(this.min === undefined);
         this.hasMax = !(this.max === undefined);
+        if (this.hasMin && this.hasMax && this.min > this.max) {
+            throw "the min value can't be greater than the max value."
+        }
         this.isTouchStart = false;
         this.step = option.step;
         this.inertia = this._getValue(option.inertia, true);
