@@ -39,12 +39,12 @@
     <script src="../transformjs/transform.js"></script>
     <script src="../alloy_touch.js"></script>
     <script>
-        var scroll = document.querySelector("#carousel-scroller");
-        Transform(scroll);
+        var scroller = document.querySelector("#carousel-scroller");
+        Transform(scroller);
         new AlloyTouch({
             touch: "#carousel-container",//反馈触摸的dom
             vertical: false,//不必需，默认是true代表监听竖直方向touch
-            target: scroll, //运动的对象
+            target: scroller, //运动的对象
             property: "translateX",  //被运动的属性
             sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
             factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
