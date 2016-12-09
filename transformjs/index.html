@@ -5,7 +5,7 @@
     <link href="asset/index.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>transform.js</h1>
+    <h1 id="title" style="width:300px;">transform.js</h1>
     <p class="dir">Made css3 transform super easy.</p>
     <p>Supported properties(get and set): translateX, translateY, translateZ, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, skewX, skewY, originX, originY, originZ</p>
     <h2>Examples</h2>
@@ -220,6 +220,53 @@
             element7.skewY += skewStep;
 
         });
+    </script>
+
+    <script src="asset/to.js"></script>
+    <script src="asset/alloy_flow.js"></script>
+    <script>
+        var element = document.querySelector("#title");
+        Transform(element);
+        element.originY = 40;
+        element.translateY = 40;
+        element.skewX = -20;
+
+        function sineInOut(a) {
+            return 0.5 * (1 - Math.cos(Math.PI * a));
+        }
+
+        var alloyFlow = new AlloyFlow({
+            workflow: [
+                {
+                    work: function () {
+                        To.go(element, "scaleY", .8, 450, sineInOut);
+                        To.go(element, "skewX", 20, 900, sineInOut)
+                    },
+                    start: 0
+                }, {
+                    work: function () {
+                        To.go(element, "scaleY", 1, 450, sineInOut)
+                    },
+                    start: 450
+                }, {
+                    work: function () {
+                        To.go(element, "scaleY", .8, 450, sineInOut);
+                        To.go(element, "skewX", -20, 900, sineInOut)
+                    },
+                    start: 900
+                }, {
+                    work: function () {
+                        To.go(element, "scaleY", 1, 450, sineInOut);
+                    },
+                    start: 1350
+                }, {
+                    work: function () {
+                        this.start();
+                    },
+                    start: 1800
+                }
+            ]
+        }).start();
     </script>
 </body>
 </html>
