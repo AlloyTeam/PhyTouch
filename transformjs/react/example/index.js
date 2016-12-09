@@ -46,8 +46,6 @@
 
 	'use strict';
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -84,11 +82,11 @@
 	      el1: { rotateZ: 0 },
 	      el2: { rotateY: 0 },
 	      el3: { rotateX: 0 },
-	      el4: { originX: -50, originY: -50, rotateZ: 0 },
+	      el4: { rotateZ: 0 },
 	      el5: { rotateY: 0, rotateX: 0 },
 	      el6: { scaleX: 0, scaleY: 0 },
 	      el7: { translateX: 0 },
-	      el8: { rotateX: 0, rotateY: -150 },
+	      el8: { rotateX: 0 },
 	      el9: { skewX: 0 },
 	      el10: { skewY: 0 }
 	    };
@@ -144,7 +142,7 @@
 	        null,
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          this.state.el1,
+	          { rotateZ: this.state.el1.rotateZ },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': 'green' } },
@@ -153,7 +151,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          this.state.el2,
+	          { rotateY: this.state.el2.rotateY },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': 'red', 'left': '200px' } },
@@ -162,7 +160,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          _extends({}, this.state.el3, { notPerspective: true }),
+	          { rotateX: this.state.el3.rotateX, notPerspective: true },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': 'blue', 'left': '400px' } },
@@ -171,7 +169,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          this.state.el4,
+	          { originX: -50, originY: -50, rotateZ: this.state.el4.rotateZ },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': '#ff6a00', 'left': '600px' } },
@@ -180,7 +178,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          this.state.el5,
+	          { rotateY: this.state.el5.rotateY, rotateX: this.state.el5.rotateX },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': '#485f0f', 'left': '400px', 'top': '200px' } },
@@ -189,7 +187,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          this.state.el6,
+	          { scaleX: this.state.el6.scaleX, scaleY: this.state.el6.scaleY },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': '#485f0f', 'left': 0, 'top': '200px' } },
@@ -198,7 +196,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          this.state.el7,
+	          { translateX: this.state.el7.translateX },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': '#291996', 'left': '200px', 'top': '200px' } },
@@ -207,7 +205,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          this.state.el8,
+	          { rotateX: this.state.el8.rotateX, rotateY: -150 },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': '#291996', 'left': '600px', 'top': '200px' } },
@@ -216,7 +214,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          this.state.el9,
+	          { skewX: this.state.el9.skewX },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': '#291996', 'left': '200px', 'top': '400px' } },
@@ -225,7 +223,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactTransform2.default,
-	          this.state.el10,
+	          { skewY: this.state.el10.skewY },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'test', style: { 'backgroundColor': '#291996', 'left': '400px', 'top': '400px' } },
