@@ -42,6 +42,7 @@ new AlloyTouch({
 - 3D : [http://alloyteam.github.io/AlloyTouch/3d.html](http://alloyteam.github.io/AlloyTouch/example/3d.html)
 - Rotate : [http://alloyteam.github.io/AlloyTouch/rotate.html](http://alloyteam.github.io/AlloyTouch/example/rotate.html)
 - Carousel : [http://alloyteam.github.io/AlloyTouch/carousel.html](http://alloyteam.github.io/AlloyTouch/example/carousel.html)
+- Carousel2 : [http://alloyteam.github.io/AlloyTouch/carousel2.html](http://alloyteam.github.io/AlloyTouch/example/carousel2.html)
 - Three.js : [http://alloyteam.github.io/AlloyTouch/example/threejs/](http://alloyteam.github.io/AlloyTouch/example/threejs/)
 
 ## Vue1 & Vue2 Version
