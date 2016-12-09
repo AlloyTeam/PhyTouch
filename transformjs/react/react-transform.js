@@ -46,16 +46,16 @@ export default class Transform extends React.Component {
         if(this.el) this.target = transform(this.el, this.props.notPerspective);
     }
 
-    componentWillReceiveProps(nextProps) {
-        let diff = getDiff(this.props, nextProps);
-        if(!diff.length) return;
+    // componentWillReceiveProps(nextProps) {
+    //     let diff = getDiff(this.props, nextProps);
+    //     if(!diff.length) return;
 
-        if(this.target) {
-            diff.forEach((item) => {
-                this.target[item] = nextProps[item];
-            });
-        }
-    }
+    //     if(this.target) {
+    //         diff.forEach((item) => {
+    //             this.target[item] = nextProps[item];
+    //         });
+    //     }
+    // }
 
     render() {
         return <div 

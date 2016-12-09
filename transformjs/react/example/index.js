@@ -80,16 +80,18 @@
 	    _this.xStep = 3;
 	    _this.skewStep = 1;
 
-	    var state = {};
-	    for (var i = 0; i <= 10; i++) {
-	      state['el' + i] = {};
-	    }
-
-	    state.el4.originX = -50;
-	    state.el4.originY = -50;
-	    state.el8.originX = -150;
-
-	    _this.state = state;
+	    _this.state = {
+	      el1: { rotateZ: 0 },
+	      el2: { rotateY: 0 },
+	      el3: { rotateX: 0 },
+	      el4: { originX: -50, originY: -50, rotateZ: 0 },
+	      el5: { rotateY: 0, rotateX: 0 },
+	      el6: { scaleX: 0, scaleY: 0 },
+	      el7: { translateX: 0 },
+	      el8: { rotateX: 0, rotateY: -150 },
+	      el9: { skewX: 0 },
+	      el10: { skewY: 0 }
+	    };
 
 	    _this.animate = _this.animate.bind(_this);
 	    return _this;
@@ -108,25 +110,25 @@
 	      this.state.el9.skewX < -30 && (this.skewStep *= -1);
 
 	      this.setState({
-	        el1: { rotateZ: (this.state.el1.rotateZ || 0) + 1 },
-	        el2: { rotateY: (this.state.el2.rotateY || 0) + 1 },
-	        el3: { rotateX: (this.state.el3.rotateX || 0) + 1 },
-	        el4: { rotateZ: (this.state.el4.rotateZ || 0) + 1 },
+	        el1: { rotateZ: this.state.el1.rotateZ + 1 },
+	        el2: { rotateY: this.state.el2.rotateY + 1 },
+	        el3: { rotateX: this.state.el3.rotateX + 1 },
+	        el4: { rotateZ: this.state.el4.rotateZ + 1 },
 	        el5: {
-	          rotateY: (this.state.el5.rotateY || 0) + 1,
-	          rotateX: (this.state.el5.rotateX || 0) + 1
+	          rotateY: this.state.el5.rotateY + 1,
+	          rotateX: this.state.el5.rotateX + 1
 	        },
 	        el6: {
-	          scaleX: (this.state.el6.scaleX || 0) + this.step,
-	          scaleY: (this.state.el6.scaleY || 0) + this.step
+	          scaleX: this.state.el6.scaleX + this.step,
+	          scaleY: this.state.el6.scaleY + this.step
 	        },
-	        el7: { translateX: (this.state.el7.translateX || 0) + this.xStep },
+	        el7: { translateX: this.state.el7.translateX + this.xStep },
 	        el8: {
-	          rotateY: (this.state.el8.rotateY || 0) + 1,
-	          rotateX: (this.state.el8.rotateX || 0) + 1
+	          rotateY: this.state.el8.rotateY + 1,
+	          rotateX: this.state.el8.rotateX + 1
 	        },
-	        el9: { skewX: (this.state.el9.skewX || 0) + this.skewStep },
-	        el10: { skewY: (this.state.el10.skewY || 0) + this.skewStep }
+	        el9: { skewX: this.state.el9.skewX + this.skewStep },
+	        el10: { skewY: this.state.el10.skewY + this.skewStep }
 	      });
 	    }
 	  }, {
@@ -21721,30 +21723,28 @@
 	        value: function componentDidMount() {
 	            if (this.el) this.target = transform(this.el, this.props.notPerspective);
 	        }
-	    }, {
-	        key: 'componentWillReceiveProps',
-	        value: function componentWillReceiveProps(nextProps) {
-	            var _this2 = this;
 
-	            var diff = getDiff(this.props, nextProps);
-	            if (!diff.length) return;
+	        // componentWillReceiveProps(nextProps) {
+	        //     let diff = getDiff(this.props, nextProps);
+	        //     if(!diff.length) return;
 
-	            if (this.target) {
-	                diff.forEach(function (item) {
-	                    _this2.target[item] = nextProps[item];
-	                });
-	            }
-	        }
+	        //     if(this.target) {
+	        //         diff.forEach((item) => {
+	        //             this.target[item] = nextProps[item];
+	        //         });
+	        //     }
+	        // }
+
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this3 = this;
+	            var _this2 = this;
 
 	            return _react2.default.createElement(
 	                'div',
 	                {
 	                    ref: function ref(div) {
-	                        _this3.el = div;
+	                        _this2.el = div;
 	                    } },
 	                this.props.children
 	            );
