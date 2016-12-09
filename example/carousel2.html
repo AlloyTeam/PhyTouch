@@ -8,13 +8,13 @@
             margin:0;
             padding:0;
         }
-        .nuclear-carousel {
+        .carousel {
             margin: 0 auto;
             overflow: hidden;
             position: relative;
         }
 
-        .nuclear-carousel-box {
+        .carousel-scroller {
             position: relative;
             font-size: 0;
             white-space:nowrap;
@@ -23,8 +23,8 @@
 </head>
 <body style="height:2000px;">
     <div id="carouselContainer">
-        <div class="nuclear-carousel">
-            <div style="width: 400%;" class="nuclear-carousel-box">
+        <div class="carousel">
+            <div style="width: 400%;" class="carousel-scroller" id="carousel-scroller">
                 <img style="width: 22%;" src="asset/ci1.jpg">
                 <img style="width: 22%;" src="asset/ci2.jpg">
                 <img style="width: 22%;" src="asset/ci3.jpg">
@@ -34,15 +34,12 @@
      
         </div>
     </div>
-    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:60px;height:60px;">
-        <img style="width:60px;height:60px;" src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
-    </a>
+
 
     <script src="../transformjs/transform.js"></script>
     <script src="../alloy_touch.js"></script>
     <script>
-        var items = document.querySelectorAll(".nuclear-nav a");
-        var scroll = document.querySelector(".nuclear-carousel-box");
+        var scroll = document.querySelector("#carousel-scroller");
         Transform(scroll);
         new AlloyTouch({
             touch: "#carouselContainer",//反馈触摸的dom
@@ -53,9 +50,6 @@
             factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
             min:0.88*window.innerWidth * -5+window.innerWidth, //不必需,运动属性的最小值
             max: 0 //不必需,滚动属性的最大值
-          
-           
-       
         })
     </script>
 </body>

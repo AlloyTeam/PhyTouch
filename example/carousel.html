@@ -8,19 +8,19 @@
             margin:0;
             padding:0;
         }
-        .nuclear-carousel {
+        .carousel {
             margin: 0 auto;
             overflow: hidden;
             position: relative;
         }
 
-        .nuclear-nav {
+        .nav {
             position: absolute;
             bottom: 6px;
             right: 10px;
         }
 
-            .nuclear-nav a {
+            .nav a {
                 display: inline-block;
                 background-color: white;
                 cursor: pointer;
@@ -34,12 +34,12 @@
             }
 
 
-                .nuclear-nav a.active {
+                .nav a.active {
                     background-color: #ffd800;
                     width: 10px;
                 }
 
-        .nuclear-carousel-box {
+        .carousel-scroller {
             position: relative;
             font-size: 0;
         }
@@ -47,14 +47,14 @@
 </head>
 <body style="height:2000px;">
     <div id="carouselContainer">
-        <div class="nuclear-carousel">
-            <div style="width: 400%;" class="nuclear-carousel-box">
+        <div class="carousel">
+            <div style="width: 400%;" class="carousel-scroller" id="carousel-scroller">
                 <img style="width: 25%;" src="asset/ci1.jpg">
                 <img style="width: 25%;" src="asset/ci2.jpg">
                 <img style="width: 25%;" src="asset/ci3.jpg">
                 <img style="width: 25%;" src="asset/ci4.jpg">
             </div>
-            <div class="nuclear-nav">
+            <div class="nav" id="nav">
                 <a data-index="0" class="active"></a>
                 <a data-index="1" class=" "></a>
                 <a data-index="2" class=" "></a>
@@ -69,8 +69,8 @@
     <script src="../transformjs/transform.js"></script>
     <script src="../alloy_touch.js"></script>
     <script>
-        var items = document.querySelectorAll(".nuclear-nav a");
-        var scroll = document.querySelector(".nuclear-carousel-box");
+        var items = document.querySelectorAll("#nav a");
+        var scroll = document.querySelector("#carousel-scroller");
         Transform(scroll);
         new AlloyTouch({
             touch: "#carouselContainer",//反馈触摸的dom
