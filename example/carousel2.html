@@ -22,7 +22,7 @@
     </style>
 </head>
 <body style="height:2000px;">
-    <div id="carouselContainer">
+    <div id="carousel-container">
         <div class="carousel">
             <div style="width: 400%;" class="carousel-scroller" id="carousel-scroller">
                 <img style="width: 22%;" src="asset/ci1.jpg">
@@ -42,7 +42,7 @@
         var scroll = document.querySelector("#carousel-scroller");
         Transform(scroll);
         new AlloyTouch({
-            touch: "#carouselContainer",//反馈触摸的dom
+            touch: "#carousel-container",//反馈触摸的dom
             vertical: false,//不必需，默认是true代表监听竖直方向touch
             target: scroll, //运动的对象
             property: "translateX",  //被运动的属性
