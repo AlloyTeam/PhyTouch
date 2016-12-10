@@ -174,12 +174,12 @@
         _cancel: function (evt) {
             this.touchCancel.call(this, evt, this.target[this.property]);
             if (this.hasMax && this.target[this.property] > this.max) {
-                this._to(this.max, 200, ease, this.change, function (value) {
+                this._to(this.max, 600, ease, this.change, function (value) {
                     this.reboundEnd.call(this, value);
                     this.animationEnd.call(this, value);
                 }.bind(this));
             } else if (this.hasMin && this.target[this.property] < this.min) {
-                this._to(this.min, 200, ease, this.change, function (value) {
+                this._to(this.min, 600, ease, this.change, function (value) {
                     this.reboundEnd.call(this, value);
                     this.animationEnd.call(this, value);
                 }.bind(this));
@@ -205,16 +205,16 @@
                         this.refresh();
                         this.currentState = this.refreshState.RING;
                     }
-                    this._to(this.refreshingPoint, 200, ease, this.change, function (value) {
+                    this._to(this.refreshingPoint, 600, ease, this.change, function (value) {
 
                     }.bind(this));
                 }else if (this.hasMax && this.target[this.property] > this.max) {
-                    this._to(this.max, 200, ease, this.change, function (value) {
+                    this._to(this.max, 600, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
                 } else if (this.hasMin && this.target[this.property] < this.min) {
-                    this._to(this.min, 200, ease, this.change, function (value) {
+                    this._to(this.min, 600, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
@@ -228,7 +228,7 @@
         },
         end:function () {
             this.currentState = this.refreshState.PTR;
-            this._to(this.max, 200, ease, this.change, function (value) {
+            this._to(this.max, 600, ease, this.change, function (value) {
 
             }.bind(this));
         },
