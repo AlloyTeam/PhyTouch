@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <title>AlloyRefresh</title>
+    <style>
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            -ms-touch-action: none;
+        }
+
+        body, ul, li {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        body {
+            font-size: 12px;
+            font-family: ubuntu, helvetica, arial;
+            background-color: #eeeeee;
+
+
+        }
+
+        #header {
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            background: #00ABEB;
+            padding: 0;
+            color: #eee;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #footer {
+            position: fixed;
+            z-index: 2;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 48px;
+            background: #e2e2e2;
+            padding: 0;
+        }
+
+        #refresh-tip{
+            width: 100%;
+            position: absolute;
+            text-align: center;
+            top:18px;
+            color: #00a9f2;
+            font-size: 18px;
+        }
+
+        #test{
+            margin: 45px auto 48px;
+
+        }
+
+        #test ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        #test li {
+            padding: 0 10px;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #ccc;
+            border-top: 1px solid #fff;
+            background-color: #fafafa;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">AlloyTouch</div>
+    <div id="refresh-tip" >Pull to refresh</div>
+    <div id="test">
+        <ul>
+            <li>Hello, AlloyTouch!</li>
+            <li>AlloyFinger - Super Tiny Size Gestures Library</li>
+            <li>Transformjs - Made CSS3 Super Easy</li>
+            <li>AlloyFlow - </li>
+            <li>Nuclear - Some HTML + Scoped CSS + JS </li>
+            <li>AlloyGameEngine</li>
+            <li>Rosin</li>
+            <li>LivePool</li>
+            <li>AlloyStick</li>
+            <li>CodeStar</li>
+            <li>AlloyDesigner</li>
+            <li>JXAnimate</li>
+            <li>Spirit</li>
+            <li>AlloyImage</li>
+            <li>ModJS</li>
+            <li>Pretty row 16</li>
+            <li>stepify</li>
+            <li>AlloyTimer</li>
+            <li>Alloy Desktop</li>
+            <li>JX UI</li>
+            <li>CodeTank</li>
+            <li>iSpriter</li>
+            <li>Rythem</li>
+            <li>Go!Png </li>
+            <li>JX</li>
+            <li>TEditor</li>
+            <li> row 1</li>
+            <li> row 2</li>
+            <li> row 3</li>
+            <li>row 5</li>
+            <li> row 5</li>
+            <li> row 7</li>
+            <li> row 8</li>
+            <li> row 9</li>
+            <li> row 11</li>
+            <li> row 11</li>
+            <li> row 12</li>
+            <li> row 13</li>
+            <li> row 14</li>
+            <li> row 15</li>
+            <li> row 16</li>
+            <li> row 17</li>
+            <li> row 18</li>
+            <li> row 19</li>
+            <li> row 20</li>
+            <li> row 21</li>
+            <li> row 22</li>
+            <li> row 23</li>
+            <li> row 24</li>
+            <li> row 25</li>
+        </ul>
+
+    </div>
+    <div id="footer"></div>
+
+    <script src="../transformjs/transform.js"></script>
+    <script src="../alloy_touch.refresh.js"></script>
+
+    <script>
+        var rt = document.querySelector("#refresh-tip"),
+            list = document.querySelector("#test ul"),
+            index = 0;
+        new  AlloyTouch.PullToRefresh("#test",{
+            refreshPoint:80,
+            refreshingPoint:40,
+            refresh:function () {
+                rt.innerHTML ="Refreshing...";
+                var self = this;
+                ajaxMock("xx.php",function () {
+                    var i = 0,
+                        len=3;
+                    for(;i<len;i++){
+                        var li =  document.createElement("li");
+                        li.innerHTML = "new row "+index++;
+                        list.insertBefore(li,list.firstChild);
+                    }
+                    rt.innerHTML ="Pull to refresh";
+                    self.end()
+                });
+            },
+            reachRefreshPoint:function () {
+                rt.innerHTML ="Release to refresh";
+            },
+            notReachRefreshPoint:function () {
+                rt.innerHTML ="Pull to refresh";
+            },
+            refreshTip:"#refresh-tip",
+            change:function(){
+
+            },
+            fixed: true //是否固定不动
+        });
+        
+        function ajaxMock(url,callback) {
+            setTimeout(function(){
+
+                    callback();
+
+            },2000);
+        }
+    </script>
+
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
+    </a>
+</body>
+</html>
