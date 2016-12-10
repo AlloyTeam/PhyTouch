@@ -299,9 +299,12 @@
         },
         refreshEnd:function () {
             this.currentState = this.refreshState.PTR;
+            this.currentState=this.refreshState.PTR;
+            this.notReachRefreshPoint.call(this);
             this._to(this.max, 600, ease, this.change, function (value) {
-                this.currentState=this.refreshState.PTR;
-                this.notReachRefreshPoint.call(this);
+                this._calculateIndex();
+                this.correctionEnd.call(this, value);
+                this.animationEnd.call(this, value);
             }.bind(this));
         },
         _to: function (value, time, ease, onChange, onEnd) {
