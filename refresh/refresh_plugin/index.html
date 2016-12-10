@@ -272,12 +272,12 @@
                     self.refreshEnd();
                 }, 2000);
             },
-            reachRefreshPoint: function () {
+            inRefreshPoint: function () {
                 console.log(111)
                 arrow.classList.add("arrow_up");
                 wording.innerHTML = "Release to refresh";
             },
-            notReachRefreshPoint: function () {
+            outRefreshPoint: function () {
                 arrow.classList.remove("arrow_up");
                 wording.innerHTML = "Pull to refresh";
             },

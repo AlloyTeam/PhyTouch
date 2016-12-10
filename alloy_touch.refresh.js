@@ -117,8 +117,8 @@
 
             var noop = function () { };
             this.refresh = option.refresh || noop;
-            this.reachRefreshPoint = option.reachRefreshPoint || noop;
-            this.notReachRefreshPoint = option.notReachRefreshPoint || noop;
+            this.inRefreshPoint = option.inRefreshPoint || noop;
+            this.outRefreshPoint = option.outRefreshPoint || noop;
 
             this.refreshState ={
                 PTR:"PTR",
@@ -179,12 +179,12 @@
                     if(this.currentState!==this.refreshState.RING) {
                         if (this.target[this.property] > this.refreshPoint && this.currentState===this.refreshState.PTR) {
                             this.currentState=this.refreshState.RTR;
-                            this.reachRefreshPoint.call(this);
+                            this.inRefreshPoint.call(this);
                         }
 
                         if (this.target[this.property] < this.refreshPoint &&this.currentState===this.refreshState.RTR) {
                             this.currentState=this.refreshState.PTR;
-                            this.notReachRefreshPoint.call(this);
+                            this.outRefreshPoint.call(this);
                         }
                     }
                     evt.preventDefault();
@@ -300,7 +300,7 @@
         refreshEnd:function () {
             this.currentState = this.refreshState.PTR;
             this.currentState=this.refreshState.PTR;
-            this.notReachRefreshPoint.call(this);
+            this.outRefreshPoint.call(this);
             this._to(this.max, 600, ease, this.change, function (value) {
                 this._calculateIndex();
                 this.correctionEnd.call(this, value);
