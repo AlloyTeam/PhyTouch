@@ -142,7 +142,7 @@
                         evt.preventDefault();
                     }
                     this.change.call(this, this.target[this.property]);
-                    this.refreshTip[this.property] =    this.target[this.property];
+                    this.refreshTip[this.property] = this.target[this.property];
                     this.touchMove.call(this, evt, this.target[this.property]);
                     if(this.currentState!==this.refreshState.RING) {
                         if (this.target[this.property] > this.refreshPoint && this.currentState===this.refreshState.PTR) {
