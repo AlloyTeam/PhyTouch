@@ -65,13 +65,9 @@
 
         this.sensitivity = this._getValue(option.sensitivity, 1);
         this.moveFactor = this._getValue(option.moveFactor, 1);
-        this.factor = this._getValue(option.factor, 1);
-
         this.outFactor = this._getValue(option.outFactor, 0.3);
         this.min = option.min;
         this.max = 0;
-        this.deceleration = 0.0006;
-        this.maxRegion = this._getValue(option.maxRegion, 60);
 
         var noop = function () { };
         this.change = option.change || noop;
@@ -116,7 +112,7 @@
         _start: function (evt) {
             if(this._isInViewPort(this.element)){
                 this.isTouchStart = true;
-                this._firstTouchMove = true;
+
                 this._preventMoveDefault = true;
                 this.touchStart.call(this, evt, this.target[this.property]);
                 cancelAnimationFrame(this.tickID);
@@ -129,16 +125,7 @@
         _move: function (evt) {
 
             if (this.isTouchStart) {
-                if (this._firstTouchMove) {
-                    var dDis = Math.abs(evt.touches[0].pageX - this._startX) - Math.abs(evt.touches[0].pageY - this._startY);
-                    if (dDis > 0 && this.vertical) {
-                        this._preventMoveDefault = false;
-                    } else if (dDis < 0 && !this.vertical) {
-                        this._preventMoveDefault = false;
-                    }
-                    this._firstTouchMove = false;
-                }
-                if (this._preventMoveDefault) {
+
                     var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sensitivity;
                     var f = this.moveFactor;
                     if (this.hasMax && this.target[this.property] > this.max && d > 0) {
@@ -168,7 +155,7 @@
                             this.notReachRefreshPoint.call(this);
                         }
                     }
-                }
+
             }
         },
         _cancel: function (evt) {
