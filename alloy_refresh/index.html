@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <title>AlloyRefresh</title>
+</head>
+<body style="background-color: #cccccc;height: 20000px;">
+    <div>adfsfsdf</div>
+    <div id="test" style="width: 200px;height: 300px;background-color: green;"></div>
+    <div>adfsfsdf</div>
+
+    <script src="../transformjs/transform.js"></script>
+    <script src="alloy_refresh.js"></script>
+
+    <script>
+        new AlloyRefresh("#test",{
+            refreshPoint:80,
+            refreshingPoint:40,
+            onRefresh:function () {
+                var self = this;
+                setTimeout(function(){
+                    self.end()
+                },2000)
+            }
+        });
+    </script>
+</body>
+</html>

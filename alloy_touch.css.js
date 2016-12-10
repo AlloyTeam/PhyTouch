@@ -59,7 +59,6 @@
 
         this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
-        this.sf = this.sensitivity * this.factor;
         this.outFactor =  this._getValue(option.outFactor, 0.3);
 
         this.min = option.min;
@@ -170,7 +169,7 @@
 
                 if (this._preventMoveDefault) {
                     var f = this.moveFactor;
-                    var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sf;
+                    var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sensitivity;
                     if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
                         f = this.outFactor;
                     } else if (this.hasMin && this.scroller[this.property] < this.min && d < 0) {

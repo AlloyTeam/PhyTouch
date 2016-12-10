@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.1.3
+﻿/* AlloyRefresh v0.1.0
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -40,10 +40,6 @@
         return Math.sqrt(1 - Math.pow(x - 1, 2));
     }
 
-    function reverseEase(y) {
-        return 1 - Math.sqrt(1 - y * y);
-    }
-
     function preventDefaultTest(el, exceptions) {
         for (var i in exceptions) {
             if (exceptions[i].test(el[i])) {
@@ -53,22 +49,25 @@
         return false;
     }
 
-    var AlloyTouch = function (option) {
-        this.target = option.target;
-        this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
-        this.vertical = this._getValue(option.vertical, true);
-        this.property = option.property;
-        this.tickID = 0;
+    var AlloyRefresh = function (element,option) {
 
-        this.initialVaule = this._getValue(option.initialVaule, this.target[this.property]);
-        this.target[this.property] = this.initialVaule;
+        this.refreshPoint = option.refreshPoint;
+        this.refreshingPoint = option.refreshingPoint;
+
+        this.element = typeof element === "string" ? document.querySelector(element) : element;
+        this.target = this.element;
+        Transform(this.element,true);
+        this.vertical = this._getValue(option.vertical, true);
+        this.property = "translateY";
+        this.tickID = 0;
 
         this.sensitivity = this._getValue(option.sensitivity, 1);
         this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
+
         this.outFactor = this._getValue(option.outFactor, 0.3);
         this.min = option.min;
-        this.max = option.max;
+        this.max = 0;
         this.deceleration = 0.0006;
         this.maxRegion = this._getValue(option.maxRegion, 60);
 
@@ -81,6 +80,7 @@
         this.reboundEnd = option.reboundEnd || noop;
         this.animationEnd = option.animationEnd || noop;
         this.correctionEnd = option.correctionEnd || noop;
+        this.onRefresh = option.onRefresh || noop;
 
         this.preventDefault = this._getValue(option.preventDefault, true);
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
@@ -90,10 +90,6 @@
             throw "the min value can't be greater than the max value."
         }
         this.isTouchStart = false;
-        this.step = option.step;
-        this.inertia = this._getValue(option.inertia, true);
-
-        this._calculateIndex();
 
         bind(this.element, "touchstart", this._start.bind(this));
         bind(window, "touchmove", this._move.bind(this));
@@ -101,23 +97,25 @@
         bind(window, "touchcancel", this._cancel.bind(this));
     };
 
-    AlloyTouch.prototype = {
+    AlloyRefresh.prototype = {
         _getValue: function (obj, defaultValue) {
             return obj === undefined ? defaultValue : obj;
         },
         _start: function (evt) {
-            this.isTouchStart = true;
-            this._firstTouchMove = true;
-            this._preventMoveDefault = true;
-            this.touchStart.call(this, evt, this.target[this.property]);
-            cancelAnimationFrame(this.tickID);
-            this._calculateIndex();
-            this.startTime = new Date().getTime();
-            this._startX = this.preX = evt.touches[0].pageX;
-            this._startY = this.preY = evt.touches[0].pageY;
-            this.start = this.vertical ? this.preY : this.preX;
+            if(this._isInViewPort(this.element)){
+                this.isTouchStart = true;
+                this._firstTouchMove = true;
+                this._preventMoveDefault = true;
+                this.touchStart.call(this, evt, this.target[this.property]);
+                cancelAnimationFrame(this.tickID);
+
+                this._startX = this.preX = evt.touches[0].pageX;
+                this._startY = this.preY = evt.touches[0].pageY;
+
+            }
         },
         _move: function (evt) {
+
             if (this.isTouchStart) {
                 if (this._firstTouchMove) {
                     var dDis = Math.abs(evt.touches[0].pageX - this._startX) - Math.abs(evt.touches[0].pageY - this._startY);
@@ -139,34 +137,29 @@
                     d *= f;
                     this.preX = evt.touches[0].pageX;
                     this.preY = evt.touches[0].pageY;
-                    this.target[this.property] += d;
-                    this.change.call(this, this.target[this.property]);
-                    var timestamp = new Date().getTime();
-                    if (timestamp - this.startTime > 300) {
-                        this.startTime = timestamp;
-                        this.start = this.vertical ? this.preY : this.preX;
-                    }
-                    this.touchMove.call(this, evt, this.target[this.property]);
 
-                    evt.preventDefault();
+                    if(this.target[this.property]+d>=0) {
+                        this.target[this.property] += d;
+                        evt.preventDefault();
+                    }
+                    this.change.call(this, this.target[this.property]);
+
+                    this.touchMove.call(this, evt, this.target[this.property]);
                 }
             }
         },
         _cancel: function (evt) {
-            var current = this.target[this.property];
-            this.touchCancel.call(this, evt, current);
-            if (this.hasMax && current > this.max) {
+            this.touchCancel.call(this, evt, this.target[this.property]);
+            if (this.hasMax && this.target[this.property] > this.max) {
                 this._to(this.max, 200, ease, this.change, function (value) {
                     this.reboundEnd.call(this, value);
                     this.animationEnd.call(this, value);
                 }.bind(this));
-            } else if (this.hasMin && current < this.min) {
+            } else if (this.hasMin && this.target[this.property] < this.min) {
                 this._to(this.min, 200, ease, this.change, function (value) {
                     this.reboundEnd.call(this, value);
                     this.animationEnd.call(this, value);
                 }.bind(this));
-            } else {
-                this._correction();
             }
         },
         to: function (v, time, user_ease) {
@@ -178,77 +171,39 @@
             }.bind(this));
 
         },
-        _calculateIndex: function () {
-            if (this.hasMax && this.hasMin) {
-                this.currentPage = Math.round((this.max - this.target[this.property]) / this.step);
-            }
-        },
         _end: function (evt) {
             if (this.isTouchStart && this._preventMoveDefault) {
                 this.isTouchStart = false;
-                var self = this,
-                    current = this.target[this.property];
-                if (this.touchEnd.call(this, evt, current, this.currentPage) === false) return;
-                if (this.hasMax && current > this.max) {
+                var current = this.target[this.property];
+                this.touchEnd.call(this, evt, current, this.currentPage);
+
+                if(current>this.refreshPoint) {
+                    this.onRefresh();
+                    this._to(this.refreshingPoint, 200, ease, this.change, function (value) {
+
+                    }.bind(this));
+                }else if (this.hasMax && this.target[this.property] > this.max) {
                     this._to(this.max, 200, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
-                } else if (this.hasMin && current < this.min) {
+                } else if (this.hasMin && this.target[this.property] < this.min) {
                     this._to(this.min, 200, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
-                } else if (this.inertia) {
-                    //var y = evt.changedTouches[0].pageY;
-                    var dt = new Date().getTime() - this.startTime;
-                    if (dt < 300) {
-                        var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
-                            speed = Math.abs(distance) / dt,
-                            speed2 = this.factor * speed,
-                            destination = current + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
-
-                        var tRatio = 1;
-                        if (destination < this.min - this.maxRegion) {
-                            tRatio = reverseEase((current - this.min + this.maxRegion) / (current - destination));
-                            destination = this.min - this.maxRegion;
-
-                        } else if (destination > this.max + this.maxRegion) {
-                            tRatio = reverseEase((this.max + this.maxRegion - current) / (destination - current));
-                            destination = this.max + this.maxRegion;
-                        }
-                        var duration = Math.round(speed / self.deceleration) * tRatio;
-
-                        self._to(Math.round(destination), duration, ease, self.change, function (value) {
-                            if (self.hasMax && self.target[self.property] > self.max) {
-
-                                cancelAnimationFrame(self.tickID);
-                                self._to(self.max, 600, ease, self.change, self.animationEnd);
-
-                            } else if (self.hasMin && self.target[self.property] < self.min) {
-
-                                cancelAnimationFrame(self.tickID);
-                                self._to(self.min, 600, ease, self.change, self.animationEnd);
-
-                            } else {
-                                self._correction();
-                            }
-
-                            self.change.call(this, value);
-                        });
-
-
-                    } else {
-                        self._correction();
-                    }
-                } else {
-                    self._correction();
                 }
                 if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
                     evt.preventDefault();
                 }
 
+
             }
+        },
+        end:function () {
+            this._to(this.max, 200, ease, this.change, function (value) {
+
+            }.bind(this));
         },
         _to: function (value, time, ease, onChange, onEnd) {
             var el = this.target,
@@ -268,38 +223,32 @@
                 }
                 el[property] = dv * ease(dt / time) + current;
                 self.tickID = requestAnimationFrame(toTick);
-                //cancelAnimationFrame必须在 tickID = requestAnimationFrame(toTick);的后面
                 onChange && onChange.call(self, el[property]);
             };
             toTick();
         },
-        _correction: function () {
-            if (this.step === undefined) return;
-            var el = this.target,
-                property = this.property;
-            var value = el[property];
-            var rpt = Math.floor(Math.abs(value / this.step));
-            var dy = value % this.step;
-            if (Math.abs(dy) > this.step / 2) {
-                this._to((value < 0 ? -1 : 1) * (rpt + 1) * this.step, 400, ease, this.change, function (value) {
-                    this._calculateIndex();
-                    this.correctionEnd.call(this, value);
-                    this.animationEnd.call(this, value);
-                }.bind(this));
-            } else {
-                this._to((value < 0 ? -1 : 1) * rpt * this.step, 400, ease, this.change, function (value) {
-                    this._calculateIndex();
-                    this.correctionEnd.call(this, value);
-                    this.animationEnd.call(this, value);
-                }.bind(this));
-            }
+        _isInViewPort:function (element){
+            var d = document.documentElement,
+                b = document.body,
+                w = window,
+                div = document.createElement("div");
+            div.innerHTML = "  <div></div>";
+            var lt = !(div.firstChild.nodeType === 3) ?
+                { left: b.scrollLeft || d.scrollLeft, top: b.scrollTop || d.scrollTop } :
+                { left: w.pageXOffset, top: w.pageYOffset };
+
+
+            var elBox = element.getBoundingClientRect();
+
+            return lt.left<elBox.left&&lt.top<elBox.top;
+
         }
     };
 
+    window.AlloyRefresh = AlloyRefresh;
+
     if (typeof module !== 'undefined' && typeof exports === 'object') {
-        module.exports = AlloyTouch;
-    } else {
-        window.AlloyTouch = AlloyTouch;
+        module.exports = AlloyRefresh;
     }
 
 })();
