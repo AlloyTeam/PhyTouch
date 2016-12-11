@@ -58,91 +58,55 @@
             <div><img src="asset/contributors.png"></div>
         </div>
     </div>
+
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .progress{
+            width: 100%;
+            font-size: 0px;
+            white-space: nowrap;
+            position: absolute;
+            bottom: 0px;
+            height: 2px;
+            background-color: #CCCCCC;
+        }
+
+        .progress-items{
+            width: 100%;
+            z-index: 2;
+            height: 2px;
+            position: absolute;
+        }
+        .progress-rate{
+            width: 0%;
+            z-index: 1;
+            position: absolute;
+            height: 2px;
+            background-color: green;
+            transition: all .5s ease;
+        }
+    </style>
+    <div id="progress" class="progress">
+        <div class="progress-rate"></div>
+            <div class="progress-items">
+
+        </div>
+
+    </div>
     <script src="../transformjs/transform.js"></script>
     <script src="../alloy_touch.js"></script>
+    <script src="../alloy_touch.full_page.js"></script>
+    <script src="asset/progress_bar.js"></script>
     <script>
-        ;(function () {
-            var FullPage = function(selector,option) {
-                this.parent = typeof selector === "string" ? document.querySelector(selector) : selector;
-                this.parent.style.visibility = "visible";
-                Transform(this.parent, true);
-                this.stepHeight = window.innerHeight;
-                var children = this.parent.childNodes,
-                    len = children.length,
-                    i = 0;
-                this.length = 0;
-                for (; i < len; i++) {
-                    var child = children[i];
-                    if (child.nodeType !== 3) {
-                        child.style.height = this.stepHeight + "px";
-                        this.length++;
-                    }
-                }
-
-                this.alloyTouch = new AlloyTouch({
-                    touch: this.parent,
-                    target: this.parent,
-                    property: "translateY",
-                    min: (1 - this.length) * this.stepHeight,
-                    max: 0,
-                    step: this.stepHeight,
-                    inertia: false,
-                    change: function () {
-                    },
-                    touchStart: function (value) {
-                    },
-                    touchMove: function (value) {
-                    },
-                    touchEnd: function (evt, v, index) {
-
-                        var step_v = index * this.step * -1;
-                        var dx = v - step_v;
-
-                        if (v < this.min) {
-                            this.to(this.min);
-                        } else if (v > this.max) {
-                            this.to(this.max);
-                        } else if (Math.abs(dx) < 30) {
-                            this.to(step_v);
-
-                        }
-                        else if (dx > 0) {
-                            this.to(step_v + this.step);
-
-                        } else {
-
-                            this.to(step_v - this.step);
-                        }
-
-                        return false;
-
-                    }, animationEnd: function (evt, v) {
-//                        var i = 0,
-//                            len = items.length;
-//                        for (; i < len; i++) {
-//                            if (i === this.currentPage) {
-//                                items[i].classList.add("active");
-//                            } else {
-//                                items[i].classList.remove("active");
-//                            }
-//                        }
-                    }
-                })
-
+        var pb = new ProgressBar("#progress",5)
+        new AlloyTouch.FullPage("#fullpage",{
+            animationEnd:function () {
+                pb.to( this.currentPage/5);
             }
-
-
-            AlloyTouch.FullPage = FullPage;
-        })();
-
+        });
     </script>
 
-
-<script>
-    new AlloyTouch.FullPage("#fullpage",{
-
-
-    });
-</script>
 </body>
 </html>
