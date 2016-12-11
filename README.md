@@ -1,15 +1,8 @@
 ﻿English | [简体中文](./README_CN.md)
 
 # AlloyTouch
-super tiny size touch and physical motion library
 
-* super tiny size 
-* highly abstract 
-* real touch feedback
-* independent of style layout
-* simple API design
-* high efficiency movement
-* real physical movement trace
+Smooth scrolling, rotation, pull to refresh and any motion for the web.
 
 # Install
 ```js
