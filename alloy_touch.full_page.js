@@ -16,7 +16,7 @@
             }
         }
 
-        this.alloyTouch = new AlloyTouch({
+        new AlloyTouch({
             touch: this.parent,
             target: this.parent,
             property: "translateY",
@@ -24,12 +24,6 @@
             max: 0,
             step: this.stepHeight,
             inertia: false,
-            change: function () {
-            },
-            touchStart: function (value) {
-            },
-            touchMove: function (value) {
-            },
             touchEnd: function (evt, v, index) {
 
                 var step_v = index * this.step * -1;
@@ -50,15 +44,10 @@
 
                     this.to(step_v - this.step);
                 }
-
                 return false;
-
             },
-            animationEnd: option.animationEnd||function () {
-                
-            }
+            animationEnd: option.animationEnd
         })
-
     }
 
 
