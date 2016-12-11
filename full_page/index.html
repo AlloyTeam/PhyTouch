@@ -2,9 +2,147 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>AlloyTouch.FullPage</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
+
+        .section{
+
+            font-size: 24px;
+            overflow: hidden;
+        }
+        .section .title{
+            padding-top: 100px;
+            line-height: 100px;
+            font-size: 24px;
+        }
+        #fullpage{
+            visibility: hidden;
+        }
+    </style>
 </head>
 <body>
+    <div id="fullpage">
+        <div class="section">
+            <div class="title">AlloyTouch Introduction</div>
+            <div><img src="asset/alloytouch.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Powerful Features</div>
+            <div><img src="asset/power.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Physical Feedback</div>
+            <div><img src="asset/physics.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Smooth Motion</div>
+            <div><img src="asset/speed.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Simple API</div>
+            <div><img src="asset/simple.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Excellent Contributors</div>
+            <div><img src="asset/contributors.png"></div>
+        </div>
+    </div>
+    <script src="../transformjs/transform.js"></script>
+    <script src="../alloy_touch.js"></script>
+    <script>
+        ;(function () {
+            var FullPage = function(selector,option) {
+                this.parent = typeof selector === "string" ? document.querySelector(selector) : selector;
+                this.parent.style.visibility = "visible";
+                Transform(this.parent, true);
+                this.stepHeight = window.innerHeight;
+                var children = this.parent.childNodes,
+                    len = children.length,
+                    i = 0;
+                this.length = 0;
+                for (; i < len; i++) {
+                    var child = children[i];
+                    if (child.nodeType !== 3) {
+                        child.style.height = this.stepHeight + "px";
+                        this.length++;
+                    }
+                }
 
+                this.alloyTouch = new AlloyTouch({
+                    touch: this.parent,
+                    target: this.parent,
+                    property: "translateY",
+                    min: (1 - this.length) * this.stepHeight,
+                    max: 0,
+                    step: this.stepHeight,
+                    inertia: false,
+                    change: function () {
+                    },
+                    touchStart: function (value) {
+                    },
+                    touchMove: function (value) {
+                    },
+                    touchEnd: function (evt, v, index) {
+
+                        var step_v = index * this.step * -1;
+                        var dx = v - step_v;
+
+                        if (v < this.min) {
+                            this.to(this.min);
+                        } else if (v > this.max) {
+                            this.to(this.max);
+                        } else if (Math.abs(dx) < 30) {
+                            this.to(step_v);
+
+                        }
+                        else if (dx > 0) {
+                            this.to(step_v + this.step);
+
+                        } else {
+
+                            this.to(step_v - this.step);
+                        }
+
+                        return false;
+
+                    }, animationEnd: function (evt, v) {
+//                        var i = 0,
+//                            len = items.length;
+//                        for (; i < len; i++) {
+//                            if (i === this.currentPage) {
+//                                items[i].classList.add("active");
+//                            } else {
+//                                items[i].classList.remove("active");
+//                            }
+//                        }
+                    }
+                })
+
+            }
+
+
+            AlloyTouch.FullPage = FullPage;
+        })();
+
+    </script>
+
+
+<script>
+    new AlloyTouch.FullPage("#fullpage",{
+
+
+    });
+</script>
 </body>
 </html>
