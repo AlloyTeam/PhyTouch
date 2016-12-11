@@ -180,7 +180,7 @@
         element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.skewX = element.skewY = element.originX = element.originY = element.originZ = 0;
     }
 
-    if (typeof exports == "object") {
+    if (typeof module !== 'undefined' && typeof exports === 'object') {
         module.exports = Transform;
     }else {
         window.Transform = Transform;

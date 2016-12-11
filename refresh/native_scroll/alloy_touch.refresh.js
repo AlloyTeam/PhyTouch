@@ -1,4 +1,4 @@
-﻿/* AlloyRefresh v0.1.0
+﻿/* AlloyTouch Refresh v0.1.0
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -49,12 +49,14 @@
         return false;
     }
 
-    var AlloyRefresh = function (element,option) {
+    var PullToRefresh = function (element,option) {
 
         this.refreshPoint = option.refreshPoint;
         this.refreshingPoint = option.refreshingPoint;
 
         this.element = typeof element === "string" ? document.querySelector(element) : element;
+        this.refreshTip = typeof option.refreshTip === "string" ? document.querySelector(option.refreshTip) : option.refreshTip;
+        Transform(this.refreshTip,true);
         this.target = this.element;
         Transform(this.element,true);
         this.vertical = this._getValue(option.vertical, true);
@@ -63,13 +65,9 @@
 
         this.sensitivity = this._getValue(option.sensitivity, 1);
         this.moveFactor = this._getValue(option.moveFactor, 1);
-        this.factor = this._getValue(option.factor, 1);
-
         this.outFactor = this._getValue(option.outFactor, 0.3);
         this.min = option.min;
         this.max = 0;
-        this.deceleration = 0.0006;
-        this.maxRegion = this._getValue(option.maxRegion, 60);
 
         var noop = function () { };
         this.change = option.change || noop;
@@ -80,7 +78,10 @@
         this.reboundEnd = option.reboundEnd || noop;
         this.animationEnd = option.animationEnd || noop;
         this.correctionEnd = option.correctionEnd || noop;
-        this.onRefresh = option.onRefresh || noop;
+        this.refresh = option.refresh || noop;
+        this.reachRefreshPoint = option.reachRefreshPoint || noop;
+        this.notReachRefreshPoint = option.notReachRefreshPoint || noop;
+
 
         this.preventDefault = this._getValue(option.preventDefault, true);
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
@@ -95,16 +96,23 @@
         bind(window, "touchmove", this._move.bind(this));
         bind(window, "touchend", this._end.bind(this));
         bind(window, "touchcancel", this._cancel.bind(this));
+
+        this.refreshState ={
+            PTR:"PTR",
+            RTR:"RTR",
+            RING:"RING"
+        };
+        this.currentState =  this.refreshState.PTR;
     };
 
-    AlloyRefresh.prototype = {
+    PullToRefresh.prototype = {
         _getValue: function (obj, defaultValue) {
             return obj === undefined ? defaultValue : obj;
         },
         _start: function (evt) {
             if(this._isInViewPort(this.element)){
                 this.isTouchStart = true;
-                this._firstTouchMove = true;
+
                 this._preventMoveDefault = true;
                 this.touchStart.call(this, evt, this.target[this.property]);
                 cancelAnimationFrame(this.tickID);
@@ -117,16 +125,7 @@
         _move: function (evt) {
 
             if (this.isTouchStart) {
-                if (this._firstTouchMove) {
-                    var dDis = Math.abs(evt.touches[0].pageX - this._startX) - Math.abs(evt.touches[0].pageY - this._startY);
-                    if (dDis > 0 && this.vertical) {
-                        this._preventMoveDefault = false;
-                    } else if (dDis < 0 && !this.vertical) {
-                        this._preventMoveDefault = false;
-                    }
-                    this._firstTouchMove = false;
-                }
-                if (this._preventMoveDefault) {
+
                     var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sensitivity;
                     var f = this.moveFactor;
                     if (this.hasMax && this.target[this.property] > this.max && d > 0) {
@@ -143,20 +142,31 @@
                         evt.preventDefault();
                     }
                     this.change.call(this, this.target[this.property]);
-
+                    this.refreshTip[this.property] = this.target[this.property];
                     this.touchMove.call(this, evt, this.target[this.property]);
-                }
+                    if(this.currentState!==this.refreshState.RING) {
+                        if (this.target[this.property] > this.refreshPoint && this.currentState===this.refreshState.PTR) {
+                            this.currentState=this.refreshState.RTR;
+                            this.reachRefreshPoint.call(this);
+                        }
+
+                        if (this.target[this.property] < this.refreshPoint &&this.currentState===this.refreshState.RTR) {
+                            this.currentState=this.refreshState.PTR;
+                            this.notReachRefreshPoint.call(this);
+                        }
+                    }
+
             }
         },
         _cancel: function (evt) {
             this.touchCancel.call(this, evt, this.target[this.property]);
             if (this.hasMax && this.target[this.property] > this.max) {
-                this._to(this.max, 200, ease, this.change, function (value) {
+                this._to(this.max, 600, ease, this.change, function (value) {
                     this.reboundEnd.call(this, value);
                     this.animationEnd.call(this, value);
                 }.bind(this));
             } else if (this.hasMin && this.target[this.property] < this.min) {
-                this._to(this.min, 200, ease, this.change, function (value) {
+                this._to(this.min, 600, ease, this.change, function (value) {
                     this.reboundEnd.call(this, value);
                     this.animationEnd.call(this, value);
                 }.bind(this));
@@ -178,17 +188,20 @@
                 this.touchEnd.call(this, evt, current, this.currentPage);
 
                 if(current>this.refreshPoint) {
-                    this.onRefresh();
-                    this._to(this.refreshingPoint, 200, ease, this.change, function (value) {
+                    if( this.currentState!== this.refreshState.RING) {
+                        this.refresh();
+                        this.currentState = this.refreshState.RING;
+                    }
+                    this._to(this.refreshingPoint, 600, ease, this.change, function (value) {
 
                     }.bind(this));
                 }else if (this.hasMax && this.target[this.property] > this.max) {
-                    this._to(this.max, 200, ease, this.change, function (value) {
+                    this._to(this.max, 600, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
                 } else if (this.hasMin && this.target[this.property] < this.min) {
-                    this._to(this.min, 200, ease, this.change, function (value) {
+                    this._to(this.min, 600, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
@@ -201,7 +214,8 @@
             }
         },
         end:function () {
-            this._to(this.max, 200, ease, this.change, function (value) {
+            this.currentState = this.refreshState.PTR;
+            this._to(this.max, 600, ease, this.change, function (value) {
 
             }.bind(this));
         },
@@ -217,13 +231,16 @@
                 var dt = new Date() - beginTime;
                 if (dt >= time) {
                     el[property] = value;
+
                     onChange && onChange.call(self, value);
+                    self.refreshTip[self.property] =    self.target[self.property];
                     onEnd && onEnd.call(self, value);
                     return;
                 }
                 el[property] = dv * ease(dt / time) + current;
                 self.tickID = requestAnimationFrame(toTick);
                 onChange && onChange.call(self, el[property]);
+                self.refreshTip[self.property] =    self.target[self.property];
             };
             toTick();
         },
@@ -240,15 +257,18 @@
 
             var elBox = element.getBoundingClientRect();
 
-            return lt.left<elBox.left&&lt.top<elBox.top;
+            return lt.left<=elBox.left&&lt.top<=elBox.top;
 
         }
     };
 
-    window.AlloyRefresh = AlloyRefresh;
+
+
+    window.AlloyTouch = window.AlloyTouch||{};
+    AlloyTouch.PullToRefresh = PullToRefresh;
 
     if (typeof module !== 'undefined' && typeof exports === 'object') {
-        module.exports = AlloyRefresh;
+        module.exports = AlloyTouch;
     }
 
 })();

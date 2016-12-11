@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AlloyTouch.FullPage</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
+
+        .section{
+
+            font-size: 24px;
+            overflow: hidden;
+        }
+        .section .title{
+            padding-top: 100px;
+            line-height: 100px;
+            font-size: 24px;
+        }
+        #fullpage{
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="fullpage">
+        <div class="section">
+            <div class="title">AlloyTouch Introduction</div>
+            <div><img src="asset/alloytouch.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Powerful Features</div>
+            <div><img src="asset/power.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Physical Feedback</div>
+            <div><img src="asset/physics.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Smooth Motion</div>
+            <div><img src="asset/speed.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Simple API</div>
+            <div><img src="asset/simple.png"></div>
+        </div>
+        <div class="section">
+            <div class="title">Excellent Contributors</div>
+            <div><img src="asset/contributors.png"></div>
+        </div>
+    </div>
+
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .progress{
+            width: 100%;
+            font-size: 0px;
+            white-space: nowrap;
+            position: absolute;
+            bottom: 0px;
+            height: 4px;
+            background-color: #CCCCCC;
+        }
+
+        .progress-items{
+            width: 100%;
+            z-index: 2;
+            height: 4px;
+            position: absolute;
+        }
+        .progress-rate{
+            width: 0%;
+            z-index: 1;
+            position: absolute;
+            height: 4px;
+            background-color: green;
+            transition: all .5s ease;
+        }
+    </style>
+    <div id="progress" class="progress">
+        <div class="progress-rate"></div>
+            <div class="progress-items">
+
+        </div>
+
+    </div>
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
+    </a>
+    <script src="../transformjs/transform.js"></script>
+    <script src="../alloy_touch.js"></script>
+    <script src="../alloy_touch.full_page.js"></script>
+    <script src="asset/progress_bar.js"></script>
+    <script>
+        var pb = new ProgressBar("#progress",5)
+        new AlloyTouch.FullPage("#fullpage",{
+            animationEnd:function () {
+                pb.to( this.currentPage/5);
+            }
+        });
+    </script>
+
+</body>
+</html>
