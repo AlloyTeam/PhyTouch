@@ -81,6 +81,7 @@
         this.reboundEnd = option.reboundEnd || noop;
         this.animationEnd = option.animationEnd || noop;
         this.correctionEnd = option.correctionEnd || noop;
+        this.tap =  option.tap || noop;
 
         this.preventDefault = this._getValue(option.preventDefault, true);
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
@@ -188,6 +189,9 @@
                 this.isTouchStart = false;
                 var self = this,
                     current = this.target[this.property];
+                if(Math.abs( evt.changedTouches[0].pageX-this._startX)<30&&Math.abs(evt.changedTouches[0].pageY - this._startY)<30) {
+                    this.tap.call(this, current);
+                }
                 if (this.touchEnd.call(this, evt, current, this.currentPage) === false) return;
                 if (this.hasMax && current > this.max) {
                     this._to(this.max, 200, ease, this.change, function (value) {
