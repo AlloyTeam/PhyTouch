@@ -1,15 +1,8 @@
 ﻿[English](https://github.com/AlloyTeam/AlloyTouch) | 简体中文
 
 # AlloyTouch
-60FPS的触摸运动
 
-* 超小的文件大小
-* 高度抽象的组件
-* 真实的触摸反馈
-* 与样式布局无关的设计
-* 简洁的API设计
-* 高效率的运动方式
-* 真实的物理运动轨迹
+腾讯AlloyTeam移动Web触摸解决方案
 
 # Install
 ```js
