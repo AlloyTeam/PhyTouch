@@ -1,4 +1,18 @@
 ;(function () {
+
+    var addEvent =  function(el, type, fn, capture) {
+        if (type === "mousewheel" && document.mozHidden !== undefined) {
+            type = "DOMMouseScroll";
+        }
+        el.addEventListener(type, function(event) {
+            var type = event.type;
+            if (type == "DOMMouseScroll" || type == "mousewheel") {
+                event.delta = event.wheelDelta ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
+            }
+            fn.call(this, event);
+        }, capture || false);
+    };
+
     var FullPage = function(selector,option) {
         this.parent = typeof selector === "string" ? document.querySelector(selector) : selector;
         this.parent.style.visibility = "visible";
@@ -16,7 +30,9 @@
             }
         }
 
-        new AlloyTouch({
+        var self = this;
+
+        this.alloyTouch = new AlloyTouch({
             touch: this.parent,
             target: this.parent,
             property: "translateY",
@@ -46,9 +62,40 @@
                 }
                 return false;
             },
-            animationEnd: option.animationEnd
-        })
-    }
+            animationEnd: function () {
+                option.animationEnd.apply(this,arguments);
+                self.moving = false;
+            }
+        });
+
+        this.moving = false;
+
+        addEvent(this.parent,"mousewheel" ,function (evt) {
+            if(self.moving) return;
+            self.moving = true;
+            if(evt.delta>0 ){
+                self.prev();
+            }else {
+                self.next();
+            }
+        });
+    };
+
+    FullPage.prototype = {
+        next:function () {
+            var index = this.alloyTouch.currentPage+1;
+            if(index>this.length-1)index=this.length-1;
+            this.to(index);
+        },
+        prev:function () {
+            var index = this.alloyTouch.currentPage-1;
+            if(index<0) index = 0;
+            this.to(index);
+        },
+        to:function (index) {
+            this.alloyTouch.to(-1*index*this.stepHeight);
+        }
+    };
 
 
     AlloyTouch.FullPage = FullPage;
