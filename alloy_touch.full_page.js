@@ -16,6 +16,9 @@
     var FullPage = function(selector,option) {
         this.parent = typeof selector === "string" ? document.querySelector(selector) : selector;
         this.parent.style.visibility = "visible";
+        var noop = function () { };
+        this.beginToPage = option.beginToPage || noop;
+        this.leavePage = option.leavePage || noop;
         Transform(this.parent, true);
         this.stepHeight = window.innerHeight;
         var children = this.parent.childNodes,
@@ -83,16 +86,28 @@
 
     FullPage.prototype = {
         next:function () {
-            var index = this.alloyTouch.currentPage+1;
-            if(index>this.length-1)index=this.length-1;
+            var index = this.alloyTouch.currentPage + 1;
+       
+            if (index > this.length - 1) {
+                index = this.length - 1;
+                this.moving = false;
+                return;
+            }
             this.to(index);
         },
         prev:function () {
-            var index = this.alloyTouch.currentPage-1;
-            if(index<0) index = 0;
+            var index = this.alloyTouch.currentPage - 1;
+         
+            if (index < 0) {
+                index = 0;
+                this.moving = false;
+                return;
+            }
             this.to(index);
         },
-        to:function (index) {
+        to: function (index) {
+            this.leavePage.call(this, this.alloyTouch.currentPage);
+            this.beginToPage.call(this, index);
             this.alloyTouch.to(-1*index*this.stepHeight);
         }
     };

@@ -104,9 +104,15 @@
     <script src="asset/progress_bar.js"></script>
     <script>
         var pb = new ProgressBar("#progress",5)
-        new AlloyTouch.FullPage("#fullpage",{
+       var fp =  new AlloyTouch.FullPage("#fullpage",{
             animationEnd:function () {
-                pb.to( this.currentPage/5);
+                pb.to(this.currentPage / 5);
+            },
+            leavePage: function (index) {
+                console.log("leave"+index)
+            },
+            beginToPage: function (index) {
+                console.log("to"+index)
             }
         });
     </script>
