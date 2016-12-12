@@ -54,8 +54,9 @@
     }
 
     var AlloyTouch = function (option) {
-        this.target = option.target;
+        
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
+        this.target = this._getValue(option.target, this.element);
         this.vertical = this._getValue(option.vertical, true);
         this.property = option.property;
         this.tickID = 0;
