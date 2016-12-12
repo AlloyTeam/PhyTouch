@@ -34,5 +34,33 @@ domElement.originX = 0.5;
 //console.log(domElement.translateX )
 ```
 
+### React Version:
+
+```js
+//set "translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"
+render() {
+    return (
+        <Transform
+          translateX={100}
+          scaleX={0.5}
+          originX={0.5}>
+          <div>sth</div>
+        </Transform>
+    );
+}
+
+// you can also use other porps, such as "className" or "style"
+render() {
+    return (
+        <Transform
+          translateX={100}
+          className="ani"
+          style={{width: '100px', background: 'red'}}
+          <div>sth</div>
+        </Transform>
+    );
+}
+```
+
 # License
 This content is released under the [MIT](http://opensource.org/licenses/MIT) License.
