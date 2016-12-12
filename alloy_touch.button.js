@@ -24,24 +24,29 @@
     AlloyTouch.Button = function (selector, tap, active) {
 
         var element = typeof selector === "string" ? document.querySelector(selector) : selector;
-        new AlloyTouch({
-            touch: selector,
-            touchStart: function (evt, value) {
-                addClass(element, active);
-            },
-            touchMove: function (evt, value) {
-                removeClass(element, active);
-            },
-            touchEnd: function (evt, value) {
-                removeClass(element, active);
-            },
-            touchCancel: function () {
-                removeClass(element, active);
-            },
-            tap: tap,
-            preventDefault:false
 
-        })
+        var option = {
+            touch: selector,
+            tap: tap,
+            preventDefault: false
+        };
+
+        if (active !== undefined) {
+            option.touchStart = function (evt, value) {
+                addClass(element, active);
+            };
+            touchMove = function (evt, value) {
+                removeClass(element, active);
+            };
+            option.touchEnd = function (evt, value) {
+                removeClass(element, active);
+            };
+            option.touchCancel = function () {
+                removeClass(element, active);
+            };
+        }
+
+        new AlloyTouch(option)
     }
 })();
 
