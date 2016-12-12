@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <title>AlloyTouch</title>
+    <style>
+        .button {
+            background-color: #00ABEB;
+            border: 1px solid #c3c8cc;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            height: 29px;
+            font-size: 14px;
+            color: white;
+            text-align: center;
+            line-height: 26px;
+            margin: 20px;
+        }
+
+
+            .button.active {
+                background-color: #006389;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="button" id="button">按钮</div>
+    <script src="../alloy_touch.js"></script>
+    <script src="../alloy_touch.button.js"></script>
+    <script>
+        new AlloyTouch.Button("#button", function () {
+            console.log("you tap me");
+        }, "active");
+    </script>
+</body>
+</html>
