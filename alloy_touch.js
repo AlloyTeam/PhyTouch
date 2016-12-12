@@ -158,7 +158,9 @@
                     }
                     this.touchMove.call(this, evt, this.target[this.property]);
 
-                    evt.preventDefault();
+                    if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
+                        evt.preventDefault();
+                    }
                 }
 
                 if (len === 1) {

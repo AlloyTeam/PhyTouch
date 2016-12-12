@@ -38,7 +38,8 @@
             touchCancel: function () {
                 removeClass(element, active);
             },
-            tap: tap
+            tap: tap,
+            preventDefault:false
 
         })
     }
