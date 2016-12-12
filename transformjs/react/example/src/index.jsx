@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-import Transform from '../../react-transform.js';
+import Transform from '../../transform.react.js';
 
 class Root extends Component {
 
