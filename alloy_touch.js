@@ -81,7 +81,8 @@
         this.reboundEnd = option.reboundEnd || noop;
         this.animationEnd = option.animationEnd || noop;
         this.correctionEnd = option.correctionEnd || noop;
-        this.tap =  option.tap || noop;
+        this.tap = option.tap || noop;
+        this.pressMove = option.pressMove || noop;
 
         this.preventDefault = this._getValue(option.preventDefault, true);
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
@@ -100,6 +101,8 @@
         bind(window, "touchmove", this._move.bind(this));
         bind(window, "touchend", this._end.bind(this));
         bind(window, "touchcancel", this._cancel.bind(this));
+
+        this.x1 = this.x2 = this.y1 = this.y2 = null;
     };
 
     AlloyTouch.prototype = {
@@ -114,14 +117,17 @@
             cancelAnimationFrame(this.tickID);
             this._calculateIndex();
             this.startTime = new Date().getTime();
-            this._startX = this.preX = evt.touches[0].pageX;
-            this._startY = this.preY = evt.touches[0].pageY;
+            this.x1 = this.preX = evt.touches[0].pageX;
+            this.y1 = this.preY = evt.touches[0].pageY;
             this.start = this.vertical ? this.preY : this.preX;
         },
         _move: function (evt) {
             if (this.isTouchStart) {
+                var len = evt.touches.length,
+                    currentX = evt.touches[0].pageX,
+                    currentY = evt.touches[0].pageY;
                 if (this._firstTouchMove) {
-                    var dDis = Math.abs(evt.touches[0].pageX - this._startX) - Math.abs(evt.touches[0].pageY - this._startY);
+                    var dDis = Math.abs(currentX - this.x1) - Math.abs(currentY - this.y1);
                     if (dDis > 0 && this.vertical) {
                         this._preventMoveDefault = false;
                     } else if (dDis < 0 && !this.vertical) {
@@ -130,7 +136,7 @@
                     this._firstTouchMove = false;
                 }
                 if (this._preventMoveDefault) {
-                    var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sensitivity;
+                    var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
                     var f = this.moveFactor;
                     if (this.hasMax && this.target[this.property] > this.max && d > 0) {
                         f = this.outFactor;
@@ -138,8 +144,8 @@
                         f = this.outFactor;
                     }
                     d *= f;
-                    this.preX = evt.touches[0].pageX;
-                    this.preY = evt.touches[0].pageY;
+                    this.preX = currentX;
+                    this.preY = currentY;
                     this.target[this.property] += d;
                     this.change.call(this, this.target[this.property]);
                     var timestamp = new Date().getTime();
@@ -151,6 +157,20 @@
 
                     evt.preventDefault();
                 }
+
+                if (len === 1) {
+                    if (this.x2 !== null) {
+                        evt.deltaX = currentX - this.x2;
+                        evt.deltaY = currentY - this.y2;
+
+                    } else {
+                        evt.deltaX = 0;
+                        evt.deltaY = 0;
+                    }
+                    this.pressMove.call(this, evt, this.target[this.property]);
+                }
+                this.x2 = currentX;
+                this.y2 = currentY;
             }
         },
         _cancel: function (evt) {
@@ -169,6 +189,8 @@
             } else {
                 this._correction();
             }
+
+            this.x1 = this.x2 = this.y1 = this.y2 = null;
         },
         to: function (v, time, user_ease) {
 
@@ -189,8 +211,8 @@
                 this.isTouchStart = false;
                 var self = this,
                     current = this.target[this.property];
-                if(Math.abs( evt.changedTouches[0].pageX-this._startX)<30&&Math.abs(evt.changedTouches[0].pageY - this._startY)<30) {
-                    this.tap.call(this, current);
+                if (Math.abs(evt.changedTouches[0].pageX - this.x1) < 30 && Math.abs(evt.changedTouches[0].pageY - this.y1) < 30) {
+                    this.tap.call(this, evt, current);
                 }
                 if (this.touchEnd.call(this, evt, current, this.currentPage) === false) return;
                 if (this.hasMax && current > this.max) {
@@ -253,6 +275,7 @@
                 }
 
             }
+            this.x1 = this.x2 = this.y1 = this.y2 = null;
         },
         _to: function (value, time, ease, onChange, onEnd) {
             var el = this.target,

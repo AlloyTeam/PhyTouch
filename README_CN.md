@@ -23,10 +23,11 @@ new AlloyTouch({
             spring: true, //不必需,是否有回弹效果。默认是true
             step: 45,//用于校正到step的整数倍
             change:function(value){  }, //不必需，属性改变的回调。alloytouch.css版本不支持该事件
-            touchStart:function(value){  },
-            touchMove:function(value){  },
-            touchEnd:function(value){  },
-            tap:function(value){  },
+            touchStart:function(evt, value){  },
+            touchMove:function(evt, value){  },
+            touchEnd:function(evt,value){  },
+            tap:function(evt, value){  },
+            pressMove:function(evt, value){  },
             animationEnd:function(value){  } //运动结束
  })
 ```

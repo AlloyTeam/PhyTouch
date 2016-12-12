@@ -188,7 +188,10 @@
             max: 0, //不必需,滚动属性的最大值
             step: 40,
             animationEnd: function (value) {
-                console.log(value);
+                //console.log(value);
+            },
+            pressMove: function (evt,value) {
+                console.log(evt.deltaX + "_" + evt.deltaY + "__" + value);
             }
         })
 

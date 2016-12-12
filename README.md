@@ -23,10 +23,11 @@ new AlloyTouch({
             spring: true,
             step: 45,
             change:function(value){  },
-            touchStart:function(value){  },
-            touchMove:function(value){  },
-            touchEnd:function(value){  },
-            tap:function(value){  },
+            touchStart:function(evt, value){  },
+            touchMove:function(evt, value){  },
+            touchEnd:function(evt, value){  },
+            tap:function(evt, value){  },
+			pressMove:function(evt, value){  },
             animationEnd:function(value){  } 
  })
 ```
