@@ -62,7 +62,7 @@
 
         this.initialVaule = this._getValue(option.initialVaule, this.target[this.property]);
         this.target[this.property] = this.initialVaule;
-
+        this.fixed = this._getValue(option.fixed, false);
         this.sensitivity = this._getValue(option.sensitivity, 1);
         this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
@@ -146,7 +146,9 @@
                     d *= f;
                     this.preX = currentX;
                     this.preY = currentY;
-                    this.target[this.property] += d;
+                    if (!this.fixed) {
+                        this.target[this.property] += d;
+                    }
                     this.change.call(this, this.target[this.property]);
                     var timestamp = new Date().getTime();
                     if (timestamp - this.startTime > 300) {
@@ -278,6 +280,7 @@
             this.x1 = this.x2 = this.y1 = this.y2 = null;
         },
         _to: function (value, time, ease, onChange, onEnd) {
+            if (this.fixed) return;
             var el = this.target,
                 property = this.property;
             var current = el[property];
