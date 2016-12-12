@@ -29,172 +29,303 @@
             overflow: hidden;
         }
 
-        #header {
+        .header {
             position: absolute;
             z-index: 2;
             top: 0;
             left: 0;
             width: 100%;
-            height: 45px;
-            line-height: 45px;
+            height: 85px;
+            line-height: 42px;
             background: #00ABEB;
             padding: 0;
             color: #eee;
             font-size: 20px;
-            text-align: center;
+            text-align: left;
             font-weight: bold;
+            text-indent: 20px;
         }
 
-        #footer {
-            position: absolute;
-            z-index: 2;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 48px;
-            background: #e2e2e2;
-            padding: 0;
+        .dir {
+            font-weight: normal;
+            font-size: 15px;
+            line-height: 18px;
+            text-indent: 0px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+    </style>
+    <style>
+        .border-1px {
+            position: relative;
         }
 
-        #wrapper {
-            position: absolute;
-            z-index: 1;
-            top: 45px;
-            bottom: 48px;
-            left: 0;
-            width: 100%;
-            background: #ccc;
-            overflow: hidden;
-        }
-
-        #scroller {
-            position: absolute;
-            z-index: 1;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-            width: 100%;
-            -webkit-transform: translateZ(0);
-            -moz-transform: translateZ(0);
-            -ms-transform: translateZ(0);
-            -o-transform: translateZ(0);
-            transform: translateZ(0);
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-text-size-adjust: none;
-            -moz-text-size-adjust: none;
-            -ms-text-size-adjust: none;
-            -o-text-size-adjust: none;
-            text-size-adjust: none;
-        }
-
-            #scroller ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                width: 100%;
-                text-align: left;
+            .border-1px:after {
+                display: block;
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: scale(1);
+                pointer-events: none;
             }
 
-            #scroller li {
-                padding: 0 10px;
-                height: 40px;
-                line-height: 40px;
-                border-bottom: 1px solid #ccc;
-                border-top: 1px solid #fff;
-                background-color: #fafafa;
-                font-size: 14px;
+        @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+            .border-1px:after {
+                right: -100%;
+                bottom: -100%;
+                -webkit-transform: scale(0.5);
             }
+        }
+
+
+        .border-1px.border-bottom:after {
+            border-bottom: 1px solid #e4e4e4;
+        }
+
+        .border-1px.border-top:after {
+            border-top: 1px solid #e4e4e4;
+        }
+
+        .border-1px.border-left:after {
+            border-left: 1px solid #e4e4e4;
+        }
+
+        .border-1px.border-right:after {
+            border-right: 1px solid #e4e4e4;
+        }
+
+
+        .ms {
+            background-color: #ffffff;
+            margin-top: 86px;
+        }
+
+        .title {
+            height: 66px;
+            position: relative;
+            cursor:pointer;
+        }
+
+        .arrow {
+            margin-left: 10px;
+            position: relative;
+            top: 1px;
+            width: 8px;
+        }
+
+        .level_detail {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 14px;
+            color: #333333;
+            line-height: 28px;
+        }
+
+        .line_top {
+            font-size: 18px;
+            color: #000000;
+            line-height: 76px;
+            text-align: left;
+        }
+
+        .line_bt {
+            font-size: 14px;
+            color: #333333;
+            text-align: left;
+        }
+
+        .left_pn {
+            text-indent: 12px;
+        }
+
+        .item {
+            position: relative;
+            height: 66px;
+            /*display: none;*/
+        }
+
+        .item1 {
+            position: absolute;
+            width: 30px;
+            left: 29px;
+            top: 15px;
+        }
+
+        .item2 {
+            margin-left: 94px;
+            position: relative;
+            height: 66px;
+        }
+
+        .item3 {
+            position: absolute;
+            right: 12px;
+            top: 29px;
+        }
+
+        .line_one {
+            font-size: 18px;
+            color: #333333;
+            text-align: left;
+            line-height: 18px;
+            line-height: 66px;
+        }
+
+
+
+
+
+
+        .blue_score {
+            color: #12b7f5;
+        }
+
+        .demo.arrow {
+            position: absolute;
+            top: 30px;
+            right: 22px;
+        }
+
+
+            .btn {
+        background: #00ABEB;
+        border: 1px solid #c3c8cc;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+       
+        height: 29px;
+        font-size: 14px;
+        color: white;
+        text-align: center;
+        line-height: 26px;
+        margin:20px;
+    }
     </style>
 </head>
 <body>
-    <div id="header">AlloyTouch</div>
-    <div id="wrapper">
-        <div id="scroller">
-            <ul>
-                <li>Hello, AlloyTouch!</li>
-                <li>AlloyFinger - Super Tiny Size Gestures Library</li>
-                <li>Transformjs - Made CSS3 Super Easy</li>
-                <li>AlloyFlow - </li>
-                <li>Nuclear - Some HTML + Scoped CSS + JS </li>
-                <li>AlloyGameEngine</li>
-                <li>Rosin</li>
-                <li>LivePool</li>
-                <li>AlloyStick</li>
-                <li>CodeStar</li>
-                <li>AlloyDesigner</li>
-                <li>JXAnimate</li>
-                <li>Spirit</li>
-                <li>AlloyImage</li>
-                <li>ModJS</li>
-                <li>Pretty row 16</li>
-                <li>stepify</li>
-                <li>AlloyTimer</li>
-                <li>Alloy Desktop</li>
-                <li>JX UI</li>
-                <li>CodeTank</li>
-                <li>iSpriter</li>
-                <li>Rythem</li>
-                <li>Go!Png </li>
-                <li>JX</li>
-                <li>TEditor</li>
-                <li> row 1</li>
-                <li> row 2</li>
-                <li> row 3</li>
-                <li>row 5</li>
-                <li> row 5</li>
-                <li> row 7</li>
-                <li> row 8</li>
-                <li> row 9</li>
-                <li> row 11</li>
-                <li> row 11</li>
-                <li> row 12</li>
-                <li> row 13</li>
-                <li> row 14</li>
-                <li> row 15</li>
-                <li> row 16</li>
-                <li> row 17</li>
-                <li> row 18</li>
-                <li> row 19</li>
-                <li> row 20</li>
-                <li> row 21</li>
-                <li> row 22</li>
-                <li> row 23</li>
-                <li> row 24</li>
-                <li> row 25</li>
-            </ul>
-        </div>
+    <div class="header">
+        <div>AlloyTouch</div>
+        <div class="dir">Smooth scrolling, rotation, pull to refresh, page transition and any motion for the web.</div>
     </div>
-    <div id="footer"></div>
-     <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
-        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
-    </a>
-    <script src="transformjs/transform.js"></script>
+
+
+    <div class="ms" id="ms">
+        <div class="title border-1px border-bottom" id="gotoGithub">
+            <div class="left_pn">
+                <div class="line_top">
+                    <iframe src="//ghbtns.com/github-btn.html?user=alloyteam&repo=alloytouch&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+                </div>
+            </div>
+            <div class="level_detail">Fork me on GitHub<img class="arrow" src="example/asset/arrow.png" alt="" /></div>
+        </div>
+        <div class="item" id="goToSimple">
+            <img class="item1" src="example/asset/scroll.png" alt="" />
+            <div class="item2 border-1px border-bottom">
+                <div class="line_one">Simple Demo </div>
+
+
+            </div>
+
+            <img class="arrow demo" src="example/asset/arrow.png" alt="" />
+
+        </div>
+         <div class="item" id="goto2D">
+            <img class="item1" src="example/asset/rotation2d.png" alt="" />
+            <div class="item2 border-1px border-bottom">
+                <div class="line_one">Rotation 2D</div>
+            </div>
+            <img class="arrow demo" src="example/asset/arrow.png" alt="" />
+
+        </div>
+        <div class="item" id="goto3D">
+            <img class="item1" src="example/asset/rotation.png" alt="" />
+            <div class="item2 border-1px border-bottom">
+                <div class="line_one">Rotation 3D</div>
+            </div>
+            <img class="arrow demo" src="example/asset/arrow.png" alt="" />
+
+        </div>
+
+         <div class="item" id="gotoCarousel">
+            <img class="item1" src="example/asset/carousel.png" style="margin-top:2px;" alt="" />
+            <div class="item2 border-1px border-bottom">
+                <div class="line_one">Carousel</div>
+            </div>
+            <img class="arrow demo" src="example/asset/arrow.png" alt="" />
+
+        </div>
+
+        <div class="item" id="gotoWebGL">
+            <img class="item1" src="example/asset/webgl.png" style="margin-top:2px;" alt="" />
+            <div class="item2 border-1px border-bottom">
+                <div class="line_one">WebGL</div>
+            </div>
+            <img class="arrow demo" src="example/asset/arrow.png" alt="" />
+
+        </div>
+
+    </div>
+
+    <div class="btn" id="gotoMore"> More Demos...</div>
     <script src="alloy_touch.js"></script>
     <script>
-        var target = document.querySelector("#scroller");
-        //给element注入transform属性
-        Transform(target,true);
 
-        var at=new AlloyTouch({
-            touch:"#wrapper",//反馈触摸的dom
-            vertical: true,//不必需，默认是true代表监听竖直方向touch
-            target: target, //运动的对象
-            property: "translateY",  //被滚动的属性
-            sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
-            factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
-            min: window.innerHeight - 45 - 48 - 2000, //不必需,滚动属性的最小值
-            max: 0, //不必需,滚动属性的最大值
-            step: 40,
-            animationEnd: function (value) {
-                //console.log(value);
-            },
-            pressMove: function (evt,value) {
-                //console.log(evt.deltaX + "_" + evt.deltaY + "__" + value);
+        new AlloyTouch({
+            touch: "#gotoGithub",
+            tap: function (evt, value) {
+                location.href = "https://github.com/AlloyTeam/AlloyTouch";
+            }
+        })
+        new AlloyTouch({
+            touch: "#goToSimple",
+            tap: function (evt, value) {
+                location.href = "http://alloyteam.github.io/AlloyTouch/";
+            }
+        })
+        new AlloyTouch({
+            touch: "#goto2D",
+            tap: function (evt, value) {
+                location.href = "http://alloyteam.github.io/AlloyTouch/example/rotate.html";
             }
         })
 
+        new AlloyTouch({
+            touch: "#goto3D",
+            tap: function (evt, value) {
+                location.href = "http://alloyteam.github.io/AlloyTouch/example/3d.html";
+            }
+        })
+        
+
+        new AlloyTouch({
+            touch: "#gotoCarousel",
+            tap: function (evt, value) {
+                location.href = "http://alloyteam.github.io/AlloyTouch/example/carousel.html";
+            }
+        })
+        new AlloyTouch({
+            touch: "#gotoWebGL",
+            tap: function (evt, value) {
+                location.href = "http://alloyteam.github.io/AlloyTouch/example/threejs/";
+            }
+        })
+        new AlloyTouch({
+            touch: "#gotoMore",
+            tap: function (evt, value) {
+                location.href = "https://github.com/AlloyTeam/AlloyTouch";
+            }
+        })
+        
+        document.getElementById("gotoGithub").onclick = function () {
+            location.href = "https://github.com/AlloyTeam/AlloyTouch";
+        }
     </script>
+
 </body>
 </html>
