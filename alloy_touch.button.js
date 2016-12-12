@@ -32,13 +32,13 @@
         };
 
         if (active !== undefined) {
-            option.touchStart = function (evt, value) {
+            option.touchStart = function () {
                 addClass(element, active);
             };
-            touchMove = function (evt, value) {
+            touchMove = function () {
                 removeClass(element, active);
             };
-            option.touchEnd = function (evt, value) {
+            option.touchEnd = function () {
                 removeClass(element, active);
             };
             option.touchCancel = function () {
