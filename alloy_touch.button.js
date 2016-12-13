@@ -34,6 +34,9 @@
         if (active !== undefined) {
             option.touchStart = function () {
                 addClass(element, active);
+                setTimeout(function () {
+                    removeClass(element, active);
+                }, 150);
             };
             touchMove = function () {
                 removeClass(element, active);
