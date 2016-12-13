@@ -13,7 +13,7 @@
             -webkit-border-radius: 4px;
             border-radius: 4px;
             height: 1029px;
-            font-size: 14px;
+            font-size: 44px;
             color: white;
             text-align: center;
             line-height: 1029px;
@@ -39,8 +39,9 @@
     <script src="../alloy_touch.js"></script>
     <script src="../alloy_touch.button.js"></script>
     <script>
+        var i = 0;
         new AlloyTouch.Button("#button", function () {
-            alert("you tapped me");
+            document.querySelector("#button").innerHTML = i++;
         }, "active");
     </script>
 </body>
