@@ -18,11 +18,9 @@
                 progressStep = 1,
                 d2 = waveWidth / waveCount,
                 d = d2 / 2,
-                hd = d / 2;
-
-            var c = document.getElementById("myCanvas");
-            var ctx = c.getContext("2d");
-
+                hd = d / 2,
+                c = document.getElementById("myCanvas"),
+                ctx = c.getContext("2d");
 
             function tick() {
                 offset -= 5;
@@ -38,13 +36,11 @@
                 for (var i = 0; i < waveCount; i++) {
                     var dx = i * d2;
                     var offsetX = dx + startX - offset;
-
                     ctx.quadraticCurveTo(offsetX + hd, offsetY + waveHeight, offsetX + d, offsetY);
                     ctx.quadraticCurveTo(offsetX + hd + d, offsetY - waveHeight, offsetX + d2, offsetY);
                 }
                 ctx.lineTo(startX + waveWidth, 300);
                 ctx.lineTo(startX, 300);
-
                 ctx.fill();
 
                 requestAnimationFrame(tick);
