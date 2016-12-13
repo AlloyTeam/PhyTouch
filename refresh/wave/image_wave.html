@@ -9,7 +9,7 @@
                 waveHeight = 8,
                 waveCount = 5,
                 startX = -100,
-                startY = 208,
+                startY = 204,
                 progress = 0,
                 progressStep = 1,
                 d2 = waveWidth / waveCount,
@@ -18,8 +18,9 @@
 
             var c = document.getElementById("myCanvas");
             var ctx = c.getContext("2d");
-            var img = new Image;
-
+            var img = new Image();
+            ctx.fillStyle = "#4BF6EE";
+        
             function tick() {
                 offset -= 5;
                 progress += progressStep;
@@ -39,18 +40,16 @@
                     ctx.quadraticCurveTo(offsetX + hd, offsetY + waveHeight, offsetX + d, offsetY);
                     ctx.quadraticCurveTo(offsetX + hd + d, offsetY - waveHeight, offsetX + d2, offsetY);
                 }
+              
+            
                 ctx.lineTo(startX + waveWidth, 300);
                 ctx.lineTo(startX, 300);
 
-                //ctx.globalCompositeOperation = "destination-atop";
-                //ctx.fillStyle = "white";
-
-                //  ctx.globalCompositeOperation = "xor";
-                //  
+            
                 ctx.fill();
                 //画布上已有的内容只会在它和新图形重叠的地方保留。新图形绘制于内容之后。
                 ctx.globalCompositeOperation = "destination-atop";
-                ctx.drawImage(img, 0, 0)
+                ctx.drawImage(img, 0, -1)
                 requestAnimationFrame(tick);
             }
 
