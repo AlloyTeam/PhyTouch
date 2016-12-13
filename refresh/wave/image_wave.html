@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+    <canvas id="myCanvas" width="200" height="200" style="border: 1px solid #d3d3d3;">Your browser does not support the HTML5 canvas tag.</canvas>
+    <script>
+        ; (function () {
+            var waveWidth = 300,
+                offset = 0,
+                waveHeight = 8,
+                waveCount = 5,
+                startX = -100,
+                startY = 208,
+                progress = 0,
+                progressStep = 1,
+                d2 = waveWidth / waveCount,
+                d = d2 / 2,
+                hd = d / 2;
+
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+            var img = new Image;
+
+            function tick() {
+                offset -= 5;
+                progress += progressStep;
+                if (progress > 220 || progress < 0) progressStep *= -1;
+
+                if (-1 * offset === d2) offset = 0;
+                ctx.clearRect(0, 0, c.width, c.height);
+
+                ctx.beginPath();
+                var offsetY = startY - progress;
+                ctx.moveTo(startX - offset, offsetY);
+
+                for (var i = 0; i < waveCount; i++) {
+                    var dx = i * d2;
+                    var offsetX = dx + startX - offset;
+
+                    ctx.quadraticCurveTo(offsetX + hd, offsetY + waveHeight, offsetX + d, offsetY);
+                    ctx.quadraticCurveTo(offsetX + hd + d, offsetY - waveHeight, offsetX + d2, offsetY);
+                }
+                ctx.lineTo(startX + waveWidth, 300);
+                ctx.lineTo(startX, 300);
+
+                //ctx.globalCompositeOperation = "destination-atop";
+                //ctx.fillStyle = "white";
+
+                //  ctx.globalCompositeOperation = "xor";
+                //  
+                ctx.fill();
+                //画布上已有的内容只会在它和新图形重叠的地方保留。新图形绘制于内容之后。
+                ctx.globalCompositeOperation = "destination-atop";
+                ctx.drawImage(img, 0, 0)
+                requestAnimationFrame(tick);
+            }
+
+            img.onload = function () {
+                tick();
+            };
+
+            img.src = "asset/alloy.png";
+        })();
+
+    </script>
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3; width: 140px; height: 140px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
+    </a>
+</body>
+</html>
