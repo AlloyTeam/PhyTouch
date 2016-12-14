@@ -1,4 +1,4 @@
-var ISelect = function (option) {
+var Select = function (option) {
     var options = option.options,
         lis = "",
         parent = document.body,
@@ -29,28 +29,49 @@ var ISelect = function (option) {
 
         minTop = step * 2;
 
-    css(scroll, 'top',2 * step - option.selectedIndex * step);
-//实用tap代替？
-    okBtn.addEventListener("click", function () {
-        this.hide();
-        var index = getSelectedIndex();
-        if (index !== preSelectedIndex) {
-            option.change && option.change.call(this, option.options[index], index);
-            preSelectedIndex = index;
+    wrap.addEventListener("touchmove", function (evt) {
+        evt.preventDefault();
+    }, false);
+
+    var self = this;
+    new AlloyTouch({
+        touch: okBtn,
+        tap: function () {
+            self.hide();
+            var index = getSelectedIndex();
+            if (index !== preSelectedIndex) {
+                option.change && option.change.call(self, option.options[index], index);
+                preSelectedIndex = index;
+            }
+            option.complete && option.complete.call(self, option.options[index], index);
         }
-        option.complete&&option.complete.call(this, option.options[index], index);
-    }.bind(this), false);
+
+    })
 
 
+    Transform(scroll);
+    var alloyTouch = new AlloyTouch({
+        touch: container,
+        vertical: true,
+        target: scroll,
+        property: "translateY",
+        min: (len-1)*-30,
+        max: 0,
+       
+        step: step,
+        change: function (value) { },
+        touchStart: function (evt, value) { },
+        touchMove: function (evt, value) { },
+        touchEnd: function (evt, value) { },
+        tap: function (evt, value) { },
+        pressMove: function (evt, value) { },
+        animationEnd: function (value) { }
+    })
 
 
-    function css(element,name,value) {
-        element.style[name] = value + "px";
-    }
 
     function getSelectedIndex() {
-        //60  30  0   -30   -60...   -300
-        var rpt= (step*2- parseInt(window.getComputedStyle(scroll).top))/step;
+        var rpt = (scroll.translateY*-1) / step;
         if (rpt < 0) return 0;
         if (rpt > option.options.length) return option.options.length - 1;
         return Math.round(rpt);
@@ -67,5 +88,8 @@ var ISelect = function (option) {
     this.hide = function () {
 
 
+        wrap.style.display = "none";
+        container.style.visibility = "hidden";
+        container.style.display = "none";
     }
 }

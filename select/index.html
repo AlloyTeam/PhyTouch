@@ -1,28 +1,27 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ISelect</title>
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AlloyTouch</title>
     <style>
         html, body, ul, li {
             margin: 0;
             padding: 0;
             border: 0;
         }
+
         .iselect-wrap {
             position: absolute;
             left: 0;
-            top:0;
+            top: 0;
             z-index: 1200;
             width: 100%;
             background: rgba(0, 0, 0, 0.4);
             overflow: hidden;
-            display:none;
+            display: none;
             -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-
         }
 
         .iselect {
@@ -31,10 +30,11 @@
             bottom: -190px;
             overflow: hidden;
             position: absolute;
-            visibility:hidden;
+            visibility: hidden;
             background-color: white;
             bottom: 0px;
         }
+
         .iselect-options {
             width: 100%;
             height: 150px;
@@ -42,20 +42,22 @@
             overflow: hidden;
             position: absolute;
         }
+
         .iselect-scroll {
             position: absolute;
             top: 0px;
             width: 100%;
             z-index: 7;
             text-align: center;
+            top:60px;
         }
 
-        .iselect-scroll li {
-            list-style: none;
-            height: 30px;
-            line-height: 30px;
-            font-size: 18px;
-        }
+            .iselect-scroll li {
+                list-style: none;
+                height: 30px;
+                line-height: 30px;
+                font-size: 18px;
+            }
 
         .iselect-mask1 {
             border-top: 1px solid #ccc;
@@ -83,12 +85,13 @@
         .iselect-toolbar {
             top: 0px;
             height: 40px;
-            font-size:13px;
-            font-weight:bold;
+            font-size: 13px;
+            font-weight: bold;
             width: 100%;
             background-color: #fcfcfc;
             border-top: 1px solid #ccc;
         }
+
         .iselect-toolbar-ok {
             position: absolute;
             right: 12px;
@@ -98,42 +101,81 @@
             color: white;
             background-color: #0283FD;
         }
-        .iselect-toolbar-ok:hover {
-            color: #e4e3e3;
-            background-color: #0261bb;
+
+            .iselect-toolbar-ok:hover {
+                color: #e4e3e3;
+                background-color: #0261bb;
+            }
+    </style>
+
+        <style>
+        .button {
+            background-color: #00ABEB;
+            border: 1px solid #c3c8cc;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            height: 29px;
+            font-size: 14px;
+            color: white;
+            text-align: center;
+            line-height: 26px;
+            width: 200px;
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-left:-100px;
+            margin-top:-15px;
         }
+
+
+            .button.active {
+                background-color: #006389;
+            }
     </style>
 </head>
 <body>
-<button onclick="show()">选择日期</button>
-<script src="asset/select.js"></script>
-<script>
-    var iselect=new ISelect({
-        options: [
-            { value: "all", text: "累计" },
-            { value: "2015-9", text: "2015年9月" },
-            { value: "2015-8", text: "2015年8月" },
-            { value: "2015-7", text: "2015年7月" },
-            { value: "2015-6", text: "2015年6月" },
-            { value: "2015-5", text: "2015年5月" },
-            { value: "2015-4", text: "2015年4月" },
-            { value: "2015-3", text: "2015年3月" },
-            { value: "2015-2", text: "2015年2月" },
-            { value: "2015-1", text: "2015年1月" },
-            { value: "2014-12", text: "2014年12月" },
-            { value: "2014-11", text: "2014年11月" },
-            { value: "2014-10", text: "2014年10月" }
-        ],
-        selectedIndex: 3,
-        change: function (item, index) {
-            document.body.insertAdjacentHTML("beforeEnd", "<br/>选了第" + index + "项<br/>value:" + item.value + "<br/>text:" + item.text);
-        }
-    })
-    iselect.show();
-    function show() {
-        iselect.show();
-    }
+     <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 1313;width:140px;height:140px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
+    </a>
+    <div class="button" id="button">AlloyTouch Button</div>
+    <script src="../transformjs/transform.js"></script>
+    <script src="../alloy_touch.js"></script>
+    <script src="../alloy_touch.button.js"></script>
+    <script src="asset/select.js"></script>
+    <script>
+        var iselect = new Select({
+            options: [
+                { value: "all", text: "累计" },
+                { value: "2015-9", text: "2015年9月" },
+                { value: "2015-8", text: "2015年8月" },
+                { value: "2015-7", text: "2015年7月" },
+                { value: "2015-6", text: "2015年6月" },
+                { value: "2015-5", text: "2015年5月" },
+                { value: "2015-4", text: "2015年4月" },
+                { value: "2015-3", text: "2015年3月" },
+                { value: "2015-2", text: "2015年2月" },
+                { value: "2015-1", text: "2015年1月" },
+                { value: "2014-12", text: "2014年12月" },
+                { value: "2014-11", text: "2014年11月" },
+                { value: "2014-10", text: "2014年10月" }
+            ],
+            selectedIndex: 3,
+            change: function (item, index) {
+                document.body.insertAdjacentHTML("beforeEnd", "<br/>选了第" + index + "项<br/>value:" + item.value + "<br/>text:" + item.text);
+            },
+            complete: function () {
 
-</script>
+            }
+        })
+
+       
+        new AlloyTouch.Button("#button", function () {
+            iselect.show();
+        }, "active");
+ 
+     
+
+    </script>
 </body>
 </html>
