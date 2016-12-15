@@ -13,7 +13,7 @@
         }
 
         .iselect-wrap {
-            position: absolute;
+            position: fixed;
             left: 0;
             top: 0;
             z-index: 1200;
@@ -60,7 +60,6 @@
             }
 
         .iselect-mask1 {
-      
             position: absolute;
             width: 100%;
             height: 60px;
@@ -71,7 +70,6 @@
         }
 
         .iselect-mask2 {
-
             position: absolute;
             width: 100%;
             height: 60px;
@@ -96,15 +94,25 @@
             right: 12px;
             border-radius: 3px;
             top: 7px;
-            padding: 6px;
+            padding: 3px 6px;
             color: white;
             background-color: #0283FD;
         }
 
-            .iselect-toolbar-ok:hover {
+        .iselect-toolbar-cancel {
+            position: absolute;
+            left: 12px;
+            border-radius: 3px;
+            top: 7px;
+            padding: 3px 6px;
+            color: white;
+            background-color: #0283FD;
+        }
+
+        /*.iselect-toolbar-ok:hover {
                 color: #e4e3e3;
                 background-color: #0261bb;
-            }
+            }*/
     </style>
 
     <style>
@@ -134,20 +142,18 @@
     </style>
 
     <style>
-  
-
-            .b1:after {
-                display: block;
-                content: '';
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                -webkit-transform-origin: 0 0;
-                -webkit-transform: scale(1);
-                pointer-events: none;
-            }
+        .b1:after {
+            display: block;
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            -webkit-transform-origin: 0 0;
+            -webkit-transform: scale(1);
+            pointer-events: none;
+        }
 
         @media only screen and (-webkit-min-device-pixel-ratio: 2) {
             .b1:after {
@@ -175,7 +181,7 @@
         }
     </style>
 </head>
-<body>
+<body style="height: 20000px;">
     <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 1313; width: 140px; height: 140px;">
         <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
     </a>
@@ -192,12 +198,12 @@
 
         var iselect = new Select({
             options: options,
-            selectedIndex: 3,
+            selectedIndex: 11,
             change: function (item, index) {
-                document.body.insertAdjacentHTML("beforeEnd", "<br/>选了第" + index + "项<br/>value:" + item.value + "<br/>text:" + item.text);
+                
             },
-            complete: function () {
-
+            complete: function (item, index) {
+                document.body.insertAdjacentHTML("beforeEnd", "<br/>选了第" + index + "项<br/>value:" + item.value + "<br/>text:" + item.text);
             }
         })
 

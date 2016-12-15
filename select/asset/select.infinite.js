@@ -9,8 +9,8 @@ var Select = function (option) {
         lis += '<li>' + options[i].text + '</li>'
     }
     parent.insertAdjacentHTML("beforeEnd",
-        '<div class="iselect-wrap" style="height:'+window.innerHeight+'px"> <div class="iselect">\
-                                <div class="iselect-toolbar"><a class="iselect-toolbar-ok">完成</a></div>\
+        '<div class="iselect-wrap" style="height:' + window.innerHeight + 'px"> <div class="iselect">\
+                                <div class="iselect-toolbar"><a class="iselect-toolbar-cancel">取消</a><a class="iselect-toolbar-ok">完成</a></div>\
                                 <div class="iselect-options">\
                                     <ul class="iselect-scroll">' + lis + lis + ' </ul>\
                                     <div class="iselect-mask1 b1 bb bt"></div>\
@@ -19,20 +19,21 @@ var Select = function (option) {
                             </div></div>');
 
     var wraps = parent.querySelectorAll(".iselect-wrap"),
-        wrap = wraps[wraps.length-1],
+        wrap = wraps[wraps.length - 1],
         container = wrap.querySelector(".iselect"),
         scroll = container.querySelector(".iselect-scroll"),
         warpper = container.querySelector(".iselect-options"),
         okBtn = container.querySelector(".iselect-toolbar-ok"),
-
+        cancelBtn = container.querySelector(".iselect-toolbar-cancel"),
         step = 30,
-
         minTop = step * 2;
 
-
-    wrap.addEventListener("touchmove", function (evt) {
-        evt.preventDefault();
-    }, false);
+    new AlloyTouch({
+        touch: cancelBtn,
+        tap: function () {
+            self.hide();
+        }
+    })
 
     var self = this;
     new AlloyTouch({
@@ -49,36 +50,23 @@ var Select = function (option) {
 
     })
 
-
     var boxHeight = 150,
         scrollerHeight = 30 * len,
         cycle = 360;
 
     Transform(scroll, true);
+   
+    var initValue = -1 * preSelectedIndex * step;
+    correction(initValue)
 
-  
-    scroll.translateY -= scrollerHeight;
- 
     var alloyTouch = new AlloyTouch({
         touch: container,
         target: { y: 0 },
         property: "y",
-        vertical: true, 
+        vertical: true,
         step: step,
         change: function (value) {
-   
-          
-            value %= 360;
-            if (Math.abs(value) > 300) {
-                if (value > 0) {
-                    value -= 360;
-                } else {
-                    value += 360;
-                }
-            }
-          
-            scroll.translateY = value - scrollerHeight;
-           
+            correction(value);
         },
         touchStart: function (evt, value) { },
         touchMove: function (evt, value) { },
@@ -88,14 +76,28 @@ var Select = function (option) {
         animationEnd: function (value) { }
     })
 
-
+    wrap.addEventListener("touchmove", function (evt) {
+        evt.preventDefault();
+    }, false);
 
     function getSelectedIndex() {
-        var rpt = (scroll.translateY*-1) / step;
-        if (rpt < 0) return 0;
-        if (rpt > option.options.length) return option.options.length - 1;
+        var rpt = Math.abs(scroll.translateY % 360) / step;
         return Math.round(rpt);
     }
+
+    function correction(value) {
+        value %= 360;
+        if (Math.abs(value) > 270) {
+            if (value > 0) {
+                value -= 360;
+            } else {
+                value += 360;
+            }
+        }
+
+        scroll.translateY = value - scrollerHeight;
+    }
+
 
     this.show = function () {
 

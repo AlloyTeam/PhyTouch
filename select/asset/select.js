@@ -10,7 +10,7 @@ var Select = function (option) {
     }
     parent.insertAdjacentHTML("beforeEnd",
         '<div class="iselect-wrap" style="height:'+window.innerHeight+'px"> <div class="iselect">\
-                                <div class="iselect-toolbar"><a class="iselect-toolbar-ok">完成</a></div>\
+                                 <div class="iselect-toolbar"><a class="iselect-toolbar-cancel">取消</a><a class="iselect-toolbar-ok">完成</a></div>\
                                 <div class="iselect-options">\
                                     <ul class="iselect-scroll">'+ lis + ' </ul>\
                                     <div class="iselect-mask1 b1 bb bt"></div>\
@@ -24,13 +24,15 @@ var Select = function (option) {
         scroll = container.querySelector(".iselect-scroll"),
         warpper = container.querySelector(".iselect-options"),
         okBtn = container.querySelector(".iselect-toolbar-ok"),
-
+        cancelBtn = container.querySelector(".iselect-toolbar-cancel"),
         step = 30,
 
         minTop = step * 2;
 
+  
     wrap.addEventListener("touchmove", function (evt) {
         evt.preventDefault();
+
     }, false);
 
     var self = this;
@@ -47,13 +49,22 @@ var Select = function (option) {
         }
 
     })
+    new AlloyTouch({
+        touch: cancelBtn,
+        tap: function () {
+            self.hide();
+           
+        }
 
+    })
+    
 
     Transform(scroll);
     var alloyTouch = new AlloyTouch({
         touch: container,
         vertical: true,
         target: scroll,
+        initialVaule: preSelectedIndex*-1*step,
         property: "translateY",
         min: (len-1)*-30,
         max: 0,
