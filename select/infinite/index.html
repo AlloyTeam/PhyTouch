@@ -181,7 +181,7 @@
         }
     </style>
 </head>
-<body style="height: 20000px;">
+<body>
     <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 1313; width: 140px; height: 140px;">
         <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
     </a>
@@ -191,9 +191,9 @@
     <script src="../../alloy_touch.button.js"></script>
     <script src="../../alloy_touch.select.infinite.js"></script>
     <script>
-        var i = 1, options = [];
-        for (; i < 13; i++) {
-            options.push({ value: i, text: i < 10 ? "0" + i : i + "" });
+        var i = 0, options = [];
+        for (; i < 60; i++) {
+            options.push({ value: i, text: i < 10 ? "0" + i+" ms" : i + " ms" });
         }
 
         var iselect = new AlloyTouch.Select({

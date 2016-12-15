@@ -50,9 +50,7 @@ AlloyTouch.Select = function (option) {
 
     })
 
-    var boxHeight = 150,
-        scrollerHeight = 30 * len,
-        cycle = 360;
+    var scrollerHeight = 30 * len;
 
     Transform(scroll, true);
    
@@ -61,7 +59,7 @@ AlloyTouch.Select = function (option) {
 
     var alloyTouch = new AlloyTouch({
         touch: container,
-        target: { y: 0 },
+        target: { y: -1 * preSelectedIndex * step },
         property: "y",
         vertical: true,
         step: step,
@@ -81,17 +79,17 @@ AlloyTouch.Select = function (option) {
     }, false);
 
     function getSelectedIndex() {
-        var rpt = Math.abs(scroll.translateY % 360) / step;
+        var rpt = Math.abs(scroll.translateY % scrollerHeight) / step;
         return Math.round(rpt);
     }
 
     function correction(value) {
-        value %= 360;
-        if (Math.abs(value) > 270) {
+        value %= scrollerHeight;
+        if (Math.abs(value) > scrollerHeight-90) {
             if (value > 0) {
-                value -= 360;
+                value -= scrollerHeight;
             } else {
-                value += 360;
+                value += scrollerHeight;
             }
         }
         scroll.translateY = value - scrollerHeight;
