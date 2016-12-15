@@ -189,14 +189,14 @@
     <script src="../../transformjs/transform.js"></script>
     <script src="../../alloy_touch.js"></script>
     <script src="../../alloy_touch.button.js"></script>
-    <script src="../asset/select.infinite.js"></script>
+    <script src="../../alloy_touch.select.infinite.js"></script>
     <script>
         var i = 1, options = [];
         for (; i < 13; i++) {
             options.push({ value: i, text: i < 10 ? "0" + i : i + "" });
         }
 
-        var iselect = new Select({
+        var iselect = new AlloyTouch.Select({
             options: options,
             selectedIndex: 11,
             change: function (item, index) {
