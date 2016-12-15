@@ -94,22 +94,16 @@ AlloyTouch.Select = function (option) {
                 value += 360;
             }
         }
-
         scroll.translateY = value - scrollerHeight;
     }
 
-
     this.show = function () {
-
         wrap.style.display = "block";
         container.style.visibility = "visible";
         container.style.display = "block";
-
     }
 
     this.hide = function () {
-
-
         wrap.style.display = "none";
         container.style.visibility = "hidden";
         container.style.display = "none";

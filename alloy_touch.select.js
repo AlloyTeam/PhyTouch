@@ -26,9 +26,7 @@ AlloyTouch.Select = function (option) {
         okBtn = container.querySelector(".iselect-toolbar-ok"),
         cancelBtn = container.querySelector(".iselect-toolbar-cancel"),
         step = 30,
-
         minTop = step * 2;
-
   
     wrap.addEventListener("touchmove", function (evt) {
         evt.preventDefault();
@@ -47,18 +45,15 @@ AlloyTouch.Select = function (option) {
             }
             option.complete && option.complete.call(self, option.options[index], index);
         }
-
     })
+
     new AlloyTouch({
         touch: cancelBtn,
         tap: function () {
-            self.hide();
-           
+            self.hide();         
         }
-
     })
     
-
     Transform(scroll);
     var alloyTouch = new AlloyTouch({
         touch: container,
@@ -67,8 +62,7 @@ AlloyTouch.Select = function (option) {
         initialVaule: preSelectedIndex*-1*step,
         property: "translateY",
         min: (len-1)*-30,
-        max: 0,
-       
+        max: 0,     
         step: step,
         change: function (value) { },
         touchStart: function (evt, value) { },
@@ -79,8 +73,6 @@ AlloyTouch.Select = function (option) {
         animationEnd: function (value) { }
     })
 
-
-
     function getSelectedIndex() {
         var rpt = (scroll.translateY*-1) / step;
         if (rpt < 0) return 0;
@@ -89,16 +81,12 @@ AlloyTouch.Select = function (option) {
     }
 
     this.show = function () {
-
         wrap.style.display = "block";
         container.style.visibility = "visible";
         container.style.display = "block";
-
     }
 
     this.hide = function () {
-
-
         wrap.style.display = "none";
         container.style.visibility = "hidden";
         container.style.display = "none";
