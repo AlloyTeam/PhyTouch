@@ -12,7 +12,7 @@ var Select = function (option) {
         '<div class="iselect-wrap" style="height:'+window.innerHeight+'px"> <div class="iselect">\
                                 <div class="iselect-toolbar"><a class="iselect-toolbar-ok">完成</a></div>\
                                 <div class="iselect-options">\
-                                    <ul class="iselect-scroll">'+ lis + ' </ul>\
+                                    <ul class="iselect-scroll">' + lis + lis + ' </ul>\
                                     <div class="iselect-mask1 b1 bb bt"></div>\
                                     <div class="iselect-mask2 b1 bt"></div>\
                                 </div>\
@@ -28,6 +28,7 @@ var Select = function (option) {
         step = 30,
 
         minTop = step * 2;
+
 
     wrap.addEventListener("touchmove", function (evt) {
         evt.preventDefault();
@@ -49,17 +50,36 @@ var Select = function (option) {
     })
 
 
-    Transform(scroll);
+    var boxHeight = 150,
+        scrollerHeight = 30 * len,
+        cycle = 360;
+
+    Transform(scroll, true);
+
+  
+    scroll.translateY -= scrollerHeight;
+ 
     var alloyTouch = new AlloyTouch({
         touch: container,
-        vertical: true,
-        target: scroll,
-        property: "translateY",
-        min: (len-1)*-30,
-        max: 0,
-       
+        target: { y: 0 },
+        property: "y",
+        vertical: true, 
         step: step,
-        change: function (value) { },
+        change: function (value) {
+   
+          
+            value %= 360;
+            if (Math.abs(value) > 300) {
+                if (value > 0) {
+                    value -= 360;
+                } else {
+                    value += 360;
+                }
+            }
+          
+            scroll.translateY = value - scrollerHeight;
+           
+        },
         touchStart: function (evt, value) { },
         touchMove: function (evt, value) { },
         touchEnd: function (evt, value) { },
