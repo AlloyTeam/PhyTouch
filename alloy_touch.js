@@ -98,8 +98,8 @@
 
         this._calculateIndex();
 
+        this._moveHandler = this._move.bind(this);
         bind(this.element, "touchstart", this._start.bind(this));
-        bind(window, "touchmove", this._move.bind(this));
         bind(window, "touchend", this._end.bind(this));
         bind(window, "touchcancel", this._cancel.bind(this));
 
@@ -111,6 +111,7 @@
             return obj === undefined ? defaultValue : obj;
         },
         _start: function (evt) {
+            window.addEventListener("touchmove", this._moveHandler, { passive: false, capture: false });
             this.isTouchStart = true;
             this._firstTouchMove = true;
             this._preventMoveDefault = true;
@@ -159,11 +160,7 @@
                     this.touchMove.call(this, evt, this.target[this.property]);
 
                     if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
-                        if (evt.cancelable) {
-                            if (!evt.defaultPrevented) {
-                                evt.preventDefault();
-                            }
-                        }
+                            evt.preventDefault();
                     }
                 }
 
@@ -183,6 +180,7 @@
             }
         },
         _cancel: function (evt) {
+            window.removeEventListener("touchmove", this._moveHandler);
             var current = this.target[this.property];
             this.touchCancel.call(this, evt, current);
             if (this.hasMax && current > this.max) {
@@ -216,6 +214,7 @@
             }
         },
         _end: function (evt) {
+            window.removeEventListener("touchmove", this._moveHandler);
             if (this.isTouchStart && this._preventMoveDefault) {
                 this.isTouchStart = false;
                 var self = this,

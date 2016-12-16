@@ -188,11 +188,7 @@
                     this.touchMove(this.scroller[this.property]);
 
                     if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
-                        if (evt.cancelable) {
-                            if (!evt.defaultPrevented) {
-                                evt.preventDefault();
-                            }
-                        }
+                        evt.preventDefault();
                     }
                 }
             }
