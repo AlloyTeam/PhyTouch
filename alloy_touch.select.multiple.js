@@ -7,12 +7,13 @@
         this.options = option.options;
 
         var that = this;
+        var initSel = option.selectedIndex;
         
         var i = 0;
         var arrProv = [],arrCity=[];
         for (; i < this.length; i++) {
             var item =this.options[i];
-            if (option.selectedIndex[0] === i) {
+            if (initSel[0] === i) {
                 arrCity = item.list;
             }
         }
@@ -60,6 +61,8 @@
         }, false);
 
         var list = document.querySelectorAll('.alloy-selector-line');
+
+        // init list1
         var list1 = list[0];
         var arr1 = [];
         var arrProv = [];
@@ -71,25 +74,30 @@
             arr1.push('<li>' + p + '</li>');
         }
         list1.querySelector('ul').innerHTML = arr1.join('');
+
+        // init list2
         var list2 = list[1];
         var cityInfo = _getCityList.call(that);
         _selectedC = cityInfo[0];
         list2.querySelector('ul').innerHTML = cityInfo.content;
+
         var leftDiv = document.querySelector('.alloy-selector-left');
         var rightDiv = document.querySelector('.alloy-selector-right');
-
         Transform(list1);
         Transform(list2);
+
+        var list1Init = arrProv[initSel[0]] ? initSel[0] : 0;
         var at1 = new AlloyTouch({
             touch: leftDiv, // 反馈触摸的dom
             target: list1, // 运动的对象
+            initialVaule: list1Init * -33,
             property: "translateY",  // 被滚动的属性
             min: -33 * (arrProv.length - 1), // 不必需,滚动属性的最小值
             max: 0,
             animationEnd: function (value) {
-                console.log(value)
+                // console.log(value)
+                // console.log(Math.abs(value / 33))
                 _selectedP = arrProv[Math.round(Math.abs(value / 33))];
-                console.log(Math.abs(value / 33))
                 var cityInfo = _getCityList.call(that);
 
                 _selectedC = cityInfo[0];
@@ -99,9 +107,11 @@
             },
             step: 33
         });
+        var list2Init = arrProv[initSel[0]] && this.options[arrProv[initSel[0]]][initSel[1]] ? initSel[1] : 0;
         var at2 = new AlloyTouch({
             touch: rightDiv, // 反馈触摸的dom
             target: list2, // 运动的对象
+            initialVaule: list2Init * -33,
             property: "translateY",  // 被滚动的属性
             min: -33 * (cityInfo.length - 1), // 不必需,滚动属性的最小值
             max: 0,
