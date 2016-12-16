@@ -159,7 +159,11 @@
                     this.touchMove.call(this, evt, this.target[this.property]);
 
                     if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
-                        evt.preventDefault();
+                        if (evt.cancelable) {
+                            if (!evt.defaultPrevented) {
+                                evt.preventDefault();
+                            }
+                        }
                     }
                 }
 
