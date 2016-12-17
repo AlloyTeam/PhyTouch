@@ -1,8 +1,8 @@
 {
-  "name": "css3transform",
-  "version": "1.0.1",
+  "name": "css3transform-react",
+  "version": "0.1.0",
   "description": "made css3 transform super easy",
-  "main": "transform.js",
+  "main": "transform.react.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
