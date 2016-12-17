@@ -15,7 +15,8 @@
 
             function scoper(css) {
                 var id = generateID();
-                var prefix = "#"+id;
+                var prefix = "#" + id;
+                css = css.replace(/\/\*[\s\S]*?\*\//g, '');
                 var re = new RegExp("([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)", "g");
                 css = css.replace(re, function(g0, g1, g2) {
 
@@ -85,13 +86,15 @@
             window.scoper = scoper;
         })();
 
+        
         var id = scoper("h1 {\
                            color:red;\
+                        /*color: #0079ff;*/\
                             }\
                     \
-                            h2 {\
-                              color:green\
-                            }");
+                            /*  h2 {\
+                            color:green\
+                            }*/");
 
         document.body.getElementsByTagName("div")[0].setAttribute("id",id);
 
