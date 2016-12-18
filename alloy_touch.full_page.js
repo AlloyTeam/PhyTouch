@@ -56,6 +56,7 @@
         }
 
         this.duration = 600;
+
         this._transitionInit();
 
         var self = this;
@@ -127,9 +128,10 @@
                     var delay = parseInt(node.getAttribute("data-delay")) || 0;
                     var showClass = node.getAttribute("data-show");
                     var hideClass = node.getAttribute("data-hide");
+                    node.style.visibility = "hidden";
                     setTimeout((function(n,s,h){
                         return function(){
-
+                            n.style.visibility = "visible";
                             s&&addClass(n,s);
                             h&&removeClass(n,h);
                         }
@@ -184,7 +186,7 @@
             this.leavePage.call(this, this.alloyTouch.currentPage);
             this.beginToPage.call(this, index);
             this._transition(this.alloyTouch.currentPage, index);
-            this.alloyTouch.to(-1 * index * this.stepHeight,this.duration);
+            this.alloyTouch.to(-1 * index * this.stepHeight,this.duration*10);
         }
     };
 

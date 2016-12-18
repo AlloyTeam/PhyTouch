@@ -20,9 +20,10 @@
             width: 100%;;
             font-size: 24px;
             overflow: hidden;
+            position: relative;
         }
         .section .title{
-            padding-top: 100px;
+
             line-height: 100px;
             font-size: 24px;
         }
@@ -34,14 +35,22 @@
             /*-webkit-animation: bounceInUp 1s;*/
         }
 
-        .initValue {
-            transform: translateY(1000px);
-        }
-
         .powered{
             font-size: 20px;
             color: #454545;
             margin-top: 20px;
+        }
+
+        .section-main{
+            position: absolute;
+            top: 50%;
+            margin-top: -150px;
+            width: 100%;
+            text-align: center;;
+        }
+
+        a{
+            text-decoration: none;
         }
     </style>
     <style>
@@ -69,7 +78,7 @@
             z-index: 1;
             position: absolute;
             height: 4px;
-            background-color: green;
+            background-color: #00ABEB;
             transition: all .5s ease;
         }
     </style>
@@ -78,31 +87,42 @@
 <body>
     <div id="fullpage" class="site__header">
         <div class="section">
-            <div class="title animated" data-show="bounceInLeft"  data-hide="bounceOutLeft">AlloyTouch Introduction</div>
-            <div  data-delay="500"  class="initValue animated" data-show="bounceInUp"  data-hide="zoomOut"><img src="asset/alloytouch.png"></div>
+            <div class="section-main">
+                <div class="title animated" data-show="bounceInLeft"  data-hide="bounceOutLeft">AlloyTouch Introduction</div>
+                <div  data-delay="500"  class="animated" data-show="bounceInUp"  data-hide="zoomOut"><img src="asset/alloytouch.png"></div>
+
+                <div  data-delay="1200"  class="powered animated" data-show="bounceIn"  data-hide="bounceOut">By AlloyTeam</div>
+            </div>
+
         </div>
         <div class="section">
+            <div class="section-main">
             <div class="title animated"    data-delay="100" data-show="flipInY"  data-hide="flipOutY" >Powerful Features</div>
             <div   data-delay="400"  class="animated" data-show="zoomIn"  data-hide="zoomOut"><img src="asset/power.png"></div>
+                </div>
         </div>
         <div class="section">
+            <div class="section-main">
             <div class="title animated"    data-delay="100" data-show="lightSpeedIn"  data-hide="lightSpeedOut" >Physical Feedback</div>
             <div  class="animated" data-delay="500" data-show="flipInX"  data-hide="flipOutX"><img src="asset/physics.png"></div>
-        </div>
+        </div> </div>
         <div class="section">
-            <div class="title animated"  data-delay="100" data-show="slideInLeft"  data-hide="slideOutLeft">Smooth Motion</div>
+            <div class="section-main">
+            <div class="title animated"  data-delay="100" data-show="flipInY"  data-hide="flipOutY">Smooth Motion</div>
             <div  class="animated" data-delay="500" data-show="rotateIn"  data-hide="rotateOut"><img src="asset/speed.png"></div>
-        </div>
+        </div>  </div>
         <div class="section">
+            <div class="section-main">
             <div class="title animated"  data-delay="100" data-show="rollIn"  data-hide="rollOut">Simple API</div>
             <div  class="animated" data-delay="500" data-show="rotateIn"  data-hide="rotateOut"><img src="asset/simple.png"></div>
-        </div>
+            </div>  </div>
         <div class="section">
+            <div class="section-main">
             <div class="title animated"  data-delay="100" data-show="flipInY"  data-hide="flipOutY">Excellent Contributors</div>
             <div  class="animated" data-delay="500" data-show="flipInY"  data-hide="flipOutY"><img src="asset/contributors.png"></div>
 
-            <div  class="animated powered" data-delay="900" data-show="bounceIn"  data-hide="bounceOut"> powered by AlloyTouch FullPage Plugin and animate.css</div>
-        </div>
+            <div  class="animated powered" data-delay="900" data-show="bounceIn"  data-hide="bounceOut"> powered by <a href="https://github.com/AlloyTeam/AlloyTouch">AlloyTouch</a> FullPage Plugin and animate.css</div>
+            </div> </div>
     </div>
 
 
