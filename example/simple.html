@@ -170,6 +170,20 @@
      <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
         <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
     </a>
+    <script>
+
+        document.addEventListener("touchmove", function(evt){
+            console.log("document.touchmove");
+            evt.preventDefault();
+        }, false);
+//        document.addEventListener("DOMContentLoaded", ready, false);
+//        function ready(){
+//            var container = document.getElementById("wrapper");
+//            container.addEventListener("touchmove", function(evt){
+//                evt.stopPropagation();
+//            }, false);
+//        }
+    </script>
     <script src="../transformjs/transform.js"></script>
     <script src="../alloy_touch.js"></script>
     <script>
