@@ -124,7 +124,7 @@
             }
             this.isTouchStart = true;
             this._firstTouchMove = true;
-            this._preventMoveDefault = true;
+
             this.touchStart.call(this, evt, this.target[this.property]);
             cancelAnimationFrame(this.tickID);
             this._calculateIndex();
@@ -147,32 +147,33 @@
                 //    }
                 //    this._firstTouchMove = false;
                 //}
-                if (this._preventMoveDefault) {
-                    var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
-                    var f = this.moveFactor;
-                    if (this.hasMax && this.target[this.property] > this.max && d > 0) {
-                        f = this.outFactor;
-                    } else if (this.hasMin && this.target[this.property] < this.min && d < 0) {
-                        f = this.outFactor;
-                    }
-                    d *= f;
-                    this.preX = currentX;
-                    this.preY = currentY;
-                    if (!this.fixed) {
-                        this.target[this.property] += d;
-                    }
-                    this.change.call(this, this.target[this.property]);
-                    var timestamp = new Date().getTime();
-                    if (timestamp - this.startTime > 300) {
-                        this.startTime = timestamp;
-                        this.start = this.vertical ? this.preY : this.preX;
-                    }
-                    this.touchMove.call(this, evt, this.target[this.property]);
 
-                    if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
-                            evt.preventDefault();
-                    }
+
+                var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
+                var f = this.moveFactor;
+                if (this.hasMax && this.target[this.property] > this.max && d > 0) {
+                    f = this.outFactor;
+                } else if (this.hasMin && this.target[this.property] < this.min && d < 0) {
+                    f = this.outFactor;
                 }
+                d *= f;
+                this.preX = currentX;
+                this.preY = currentY;
+                if (!this.fixed) {
+                    this.target[this.property] += d;
+                }
+                this.change.call(this, this.target[this.property]);
+                var timestamp = new Date().getTime();
+                if (timestamp - this.startTime > 300) {
+                    this.startTime = timestamp;
+                    this.start = this.vertical ? this.preY : this.preX;
+                }
+                this.touchMove.call(this, evt, this.target[this.property]);
+
+                if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
+                        evt.preventDefault();
+                }
+
 
                 if (len === 1) {
                     if (this.x2 !== null) {
@@ -191,7 +192,7 @@
         },
         _cancel: function (evt) {
             this._boundMove = false;
-            this.eventTarget.removeEventListener("touchmove", this._moveHandler);
+            //this.eventTarget.removeEventListener("touchmove", this._moveHandler);
             var current = this.target[this.property];
             this.touchCancel.call(this, evt, current);
             if (this.hasMax && current > this.max) {
@@ -226,8 +227,8 @@
         },
         _end: function (evt) {
             this._boundMove = false;
-            this.eventTarget.removeEventListener("touchmove", this._moveHandler);
-            if (this.isTouchStart && this._preventMoveDefault) {
+            //this.eventTarget.removeEventListener("touchmove", this._moveHandler);
+            if (this.isTouchStart) {
                 this.isTouchStart = false;
                 var self = this,
                     current = this.target[this.property];
