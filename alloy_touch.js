@@ -138,15 +138,15 @@
                 var len = evt.touches.length,
                     currentX = evt.touches[0].pageX,
                     currentY = evt.touches[0].pageY;
-                if (this._firstTouchMove) {
-                    var dDis = Math.abs(currentX - this.x1) - Math.abs(currentY - this.y1);
-                    if (dDis > 0 && this.vertical) {
-                        this._preventMoveDefault = false;
-                    } else if (dDis < 0 && !this.vertical) {
-                        this._preventMoveDefault = false;
-                    }
-                    this._firstTouchMove = false;
-                }
+                //if (this._firstTouchMove) {
+                //    var dDis = Math.abs(currentX - this.x1) - Math.abs(currentY - this.y1);
+                //    if (dDis > 0 && this.vertical) {
+                //        this._preventMoveDefault = false;
+                //    } else if (dDis < 0 && !this.vertical) {
+                //        this._preventMoveDefault = false;
+                //    }
+                //    this._firstTouchMove = false;
+                //}
                 if (this._preventMoveDefault) {
                     var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
                     var f = this.moveFactor;
