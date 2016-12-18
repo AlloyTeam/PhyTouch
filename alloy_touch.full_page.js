@@ -154,11 +154,7 @@
             }
         },
         _transition: function (leaveIndex, toIndex) {
-            var self = this;
-            setTimeout(function(){
-                self._outPage(leaveIndex);
-            },this.duration/2);
-
+            this._outPage(leaveIndex);
             this. _toPage(toIndex);
         },
         next: function () {
