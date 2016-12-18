@@ -232,7 +232,7 @@
     </div>
 
     <div class="ms" id="ms">
-        <div class="title border-1px border-bottom" id="gotoGithub">
+        <div class="title border-1px border-bottom" onclick="goToUrl('https://github.com/AlloyTeam/AlloyTouch')">
             <div class="left_pn">
                 <div class="line_top">
                     <iframe src="//ghbtns.com/github-btn.html?user=alloyteam&repo=alloytouch&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
@@ -240,7 +240,7 @@
             </div>
             <div class="level_detail">Fork me on GitHub<img class="arrow" src="example/asset/arrow.png" alt="" /></div>
         </div>
-        <div class="item" id="gotoFullPage">
+        <div class="item"  onclick="goToUrl('http://alloyteam.github.io/AlloyTouch/full_page/')">
             <img class="item1" src="example/asset/full_page.png" style="margin-top: 2px;" alt="" />
             <div class="item2 border-1px border-bottom">
                 <div class="line_one">Full Page</div>
@@ -248,7 +248,7 @@
             <img class="arrow demo" src="example/asset/arrow.png" alt="" />
 
         </div>
-        <div class="item" id="gotoTap">
+        <div class="item"  onclick="goToUrl('example/button.html')">
             <img class="item1" src="example/asset/tap.png" style="width: 25px;" alt="" />
             <div class="item2 border-1px border-bottom">
                 <div class="line_one">Tap Demo </div>
@@ -257,7 +257,7 @@
             <img class="arrow demo" src="example/asset/arrow.png" alt="" />
 
         </div>
-        <div class="item" id="gotoDrag">
+        <div class="item"  onclick="goToUrl('example/drag.html')">
             <img class="item1" src="example/asset/drag.png" style="width: 25px;" alt="" />
             <div class="item2 border-1px border-bottom">
                 <div class="line_one">Drag Demo </div>
@@ -266,7 +266,7 @@
             <img class="arrow demo" src="example/asset/arrow.png" alt="" />
 
         </div>
-        <div class="item" id="goToSimple">
+        <div class="item" onclick="goToUrl('example/simple.html')">
             <img class="item1" src="example/asset/scroll.png" alt="" />
             <div class="item2 border-1px border-bottom">
                 <div class="line_one">Scrolling Demo </div>
@@ -277,7 +277,7 @@
             <img class="arrow demo" src="example/asset/arrow.png" alt="" />
 
         </div>
-        <div class="item" id="goto2D">
+        <div class="item"   onclick="goToUrl('example/rotate.html')">
             <img class="item1" src="example/asset/rotation2d.png" alt="" />
             <div class="item2 border-1px border-bottom">
                 <div class="line_one">Rotation 2D</div>
@@ -285,7 +285,7 @@
             <img class="arrow demo" src="example/asset/arrow.png" alt="" />
 
         </div>
-        <div class="item" id="goto3D">
+        <div class="item" onclick="goToUrl('example/3d.html')">
             <img class="item1" src="example/asset/rotation.png" alt="" />
             <div class="item2 border-1px border-bottom">
                 <div class="line_one">Rotation 3D</div>
@@ -294,7 +294,7 @@
 
         </div>
 
-        <div class="item" id="gotoCarousel">
+        <div class="item" onclick="goToUrl('example/carousel.html')">
             <img class="item1" src="example/asset/carousel.png" style="margin-top: 2px;" alt="" />
             <div class="item2 border-1px border-bottom">
                 <div class="line_one">Carousel</div>
@@ -303,7 +303,7 @@
 
         </div>
 
-        <div class="item" id="gotoWebGL">
+        <div class="item"  onclick="goToUrl('example/threejs/')">
             <img class="item1" src="example/asset/webgl.png" style="margin-top: 2px;" alt="" />
             <div class="item2 border-1px border-bottom">
                 <div class="line_one">WebGL</div>
@@ -317,49 +317,12 @@
     <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" id="githubLink" style="position: fixed;display:none; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
         <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" style="width:140px;" alt="">
     </a>
-    <div class="btn" id="gotoMore">More Demos...</div>
-    <script src="alloy_touch.js"></script>
-    <script src="alloy_touch.button.js"></script>
+    <div class="btn"  onclick="goToUrl('https://github.com/AlloyTeam/AlloyTouch')">More Demos...</div>
+
     <script>
-
-        var Button = AlloyTouch.Button;
-        new Button("#gotoFullPage", function () {
-            location.href = "http://alloyteam.github.io/AlloyTouch/full_page/";
-        })
-        new Button("#gotoGithub", function () {
-            location.href = "https://github.com/AlloyTeam/AlloyTouch";
-        })
-        new Button("#gotoTap", function () {
-            location.href = "example/button.html";
-        })
-        new Button("#gotoDrag", function () {
-            location.href = "example/drag.html";
-        })
-       
-        new Button("#goToSimple", function () {
-            location.href = "example/simple.html";
-        })
-        new Button("#goto2D", function () {
-            location.href = "example/rotate.html";
-        })
-        new Button("#goto3D", function () {
-            location.href = "example/3d.html";
-        })
-        new Button("#gotoCarousel", function () {
-            location.href = "example/carousel.html";
-        })
-        new Button("#gotoWebGL", function () {
-            location.href = "example/threejs/";
-        })
-        new Button("#gotoMore", function () {
-            location.href = "https://github.com/AlloyTeam/AlloyTouch";
-        })
-     
-  
-        document.getElementById("gotoGithub").onclick = function () {
-            location.href = "https://github.com/AlloyTeam/AlloyTouch";
+        function goToUrl(url){
+            location.href = url;
         }
-
 
         var isMobile = false; //initiate as false
         // device detection
