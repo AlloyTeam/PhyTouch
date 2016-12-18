@@ -113,7 +113,7 @@
     <div id="wrapper">
         <div id="scroller">
             <ul>
-                <li>Hello, AlloyTouch!</li>
+                <li>AlloyTouch</li>
                 <li>AlloyFinger - Super Tiny Size Gestures Library</li>
                 <li>Transformjs - Made CSS3 Super Easy</li>
                 <li>AlloyFlow - </li>
@@ -172,17 +172,11 @@
     </a>
     <script>
 
-        document.addEventListener("touchmove", function(evt){
+        window.addEventListener("touchmove", function(evt){
             console.log("document.touchmove");
             evt.preventDefault();
         }, false);
-//        document.addEventListener("DOMContentLoaded", ready, false);
-//        function ready(){
-//            var container = document.getElementById("wrapper");
-//            container.addEventListener("touchmove", function(evt){
-//                evt.stopPropagation();
-//            }, false);
-//        }
+
     </script>
     <script src="../transformjs/transform.js"></script>
     <script src="../alloy_touch.js"></script>
