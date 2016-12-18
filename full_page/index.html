@@ -248,21 +248,6 @@
     <script src="../alloy_touch.full_page.js"></script>
     <script src="asset/progress_bar.js"></script>
     <script>
-        var pb;
-        var fp =  new AlloyTouch.FullPage("#fullpage",{
-            animationEnd:function () {
-
-            },
-            leavePage: function (index) {
-               console.log("leave"+index)
-            },
-            beginToPage: function (index) {
-               console.log("to"+index);
-                pb.to(index / (this.length-1));
-            }
-        });
-        pb = new ProgressBar("#progress",fp.length-1)
-
         var target = document.querySelector("#demo1");
         //给element注入transform属性
         Transform(target,true);
@@ -300,6 +285,24 @@
             bindSelf:true,
             max: 0 //不必需,滚动属性的最大值
         })
+
+
+        var pb;
+        var fp =  new AlloyTouch.FullPage("#fullpage",{
+            animationEnd:function () {
+
+            },
+            leavePage: function (index) {
+               console.log("leave"+index)
+            },
+            beginToPage: function (index) {
+               console.log("to"+index);
+                pb.to(index / (this.length-1));
+            }
+        });
+        pb = new ProgressBar("#progress",fp.length-1)
+
+
     </script>
 
 </body>
