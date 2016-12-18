@@ -10,7 +10,7 @@ var ProgressBar = function (selector,length) {
         item.style.width = 100  / length + "%";
         item.style.height = height;
         if(i !== length-1) {
-            item.style.borderRight = "1px solid white";
+            item.style.borderRight = "4px solid white";
         }
         progressItems.appendChild(item);
     }
