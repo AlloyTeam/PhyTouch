@@ -17,7 +17,7 @@
 
 
         .section{
-
+            width: 100%;;
             font-size: 24px;
             overflow: hidden;
         }
@@ -31,41 +31,19 @@
         }
 
         .site__header {
-            -webkit-animation: bounceInUp 1s;
+            /*-webkit-animation: bounceInUp 1s;*/
         }
 
+        .initValue {
+            transform: translateY(1000px);
+        }
+
+        .powered{
+            font-size: 20px;
+            color: #454545;
+            margin-top: 20px;
+        }
     </style>
-
-    <link href="asset/animate.min.css" rel="stylesheet" />
-</head>
-<body>
-    <div id="fullpage" class="site__header">
-        <div class="section">
-            <div class="title">AlloyTouch Introduction</div>
-            <div><img src="asset/alloytouch.png"></div>
-        </div>
-        <div class="section">
-            <div class="title">Powerful Features</div>
-            <div><img src="asset/power.png"></div>
-        </div>
-        <div class="section">
-            <div class="title">Physical Feedback</div>
-            <div><img src="asset/physics.png"></div>
-        </div>
-        <div class="section">
-            <div class="title">Smooth Motion</div>
-            <div><img src="asset/speed.png"></div>
-        </div>
-        <div class="section">
-            <div class="title">Simple API</div>
-            <div><img src="asset/simple.png"></div>
-        </div>
-        <div class="section">
-            <div class="title">Excellent Contributors</div>
-            <div><img src="asset/contributors.png"></div>
-        </div>
-    </div>
-
     <style>
         *{
             box-sizing: border-box;
@@ -95,6 +73,39 @@
             transition: all .5s ease;
         }
     </style>
+    <link href="asset/animate.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="fullpage" class="site__header">
+        <div class="section">
+            <div class="title animated" data-show="bounceInLeft"  data-hide="bounceOutLeft">AlloyTouch Introduction</div>
+            <div  data-delay="500"  class="initValue animated" data-show="bounceInUp"  data-hide="zoomOut"><img src="asset/alloytouch.png"></div>
+        </div>
+        <div class="section">
+            <div class="title animated"    data-delay="100" data-show="flipInY"  data-hide="flipOutY" >Powerful Features</div>
+            <div   data-delay="400"  class="animated" data-show="zoomIn"  data-hide="zoomOut"><img src="asset/power.png"></div>
+        </div>
+        <div class="section">
+            <div class="title animated"    data-delay="100" data-show="lightSpeedIn"  data-hide="lightSpeedOut" >Physical Feedback</div>
+            <div  class="animated" data-delay="500" data-show="flipInX"  data-hide="flipOutX"><img src="asset/physics.png"></div>
+        </div>
+        <div class="section">
+            <div class="title animated"  data-delay="100" data-show="slideInLeft"  data-hide="slideOutLeft">Smooth Motion</div>
+            <div  class="animated" data-delay="500" data-show="rotateIn"  data-hide="rotateOut"><img src="asset/speed.png"></div>
+        </div>
+        <div class="section">
+            <div class="title animated"  data-delay="100" data-show="rollIn"  data-hide="rollOut">Simple API</div>
+            <div  class="animated" data-delay="500" data-show="rotateIn"  data-hide="rotateOut"><img src="asset/simple.png"></div>
+        </div>
+        <div class="section">
+            <div class="title animated"  data-delay="100" data-show="flipInY"  data-hide="flipOutY">Excellent Contributors</div>
+            <div  class="animated" data-delay="500" data-show="flipInY"  data-hide="flipOutY"><img src="asset/contributors.png"></div>
+
+            <div  class="animated powered" data-delay="900" data-show="bounceIn"  data-hide="bounceOut"> powered by AlloyTouch FullPage Plugin and animate.css</div>
+        </div>
+    </div>
+
+
     <div id="progress" class="progress">
         <div class="progress-rate"></div>
             <div class="progress-items">
@@ -113,13 +124,14 @@
         var pb = new ProgressBar("#progress",5)
        var fp =  new AlloyTouch.FullPage("#fullpage",{
             animationEnd:function () {
-                pb.to(this.currentPage / 5);
+
             },
             leavePage: function (index) {
-                console.log("leave"+index)
+             //   console.log("leave"+index)
             },
             beginToPage: function (index) {
-                console.log("to"+index)
+               console.log("to"+index);
+                pb.to(index / (this.length-1));
             }
         });
     </script>

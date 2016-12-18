@@ -13,6 +13,26 @@
         }, capture || false);
     };
 
+    function addClass(element, className) {
+
+        if (element.classList) {
+            element.classList.add(className);
+        } else {
+            element.className += ' ' + className;
+        }
+
+    }
+
+    function removeClass(element, className) {
+
+        if (element.classList) {
+            element.classList.remove(className);
+        } else {
+            element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+        }
+
+    }
+
     var FullPage = function(selector,option) {
         this.parent = typeof selector === "string" ? document.querySelector(selector) : selector;
         this.parent.style.visibility = "visible";
@@ -25,13 +45,18 @@
             len = children.length,
             i = 0;
         this.length = 0;
+        this.children = [];
         for (; i < len; i++) {
             var child = children[i];
             if (child.nodeType !== 3) {
                 child.style.height = this.stepHeight + "px";
                 this.length++;
+                this.children.push({child:child,transitionChildren:child.querySelectorAll(".animated")});
             }
         }
+
+        this.duration = 600;
+        this._transitionInit();
 
         var self = this;
 
@@ -55,13 +80,12 @@
                 } else if (Math.abs(dx) < 30) {
                     this.to(step_v);
 
-                }
-                else if (dx > 0) {
-                    this.to(step_v + this.step);
-
+                }else if (dx > 0) {
+                   // this.to(step_v + this.step);
+                    self.prev();
                 } else {
-
-                    this.to(step_v - this.step);
+                    self.next();
+                   // this.to(step_v - this.step);
                 }
                 return false;
             },
@@ -85,9 +109,59 @@
     };
 
     FullPage.prototype = {
-        next:function () {
+        _transitionInit:function(){
+            var i = 1 ,
+                len = this.children.length;
+            for(;i<len;i++){
+              this._outPage(i);
+            }
+            this._toPage(0);
+        },
+        _toPage:function(index){
+            var ttcs = this.children[index].transitionChildren;
+            var  i = 0;
+            var tLen = ttcs.length;
+            if (tLen > 0) {
+                for (; i < tLen; i++) {
+                    var node = ttcs[i];
+                    var delay = parseInt(node.getAttribute("data-delay")) || 0;
+                    var showClass = node.getAttribute("data-show");
+                    var hideClass = node.getAttribute("data-hide");
+                    setTimeout((function(n,s,h){
+                        return function(){
+
+                            s&&addClass(n,s);
+                            h&&removeClass(n,h);
+                        }
+                    })(node,showClass,hideClass),delay);
+                }
+            }
+        },
+        _outPage:function(index){
+            var ltcs = this.children[index].transitionChildren;
+            var lLen = ltcs.length,
+                i = 0;
+            if (lLen > 0) {
+                for (; i < lLen; i++) {
+                    var node = ltcs[i];
+                    var showClass = node.getAttribute("data-show");
+                    var hideClass = node.getAttribute("data-hide");
+                    hideClass&&addClass(node,hideClass);
+                    showClass&&removeClass(node,showClass);
+                }
+            }
+        },
+        _transition: function (leaveIndex, toIndex) {
+            var self = this;
+            setTimeout(function(){
+                self._outPage(leaveIndex);
+            },this.duration/2);
+
+            this. _toPage(toIndex);
+        },
+        next: function () {
             var index = this.alloyTouch.currentPage + 1;
-       
+
             if (index > this.length - 1) {
                 index = this.length - 1;
                 this.moving = false;
@@ -95,9 +169,9 @@
             }
             this.to(index);
         },
-        prev:function () {
+        prev: function () {
             var index = this.alloyTouch.currentPage - 1;
-         
+
             if (index < 0) {
                 index = 0;
                 this.moving = false;
@@ -106,9 +180,11 @@
             this.to(index);
         },
         to: function (index) {
+
             this.leavePage.call(this, this.alloyTouch.currentPage);
             this.beginToPage.call(this, index);
-            this.alloyTouch.to(-1*index*this.stepHeight);
+            this._transition(this.alloyTouch.currentPage, index);
+            this.alloyTouch.to(-1 * index * this.stepHeight,this.duration);
         }
     };
 
