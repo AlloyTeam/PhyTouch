@@ -69,6 +69,7 @@
             max: 0,
             step: this.stepHeight,
             inertia: false,
+            bindSelf : true,
             touchEnd: function (evt, v, index) {
 
                 var step_v = index * this.step * -1;

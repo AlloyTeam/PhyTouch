@@ -20,7 +20,7 @@ var ProgressBar = function (selector,length) {
 
 ProgressBar.prototype={
     to:function (p) {
-        this.progressRate.style.width =Math.ceil( p*100)+"%";
+        this.progressRate.style.width =Math.floor( p*100)+"%";
     }
 };
 
