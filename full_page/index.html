@@ -256,7 +256,7 @@
 
         var target = document.querySelector("#demo1");
         //给element注入transform属性
-        Transform(target);
+        Transform(target,true);
 
         new AlloyTouch({
             touch: document,//反馈触摸的dom
@@ -268,7 +268,7 @@
         })
 
         var scroller = document.querySelector("#scroller");
-        Transform(scroller);
+        Transform(scroller,true);
 
         var at=new AlloyTouch({
             touch:"#demo0",//反馈触摸的dom
