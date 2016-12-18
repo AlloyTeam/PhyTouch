@@ -240,6 +240,14 @@
             </div>
             <div class="level_detail">Fork me on GitHub<img class="arrow" src="example/asset/arrow.png" alt="" /></div>
         </div>
+        <div class="item" id="gotoFullPage">
+            <img class="item1" src="example/asset/full_page.png" style="margin-top: 2px;" alt="" />
+            <div class="item2 border-1px border-bottom">
+                <div class="line_one">Full Page</div>
+            </div>
+            <img class="arrow demo" src="example/asset/arrow.png" alt="" />
+
+        </div>
         <div class="item" id="gotoTap">
             <img class="item1" src="example/asset/tap.png" style="width: 25px;" alt="" />
             <div class="item2 border-1px border-bottom">
@@ -315,7 +323,9 @@
     <script>
 
         var Button = AlloyTouch.Button;
-
+        new Button("#gotoFullPage", function () {
+            location.href = "http://alloyteam.github.io/AlloyTouch/full_page/";
+        })
         new Button("#gotoGithub", function () {
             location.href = "https://github.com/AlloyTeam/AlloyTouch";
         })
