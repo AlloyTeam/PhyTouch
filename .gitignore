@@ -2,3 +2,4 @@
 .DS_Store
 npm-debug.log
 .idea/
+/transformjs/react/example/node_modules
