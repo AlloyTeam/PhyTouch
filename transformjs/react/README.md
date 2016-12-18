@@ -16,7 +16,8 @@ npm install css3transform-react
 
 ## Demo
 
-[https://alloyteam.github.io/AlloyTouch/transformjs/react/example/](https://alloyteam.github.io/AlloyTouch/transformjs/react/example/)
+- [https://alloyteam.github.io/AlloyTouch/transformjs/react/example/](https://alloyteam.github.io/AlloyTouch/transformjs/react/example/)
+- [http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html)
 
 ## Usage
 

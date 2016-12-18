@@ -6,6 +6,12 @@ made css3 transform super easy
 
 [http://alloyteam.github.io/AlloyTouch/transformjs/](http://alloyteam.github.io/AlloyTouch/transformjs/)
 
+## Demo
+
+- [http://alloyteam.github.io/AlloyTouch/transformjs/example/all.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/all.html)
+- [http://alloyteam.github.io/AlloyTouch/transformjs/example/soft.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/soft.html)
+- [http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html)
+
 ## Install
 
 You can install it via npm:
