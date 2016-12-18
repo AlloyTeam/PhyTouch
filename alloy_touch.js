@@ -107,7 +107,7 @@
         bind(this.element, "touchstart", this._start.bind(this));
         bind(this.eventTarget, "touchend", this._end.bind(this));
         bind(this.eventTarget, "touchcancel", this._cancel.bind(this));
-
+        this.eventTarget.addEventListener("touchmove", this._moveHandler, { passive: false, capture: false });
         this.x1 = this.x2 = this.y1 = this.y2 = null;
 
         this._boundMove = false;
@@ -120,7 +120,7 @@
         _start: function (evt) {
             if (!this._boundMove) {
                 this._boundMove = true;
-                this.eventTarget.addEventListener("touchmove", this._moveHandler, { passive: false, capture: false });
+
             }
             this.isTouchStart = true;
             this._firstTouchMove = true;
