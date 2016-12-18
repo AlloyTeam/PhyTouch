@@ -110,7 +110,6 @@
         this.eventTarget.addEventListener("touchmove", this._moveHandler, { passive: false, capture: false });
         this.x1 = this.x2 = this.y1 = this.y2 = null;
 
-        this._boundMove = false;
     };
 
     AlloyTouch.prototype = {
@@ -118,13 +117,7 @@
             return obj === undefined ? defaultValue : obj;
         },
         _start: function (evt) {
-            if (!this._boundMove) {
-                this._boundMove = true;
-
-            }
             this.isTouchStart = true;
-            this._firstTouchMove = true;
-
             this.touchStart.call(this, evt, this.target[this.property]);
             cancelAnimationFrame(this.tickID);
             this._calculateIndex();
@@ -138,16 +131,6 @@
                 var len = evt.touches.length,
                     currentX = evt.touches[0].pageX,
                     currentY = evt.touches[0].pageY;
-                //if (this._firstTouchMove) {
-                //    var dDis = Math.abs(currentX - this.x1) - Math.abs(currentY - this.y1);
-                //    if (dDis > 0 && this.vertical) {
-                //        this._preventMoveDefault = false;
-                //    } else if (dDis < 0 && !this.vertical) {
-                //        this._preventMoveDefault = false;
-                //    }
-                //    this._firstTouchMove = false;
-                //}
-
 
                 var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
                 var f = this.moveFactor;
@@ -191,8 +174,6 @@
             }
         },
         _cancel: function (evt) {
-            this._boundMove = false;
-            //this.eventTarget.removeEventListener("touchmove", this._moveHandler);
             var current = this.target[this.property];
             this.touchCancel.call(this, evt, current);
             if (this.hasMax && current > this.max) {
@@ -226,8 +207,6 @@
             }
         },
         _end: function (evt) {
-            this._boundMove = false;
-            //this.eventTarget.removeEventListener("touchmove", this._moveHandler);
             if (this.isTouchStart) {
                 this.isTouchStart = false;
                 var self = this,
