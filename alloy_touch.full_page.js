@@ -186,7 +186,7 @@
             this.leavePage.call(this, this.alloyTouch.currentPage);
             this.beginToPage.call(this, index);
             this._transition(this.alloyTouch.currentPage, index);
-            this.alloyTouch.to(-1 * index * this.stepHeight,this.duration*10);
+            this.alloyTouch.to(-1 * index * this.stepHeight,this.duration);
         }
     };
 
