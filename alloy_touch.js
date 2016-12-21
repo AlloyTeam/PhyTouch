@@ -186,6 +186,7 @@
             }
         },
         _cancel: function (evt) {
+            this._preventMove = false;
             var current = this.target[this.property];
             this.touchCancel.call(this, evt, current);
             if (this.hasMax && current > this.max) {
@@ -203,7 +204,7 @@
             }
 
             this.x1 = this.x2 = this.y1 = this.y2 = null;
-            this._preventMove = false;
+
         },
         to: function (v, time, user_ease) {
 
@@ -220,6 +221,7 @@
             }
         },
         _end: function (evt) {
+            this._preventMove = false;
             if (this.isTouchStart) {
                 this.isTouchStart = false;
                 var self = this,
@@ -289,7 +291,7 @@
 
             }
             this.x1 = this.x2 = this.y1 = this.y2 = null;
-            this._preventMove = false;
+
         },
         _to: function (value, time, ease, onChange, onEnd) {
             if (this.fixed) return;
