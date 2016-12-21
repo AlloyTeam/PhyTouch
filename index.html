@@ -86,18 +86,17 @@
             height: 400px;
             position: relative;
         }
-
-        .ad_main {
-            color: white;
+        .ad_main_box {
+            width: 100%;
+            top: 100px;
             position: absolute;
             z-index: 2;
-            left: 50%;
-            margin-left: -150px;
-            top: 50%;
-            margin-top: -80px;
+        }
+        .ad_main {
+            color: white;
             font-size: 20px;
             white-space:nowrap;
-            width:300px;
+            text-align:center;
         }
 
         .ad_mask {
@@ -302,13 +301,15 @@
         </div>
         <div class="ad">
             <div class="ad_mask"></div>
-            <div class="ad_main">
-                <!--<span class="logo"><img src="images/logo.svg" alt="" /></span>-->
-                <h1>AlloyTouch</h1>
-                <p>
-                    Everything you want to touch is here<br>
-                    by AlloyTeam
-                </p>
+            <div class="ad_main_box">
+                <div  class="ad_main">
+                    <!--<span class="logo"><img src="images/logo.svg" alt="" /></span>-->
+                    <h1>AlloyTouch</h1>
+                    <p>
+                        Everything you want to touch is here<br>
+                        by AlloyTeam
+                    </p>
+                </div>
             </div>
         </div>
 
