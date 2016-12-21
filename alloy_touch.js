@@ -110,6 +110,7 @@
         this.eventTarget.addEventListener("touchmove", this._moveHandler, { passive: false, capture: false });
         this.x1 = this.x2 = this.y1 = this.y2 = null;
 
+        this._preventMove = true;
     };
 
     AlloyTouch.prototype = {
@@ -125,6 +126,7 @@
             this.x1 = this.preX = evt.touches[0].pageX;
             this.y1 = this.preY = evt.touches[0].pageY;
             this.start = this.vertical ? this.preY : this.preX;
+            this._firstTouchMove = true;
         },
         _move: function (evt) {
             if (this.isTouchStart) {
@@ -132,31 +134,41 @@
                     currentX = evt.touches[0].pageX,
                     currentY = evt.touches[0].pageY;
 
-                var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
-                var f = this.moveFactor;
-                if (this.hasMax && this.target[this.property] > this.max && d > 0) {
-                    f = this.outFactor;
-                } else if (this.hasMin && this.target[this.property] < this.min && d < 0) {
-                    f = this.outFactor;
+                if (this._firstTouchMove) {
+                    var dDis = Math.abs(currentX - this.x1) - Math.abs(currentY - this.y1);
+                    if (dDis > 0 && this.vertical) {
+                        this._preventMove = false;
+                    } else if (dDis < 0 && !this.vertical) {
+                        this._preventMove = false;
+                    }
+                    this._firstTouchMove = false;
                 }
-                d *= f;
-                this.preX = currentX;
-                this.preY = currentY;
-                if (!this.fixed) {
-                    this.target[this.property] += d;
-                }
-                this.change.call(this, this.target[this.property]);
-                var timestamp = new Date().getTime();
-                if (timestamp - this.startTime > 300) {
-                    this.startTime = timestamp;
-                    this.start = this.vertical ? this.preY : this.preX;
-                }
-                this.touchMove.call(this, evt, this.target[this.property]);
+                if(this._preventMove) {
+                    var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
+                    var f = this.moveFactor;
+                    if (this.hasMax && this.target[this.property] > this.max && d > 0) {
+                        f = this.outFactor;
+                    } else if (this.hasMin && this.target[this.property] < this.min && d < 0) {
+                        f = this.outFactor;
+                    }
+                    d *= f;
+                    this.preX = currentX;
+                    this.preY = currentY;
+                    if (!this.fixed) {
+                        this.target[this.property] += d;
+                    }
+                    this.change.call(this, this.target[this.property]);
+                    var timestamp = new Date().getTime();
+                    if (timestamp - this.startTime > 300) {
+                        this.startTime = timestamp;
+                        this.start = this.vertical ? this.preY : this.preX;
+                    }
+                    this.touchMove.call(this, evt, this.target[this.property]);
 
-                if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
+                    if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
                         evt.preventDefault();
+                    }
                 }
-
 
                 if (len === 1) {
                     if (this.x2 !== null) {
