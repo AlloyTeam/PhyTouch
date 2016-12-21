@@ -164,10 +164,10 @@
                         this.start = this.vertical ? this.preY : this.preX;
                     }
                     this.touchMove.call(this, evt, this.target[this.property]);
+                }
 
-                    if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
-                        evt.preventDefault();
-                    }
+                if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
+                    evt.preventDefault();
                 }
 
                 if (len === 1) {
