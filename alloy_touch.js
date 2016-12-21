@@ -110,7 +110,7 @@
         this.eventTarget.addEventListener("touchmove", this._moveHandler, { passive: false, capture: false });
         this.x1 = this.x2 = this.y1 = this.y2 = null;
 
-        this._preventMove = true;
+        this._preventMove = false;
     };
 
     AlloyTouch.prototype = {
@@ -137,13 +137,13 @@
                 if (this._firstTouchMove) {
                     var dDis = Math.abs(currentX - this.x1) - Math.abs(currentY - this.y1);
                     if (dDis > 0 && this.vertical) {
-                        this._preventMove = false;
+                        this._preventMove = true;
                     } else if (dDis < 0 && !this.vertical) {
-                        this._preventMove = false;
+                        this._preventMove = true;
                     }
                     this._firstTouchMove = false;
                 }
-                if(this._preventMove) {
+                if(!this._preventMove) {
                     var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
                     var f = this.moveFactor;
                     if (this.hasMax && this.target[this.property] > this.max && d > 0) {
@@ -203,6 +203,7 @@
             }
 
             this.x1 = this.x2 = this.y1 = this.y2 = null;
+            this._preventMove = false;
         },
         to: function (v, time, user_ease) {
 
@@ -288,6 +289,7 @@
 
             }
             this.x1 = this.x2 = this.y1 = this.y2 = null;
+            this._preventMove = false;
         },
         _to: function (value, time, ease, onChange, onEnd) {
             if (this.fixed) return;
