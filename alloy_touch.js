@@ -109,8 +109,6 @@
         bind(this.eventTarget, "touchcancel", this._cancel.bind(this));
         this.eventTarget.addEventListener("touchmove", this._moveHandler, { passive: false, capture: false });
         this.x1 = this.x2 = this.y1 = this.y2 = null;
-
-        this._preventMove = false;
     };
 
     AlloyTouch.prototype = {
@@ -127,6 +125,7 @@
             this.y1 = this.preY = evt.touches[0].pageY;
             this.start = this.vertical ? this.preY : this.preX;
             this._firstTouchMove = true;
+            this._preventMove = false;
         },
         _move: function (evt) {
             if (this.isTouchStart) {
@@ -186,7 +185,6 @@
             }
         },
         _cancel: function (evt) {
-            this._preventMove = false;
             var current = this.target[this.property];
             this.touchCancel.call(this, evt, current);
             if (this.hasMax && current > this.max) {
@@ -207,7 +205,6 @@
 
         },
         to: function (v, time, user_ease) {
-
             this._to(v, this._getValue(time, 600), user_ease || ease, this.change, function (value) {
                 this._calculateIndex();
                 this.reboundEnd.call(this, value);
@@ -221,7 +218,6 @@
             }
         },
         _end: function (evt) {
-            this._preventMove = false;
             if (this.isTouchStart) {
                 this.isTouchStart = false;
                 var self = this,
@@ -241,7 +237,6 @@
                         this.animationEnd.call(this, value);
                     }.bind(this));
                 } else if (this.inertia) {
-                    //var y = evt.changedTouches[0].pageY;
                     var dt = new Date().getTime() - this.startTime;
                     if (dt < 300) {
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
