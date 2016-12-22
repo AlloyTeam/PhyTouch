@@ -221,8 +221,9 @@
             if (this.isTouchStart) {
                 this.isTouchStart = false;
                 var self = this,
-                    current = this.target[this.property];
-                if (Math.abs(evt.changedTouches[0].pageX - this.x1) < 30 && Math.abs(evt.changedTouches[0].pageY - this.y1) < 30) {
+                    current = this.target[this.property],
+                    triggerTap = (Math.abs(evt.changedTouches[0].pageX - this.x1) < 30 && Math.abs(evt.changedTouches[0].pageY - this.y1) < 30);
+                if (triggerTap) {
                     this.tap.call(this, evt, current);
                 }
                 if (this.touchEnd.call(this, evt, current, this.currentPage) === false) return;
@@ -236,7 +237,7 @@
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
-                } else if (this.inertia) {
+                } else if (this.inertia && !triggerTap) {
                     var dt = new Date().getTime() - this.startTime;
                     if (dt < 300) {
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
