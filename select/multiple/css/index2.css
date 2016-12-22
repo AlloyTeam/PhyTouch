@@ -233,7 +233,7 @@ a:active, a:focu, img:active, img:focu, input:active, input:focu, textarea:activ
   position: relative;
   text-align: center;
   vertical-align: top;
-  width: 30%;
+  width: 25%;
 }
 
 .alloy-selector-line ul {
@@ -306,16 +306,25 @@ a:active, a:focu, img:active, img:focu, input:active, input:focu, textarea:activ
   position: absolute;
   left: 0px;
   top: 0px;
-  width: 50%;
+  width: 33%;
   height: 500px;
   z-index: 1002;
 }
 
 .alloy-selector-touch1 {
   position: absolute;
-  left: 50%;
+  left: 33%;
   top: 0px;
-  width: 50%;
+  width: 33%;
+  height: 500px;
+  z-index: 1002;
+}
+
+.alloy-selector-touch2 {
+  position: absolute;
+  left: 66%;
+  top: 0px;
+  width: 33%;
   height: 500px;
   z-index: 1002;
 }

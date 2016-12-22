@@ -21,13 +21,14 @@
 
     new AlloyTouch.MultipleSelect({
         options: cityData,
+        level: 2,
         renderTo: "#selectCtn",
         selectedIndex: [1, 2],
         change: function (selectedIndex, text1, text2) {
-
+            console.log(text1 + '-' + text2);
         },
         complete: function (selectedIndex, text1, text2) {
-
+            alert(text1 + '-' + text2);
         }
 
     })
