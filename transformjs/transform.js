@@ -190,7 +190,7 @@
         obj.translateX = obj.translateY = obj.translateZ = obj.rotateX = obj.rotateY = obj.rotateZ = obj.skewX = obj.skewY = obj.originX = obj.originY = obj.originZ = 0;
     }
 
-    Transform.getMatrix3d = function (option) {
+    Transform.getMatrix = function (option) {
         var defaultOption = {
             translateX: 0,
             translateY: 0,
