@@ -4,6 +4,10 @@
 
 腾讯AlloyTeam移动Web触摸解决方案
 
+# Wiki
+
+[https://github.com/AlloyTeam/AlloyTouch/wiki](https://github.com/AlloyTeam/AlloyTouch/wiki)
+
 # Install
 ```js
 npm install alloytouch
@@ -22,6 +26,8 @@ new AlloyTouch({
             factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
             spring: true, //不必需,是否有回弹效果。默认是true
             step: 45,//用于校正到step的整数倍
+            bindSelf: false,
+            initialVaule: 0,
             change:function(value){  }, //不必需，属性改变的回调。alloytouch.css版本不支持该事件
             touchStart:function(evt, value){  },
             touchMove:function(evt, value){  },
@@ -33,6 +39,7 @@ new AlloyTouch({
 ```
 # 演示(Mobile)
 
+- Full Page Scroll : [http://alloyteam.github.io/AlloyTouch/full_page/](http://alloyteam.github.io/AlloyTouch/full_page/)
 - Simple : [http://alloyteam.github.io/AlloyTouch/](http://alloyteam.github.io/AlloyTouch/)
 - 3D : [http://alloyteam.github.io/AlloyTouch/example/3d.html](http://alloyteam.github.io/AlloyTouch/example/3d.html)
 - Rotate : [http://alloyteam.github.io/AlloyTouch/example/rotate.html](http://alloyteam.github.io/AlloyTouch/example/rotate.html)

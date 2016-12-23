@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <img  src="../asset/alloy.png" id="test" style="display: block; width: 210px;height: 210px;position: absolute;left: 50%;margin-left: -105px;margin-top: -105px;top:50%;">
+    <a href="https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs" target="_blank" style="position: absolute; right: 0; top: 0;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="" />
+    </a>
+
+    <script src="../transform.min.js" ></script>
+
+    <script>
+        var matrix3d = Transform.getMatrix({
+            translateX: 0,
+            translateY: 100,
+            scaleX:2
+        });
+        console.log(matrix3d)
+    </script>
+</body>
+</html>
