@@ -4,6 +4,10 @@
 
 Smooth scrolling, rotation, pull to refresh and any motion for the web.
 
+# Wiki
+
+[https://github.com/AlloyTeam/AlloyTouch/wiki](https://github.com/AlloyTeam/AlloyTouch/wiki)
+
 # Install
 ```js
 npm install alloytouch
@@ -22,6 +26,8 @@ new AlloyTouch({
             factor: 1,
             spring: true,
             step: 45,
+            bindSelf: false,
+            initialVaule: 0,
             change:function(value){  },
             touchStart:function(evt, value){  },
             touchMove:function(evt, value){  },
