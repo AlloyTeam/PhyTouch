@@ -1,4 +1,4 @@
-﻿/* transformjs 1.1.1
+﻿/* transformjs 1.1.2
  * By dntzhang
  * Github: https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs
  */
