@@ -1,0 +1,24 @@
+{
+  "name": "css3transform-react",
+  "version": "0.1.0",
+  "description": "made css3 transform super easy",
+  "main": "transform.react.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlloyTeam/AlloyTouch.git"
+  },
+  "keywords": [
+    "css3",
+    "transform",
+    "matrix"
+  ],
+  "author": "dntzhang,june_01",
+  "license": "MIT",
+  "bugs": {
+  "url": "https://github.com/AlloyTeam/AlloyFinger/issues"
+},
+  "homepage": "https://github.com/AlloyTeam/AlloyFinger/tree/master/transformjs"
+}

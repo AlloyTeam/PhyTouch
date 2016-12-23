@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <h1>111</h1>
+        <h2>222</h2>
+    </div>
+
+    <script>
+        ;(function () {
+
+            function scoper(css) {
+                var id = generateID();
+                var prefix = "#" + id;
+                css = css.replace(/\/\*[\s\S]*?\*\//g, '');
+                var re = new RegExp("([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)", "g");
+                css = css.replace(re, function(g0, g1, g2) {
+
+                    if (g1.match(/^\s*(@media|@keyframes|to|from|@font-face)/)) {
+                        return g1 + g2;
+                    }
+
+                    if (g1.match(/:scope/)) {
+                        g1 = g1.replace(/([^\s]*):scope/, function(h0, h1) {
+                            if (h1 === "") {
+                                return "> *";
+                            } else {
+                                return "> " + h1;
+                            }
+                        });
+                    }
+
+                    g1 = g1.replace(/^(\s*)/, "$1" + prefix + " ");
+
+                    return g1 + g2;
+                });
+
+                addStyle(css,id+"-style");
+                return id;
+            }
+
+            function generateID() {
+
+                var id =  ("scoped"+ Math.random()).replace("0.","");
+                if(document.getElementById(id)){
+                    return generateID();
+                }else {
+                    return id;
+                }
+            }
+
+            var isIE = (function () {
+
+                var undef,
+                    v = 3,
+                    div = document.createElement('div'),
+                    all = div.getElementsByTagName('i');
+
+                while (
+                    div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+                        all[0]
+                    );
+
+                return v > 4 ? v : undef;
+
+            }());
+
+            function addStyle(cssText, id) {
+                var d = document,
+                    someThingStyles = d.createElement('style');
+                d.getElementsByTagName('head')[0].appendChild(someThingStyles);
+                someThingStyles.setAttribute('type', 'text/css');
+                someThingStyles.setAttribute('id', id);
+                if (isIE) {
+                    someThingStyles.styleSheet.cssText = cssText;
+                } else {
+                    someThingStyles.textContent = cssText;
+                }
+            }
+
+
+            window.scoper = scoper;
+        })();
+
+        
+        var id = scoper("h1 {\
+                           color:red;\
+                        /*color: #0079ff;*/\
+                            }\
+                    \
+                            /*  h2 {\
+                            color:green\
+                            }*/");
+
+        document.body.getElementsByTagName("div")[0].setAttribute("id",id);
+
+
+    </script>
+</body>
+</html>

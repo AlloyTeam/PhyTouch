@@ -69,13 +69,13 @@
     }
 
     new AlloyTouch({
-        touch: document,
+        touch: renderer.domElement,
         vertical: false,
+        bindSelf : true,
         target: mesh.rotation,
         property: "y",
         factor: 0.08,
-        moveFactor: 0.2,
-        preventDefault: false
+        moveFactor: 0.01
     })
 </script>
 

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <style>
+        html,body{
+            margin:0;
+            padding:0;
+        }
+        .carousel {
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel-scroller {
+            position: relative;
+            font-size: 0;
+            white-space:nowrap;
+        }
+    </style>
+</head>
+<body style="height:2000px;">
+    <div id="carousel-container">
+        <div class="carousel">
+            <div  class="carousel-scroller" id="carousel-scroller">
+                <img style="width: 88%;" src="asset/ci1.jpg">
+                <img style="width: 88%;" src="asset/ci2.jpg">
+                <img style="width: 88%;" src="asset/ci3.jpg">
+                <img style="width: 88%;" src="asset/ci4.jpg">
+                <img style="width: 88%;" src="asset/ci5.jpg">
+            </div>
+     
+        </div>
+    </div>
+
+
+    <script src="../transformjs/transform.js"></script>
+    <script src="../alloy_touch.js"></script>
+    <script>
+        var scroller = document.querySelector("#carousel-scroller");
+        Transform(scroller);
+        new AlloyTouch({
+            touch: "#carousel-container",//反馈触摸的dom
+            vertical: false,//不必需，默认是true代表监听竖直方向touch
+            target: scroller, //运动的对象
+            property: "translateX",  //被运动的属性
+            min:0.88*window.innerWidth * -5+window.innerWidth, //不必需,运动属性的最小值
+            max: 0 //不必需,滚动属性的最大值
+        })
+    </script>
+</body>
+</html>

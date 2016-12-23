@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-
     <title>AlloyTouch</title>
-
+    <link rel="shortcut icon" href="example/asset/logo.ico">
     <style type="text/css">
         * {
             -webkit-box-sizing: border-box;
@@ -13,185 +12,432 @@
             box-sizing: border-box;
         }
 
-        html {
-            -ms-touch-action: none;
-        }
-
         body, ul, li {
             padding: 0;
             margin: 0;
             border: 0;
+            font-family: Segoe UI Light,Segoe UI,Microsoft Jhenghei,Mirco Yahei,'sans-serif';
         }
 
-        body {
-            font-size: 12px;
-            font-family: ubuntu, helvetica, arial;
-            overflow: hidden;
+        ul, li {
+            list-style: none;
         }
 
-        #header {
-            position: absolute;
-            z-index: 2;
-            top: 0;
-            left: 0;
+        a {
+            text-decoration: none;
+            outline: 0;
+        }
+
+        img {
+            vertical-align: middle;
+            border: 0;
+        }
+
+
+        ._ib {
+            display: inline-block;
+        }
+    </style>
+
+    <style>
+        .ctn {
             width: 100%;
-            height: 45px;
-            line-height: 45px;
-            background: #00ABEB;
-            padding: 0;
-            color: #eee;
+        }
+
+        .logo_box img {
+            width: 50px;
+            margin-right: 5px;
+            position: relative;
+            top: -3px;
+        }
+
+        .logo_box {
             font-size: 20px;
-            text-align: center;
+            color: #00a6ff;
+        }
+
+            .logo_box a {
+                color: #00a6ff;
+            }
+
+        .head {
+            width: 100%;
+            line-height: 60px;
+            height: 60px;
             font-weight: bold;
         }
 
-        #footer {
+            .head li {
+                display: inline-block;
+                margin-left: 10px;
+                font-size: 18px;
+                font-weight: normal;
+                color: black;
+            }
+
+                .head li a {
+                    color: black;
+                    display: block;
+                    width: 100%;
+                }
+
+        .ad {
+            text-align: center;
+            background: #00a6ff url(example/asset/ad_bg.png) center center no-repeat;
+            background-size: cover;
+            height: 400px;
+            position: relative;
+        }
+        .ad_main_box {
+            width: 100%;
+            top: 100px;
             position: absolute;
             z-index: 2;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 48px;
-            background: #e2e2e2;
-            padding: 0;
+        }
+        .ad_main {
+            color: white;
+            font-size: 20px;
+            white-space:nowrap;
+            text-align:center;
         }
 
-        #wrapper {
-            position: absolute;
+        .ad_mask {
             z-index: 1;
-            top: 45px;
-            bottom: 48px;
-            left: 0;
             width: 100%;
-            background: #ccc;
-            overflow: hidden;
-        }
-
-        #scroller {
             position: absolute;
-            z-index: 1;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-            width: 100%;
-            -webkit-transform: translateZ(0);
-            -moz-transform: translateZ(0);
-            -ms-transform: translateZ(0);
-            -o-transform: translateZ(0);
-            transform: translateZ(0);
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-text-size-adjust: none;
-            -moz-text-size-adjust: none;
-            -ms-text-size-adjust: none;
-            -o-text-size-adjust: none;
-            text-size-adjust: none;
+            height: 400px;
+            background-color: black;
+            opacity: 0.7;
         }
 
-            #scroller ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
+        .ad_main h1 {
+            color: white;
+            font-size: 40px;
+        }
+
+        .footer {
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            background-color: #202020;
+            color: white;
+        }
+
+        .special {
+            text-align: center;
+        }
+
+        .features li {
+            display: inline-block;
+            width: 25%;
+            vertical-align: top;
+        }
+
+        @media only screen and (max-width: 768px) {
+            /* For mobile phones: */
+              .features p {
+            height: auto;
+            width: 200px;
+            margin: 0 auto;
+            font-size: 18px;
+        }
+
+            .features li {
                 width: 100%;
-                text-align: left;
+                vertical-align: top;
             }
 
-            #scroller li {
-                padding: 0 10px;
-                height: 40px;
-                line-height: 40px;
-                border-bottom: 1px solid #ccc;
-                border-top: 1px solid #fff;
-                background-color: #fafafa;
-                font-size: 14px;
+            .mb_menu {
+                display: block;
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                width: 50px;
+                z-index: 200;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
             }
+
+                .mb_menu img {
+                    width: 30px;
+                }
+
+            .logo_box {
+                width: 100%;
+                text-align: center;
+            }
+
+            .head ul {
+                -moz-transform: translateX(-100%) translateZ(0);
+                -ms-transform: translateX(-100%) translateZ(0);
+                -o-transform: translateX(-100%) translateZ(0);
+                -webkit-transform: translateX(-100%) translateZ(0);
+                transform: translateX(-100%) translateZ(0);
+                text-align: center;
+                width: 100%;
+                padding-top: 58px;
+                background-color: white;
+                position: fixed;
+                z-index: 100;
+                left: 0;
+                top: 0;
+                top: 0px;
+                border-bottom: 1px solid #dddddd;
+                -moz-transition: all .6s ease;
+                -o-transition: all .6s ease;
+                -webkit-transition: all .6s ease;
+                transition: all .6s ease;
+            }
+
+                .head ul.show {
+                    -moz-transform: translateX(0%) translateZ(0);
+                    -ms-transform: translateX(0%) translateZ(0);
+                    -o-transform: translateX(0%) translateZ(0);
+                    -webkit-transform: translateX(0%) translateZ(0);
+                    transform: translateX(0%) translateZ(0);
+                    text-align: center;
+                    width: 100%;
+                    padding-top: 58px;
+                    background-color: white;
+                    position: fixed;
+                    z-index: 100;
+                    left: 0;
+                    top: 0;
+                    top: 0px;
+                    border-bottom: 1px solid #dddddd;
+                    -moz-transition: all .6s ease;
+                    -o-transition: all .6s ease;
+                    -webkit-transition: all .6s ease;
+                    transition: all .6s ease;
+                }
+
+            .head li {
+                width: 100%;
+                border-top: 1px solid #dddddd;
+                margin-left: 0px;
+            }
+
+            .github_li {
+                display: inline-block;
+            }
+
+            #githubLink {
+                display: none;
+            }
+        }
+
+         
+
+        @media only screen and (min-width: 768px) {
+            .mb_menu {
+                display: none;
+            }
+            /* For desktop: */
+            .ctn {
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            #githubLink {
+                display: block;
+            }
+
+            .head .github_li {
+                display: none;
+            }
+
+              .features p {
+            height: 100px;
+            width: 200px;
+            margin: 0 auto;
+            font-size: 18px;
+        }
+        }
+
+        .major h2:after {
+            background-color: #dddddd;
+            background-image: -moz-linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
+            background-image: -webkit-linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
+            background-image: -ms-linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
+            background-image: linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
+            display: block;
+            content: '';
+            width: 3.25em;
+            height: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            margin: 20px auto 0px;
+        }
+
+     
+
+        .pd2 {
+            background: #808080;
+            display: inline-block;
+            height: 50px;
+            line-height: 48px;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
-    <div id="header">AlloyTouch</div>
-    <div id="wrapper">
-        <div id="scroller">
-            <ul>
-                <li>Hello, AlloyTouch!</li>
-                <li>AlloyFinger - Super Tiny Size Gestures Library</li>
-                <li>Transformjs - Made CSS3 Super Easy</li>
-                <li>AlloyFlow - </li>
-                <li>Nuclear - Some HTML + Scoped CSS + JS </li>
-                <li>AlloyGameEngine</li>
-                <li>Rosin</li>
-                <li>LivePool</li>
-                <li>AlloyStick</li>
-                <li>CodeStar</li>
-                <li>AlloyDesigner</li>
-                <li>JXAnimate</li>
-                <li>Spirit</li>
-                <li>AlloyImage</li>
-                <li>ModJS</li>
-                <li>Pretty row 16</li>
-                <li>stepify</li>
-                <li>AlloyTimer</li>
-                <li>Alloy Desktop</li>
-                <li>JX UI</li>
-                <li>CodeTank</li>
-                <li>iSpriter</li>
-                <li>Rythem</li>
-                <li>Go!Png </li>
-                <li>JX</li>
-                <li>TEditor</li>
-                <li> row 1</li>
-                <li> row 2</li>
-                <li> row 3</li>
-                <li>row 5</li>
-                <li> row 5</li>
-                <li> row 7</li>
-                <li> row 8</li>
-                <li> row 9</li>
-                <li> row 11</li>
-                <li> row 11</li>
-                <li> row 12</li>
-                <li> row 13</li>
-                <li> row 14</li>
-                <li> row 15</li>
-                <li> row 16</li>
-                <li> row 17</li>
-                <li> row 18</li>
-                <li> row 19</li>
-                <li> row 20</li>
-                <li> row 21</li>
-                <li> row 22</li>
-                <li> row 23</li>
-                <li> row 24</li>
-                <li> row 25</li>
+    <div class="mb_menu">
+        <img src="example/asset/menu.png" alt="" />
+    </div>
+    <div class="ctn">
+        <div class="head bord-btm">
+
+            <div class="logo_box _ib">
+                <a href="https://github.com/AlloyTeam/AlloyTouch">
+                    <img src="example/asset/logo.png" alt="" />AlloyTouch</a>
+            </div>
+
+            <ul class="_ib" id="menu">
+               <!-- <li>
+                    <a href="##">Docs</a>
+                </li>
+                <li>
+                    <a href="##">Tutorial</a>
+                </li>-->
+                <li>
+                    <a href="website/demo.html">Demo</a>
+                </li>
+
+                <li><a href="http://www.alloyteam.com/">AlloyTeam</a></li>
+                <li class="github_li">
+                    <a href="https://github.com/AlloyTeam/AlloyTouch">Github</a>
+                </li>
+                <li>
+                    <a href="index_cn.html">中文</a>
+                </li>
             </ul>
+
+
+        </div>
+        <div class="ad">
+            <div class="ad_mask"></div>
+            <div class="ad_main_box">
+                <div  class="ad_main">
+                    <!--<span class="logo"><img src="images/logo.svg" alt="" /></span>-->
+                    <h1>AlloyTouch</h1>
+                    <p>
+                        Everything you want to touch is here<br>
+                        by AlloyTeam
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="special">
+            <div class="major">
+                <h2>Features</h2>
+            </div>
+            <ul class="features">
+                <li>
+                    <span class="icon major style3 fa-copy"></span>
+                    <h3>Rich Components</h3>
+                    <p>There are many components to use such as select, multi-select, carousel, full page scrolling, pull to refresh and so on. </p>
+                </li>
+                <li>
+                    <span class="icon major style1 fa-code"></span>
+                    <h3>Super Tiny Size</h3>
+                    <p>2.24 kB gzipped</p>
+                </li>
+                <li>
+                    <span class="icon major style5 fa-diamond"></span>
+                    <h3>Simple API</h3>
+                    <p>
+                        Takes about a minute to get start. Creating an instance of an object by new keyword:<br />
+                        new AlloyTouch(option)
+                    </p>
+                </li>
+            </ul>
+            <ul class="features" style="margin-top: 30px;">
+                <li>
+                    <span class="icon major style1 fa-code"></span>
+                    <h3>Smoothing Animation</h3>
+                    <p>The tween parameters of motion is a time-consuming progress with iterative adjustment and modify. Bring the ultimate experience to the users.</p>
+                </li>
+                <li>
+                    <span class="icon major style3 fa-copy"></span>
+                    <h3>Easy To Extend</h3>
+                    <p>Highly abstract logic design allows you to easily touch many user feedback scenes, not just scrolling.</p>
+                </li>
+                <li>
+                    <span class="icon major style5 fa-diamond"></span>
+                    <h3>Excellent Contributors</h3>
+                    <p>AlloyTeam will be the first time to respond to any of your questions, any comments and suggestions please let us know.</p>
+                </li>
+            </ul>
+            <!--    <div class="major">
+                <ul class="actions">
+                    <li><a href="generic.html" class="button">Learn More</a></li>
+                </ul>
+            </div>-->
+        </div>
+
+        <div class="special">
+            <div class="major">
+                <h2>Products using AlloyTouch</h2>
+            </div>
+            <div>
+                <div>
+                    <img src="http://s1.url.cn/qqun/qun/imgs/logo2.png" />
+                </div>
+                <a href="http://egame.qq.com/" class="pd2">
+                    <img src="//i.gtimg.cn/club/pgg_pcweb/img/index/logo.png" class="gui-navbar-logo" alt="企鹅电竞游戏直播">
+                </a>
+                <div style="font-size: 40px; color: #222222; font-weight: bold;">
+                    <img src="example/asset/wt.png" alt="" />
+                    QQ天气
+                </div>
+                <div>
+                    <img style="width: 200px;" src="http://pub.idqqimg.com/qqun/xiaoqu/mobile/img/login-logo.png" />
+
+                </div>
+                <div>
+                    <img src="example/asset/kandian.png" alt="" />
+
+                </div>
+
+                <div>
+                    <img style="width: 200px; margin-top: -20px;" src="http://i.gtimg.cn/vipstyle/vipportal/v4/img/common/logo_b.png" alt="" />
+
+                </div>
+
+            </div>
+
+
+            <div class="footer bord-top">© 2016 AlloyTeam</div>
         </div>
     </div>
-    <div id="footer"></div>
-     <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" id="githubLink" style="position: fixed; right: 0; top: 0; z-index: 3;">
         <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
     </a>
-    <script src="transformjs/transform.js"></script>
-    <script src="alloy_touch.js"></script>
+
     <script>
-        var target = document.querySelector("#scroller");
-        //给element注入transform属性
-        Transform(target,true);
 
-        var at=new AlloyTouch({
-            touch:"#wrapper",//反馈触摸的dom
-            vertical: true,//不必需，默认是true代表监听竖直方向touch
-            target: target, //运动的对象
-            property: "translateY",  //被滚动的属性
-            sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
-            factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
-            min: window.innerHeight - 45 - 48 - 2000, //不必需,滚动属性的最小值
-            max: 0, //不必需,滚动属性的最大值
-            step: 40,
-            animationEnd: function (value) {
-                console.log(value);
+        function toggleClass(element, className) {
+            if (!element || !className) {
+                return;
             }
-        })
 
+            var classString = element.className, nameIndex = classString.indexOf(className);
+            if (nameIndex == -1) {
+                classString += ' ' + className;
+            }
+            else {
+                classString = classString.substr(0, nameIndex) + classString.substr(nameIndex + className.length);
+            }
+            element.className = classString;
+        }
+        var menuDiv = document.getElementById("menu");
+        document.querySelector(".mb_menu").onclick = function () {
+            toggleClass(menuDiv, "show");
+
+        }
     </script>
 </body>
 </html>

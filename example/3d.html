@@ -26,7 +26,13 @@
 <body>
     <div id="header">AlloyTouch</div>
 
-    <div id="testImg" style="width: 210px; height: 210px; position: absolute; top: 50%; left: 50%; margin-left: -105px; margin-top: -105px;">
+    <div id="testImg" style="
+    width: 100%;
+    height: 210px;
+    position: absolute;
+    top: 50%;
+    text-align: center;
+    margin-top: -105px;">
         <img style="width: 210px; height: 210px;" src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/atLogo.png" alt="" /></div>
     <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
         <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
@@ -39,11 +45,12 @@
         Transform(target);
 
         new AlloyTouch({
-            touch: document,//反馈触摸的dom
+            touch: target,//反馈触摸的dom
             vertical: false,//不必需，默认是true代表监听竖直方向touch
             target: target, //运动的对象
             property: "rotateY",  //被滚动的属性
-            factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
+            factor: 1//不必需,默认值是1代表touch区域的1px的对应target.y的1
+
         })
     </script>
 </body>

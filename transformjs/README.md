@@ -6,6 +6,12 @@ made css3 transform super easy
 
 [http://alloyteam.github.io/AlloyTouch/transformjs/](http://alloyteam.github.io/AlloyTouch/transformjs/)
 
+## Demo
+
+- [http://alloyteam.github.io/AlloyTouch/transformjs/example/all.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/all.html)
+- [http://alloyteam.github.io/AlloyTouch/transformjs/example/soft.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/soft.html)
+- [http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html)
+
 ## Install
 
 You can install it via npm:
@@ -32,6 +38,34 @@ domElement.originX = 0.5;
 
 //get "translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"
 //console.log(domElement.translateX )
+```
+
+### React Version:
+
+```js
+//set "translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"
+render() {
+    return (
+        <Transform
+          translateX={100}
+          scaleX={0.5}
+          originX={0.5}>
+          <div>sth</div>
+        </Transform>
+    );
+}
+
+// you can also use other porps, such as "className" or "style"
+render() {
+    return (
+        <Transform
+          translateX={100}
+          className="ani"
+          style={{width: '100px', background: 'red'}}
+          <div>sth</div>
+        </Transform>
+    );
+}
 ```
 
 # License
