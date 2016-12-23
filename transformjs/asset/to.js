@@ -61,8 +61,8 @@
         To.List.push(this);
     };
 
-    To.go = function (el, property, value, time, setting) {
-        return new _To(el, property, value, time, setting);
+    To.go = function (el, property, value, time, ease,setting) {
+        return new _To(el, property, value, time, ease,setting);
     };
 
     To.List = [];

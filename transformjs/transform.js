@@ -1,4 +1,4 @@
-﻿/* transformjs 1.0.1
+﻿/* transformjs 1.1.1
  * By dntzhang
  * Github: https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs
  */
@@ -153,32 +153,69 @@
         });
     }
 
-    function Transform(element, notPerspective) {
-
-        observe(
-            element,
-            ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"],
-            function () {
-                var mtx = element.matrix3D.identity().appendTransform(element.translateX, element.translateY, element.translateZ, element.scaleX, element.scaleY, element.scaleZ, element.rotateX, element.rotateY, element.rotateZ, element.skewX, element.skewY, element.originX, element.originY, element.originZ);
-                element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = (notPerspective ? "" : "perspective(" + (element.perspective === undefined ? 500 : element.perspective) + "px) ") + "matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
-            });
-
-        element.matrix3D = new Matrix3D();
-
-        if (!notPerspective) {
-            observe(
-                element,
-                ["perspective"],
-                function () {
-                    element.style.transform = element.style.msTransform = element.style.OTransform = element.style.MozTransform = element.style.webkitTransform = "perspective(" + element.perspective + "px) matrix3d(" + Array.prototype.slice.call(element.matrix3D.elements).join(",") + ")";
-                });
-            element.perspective = 500;
-        }
-
-        element.scaleX = element.scaleY = element.scaleZ = 1;
-        //由于image自带了x\y\z，所有加上translate前缀
-        element.translateX = element.translateY = element.translateZ = element.rotateX = element.rotateY = element.rotateZ = element.skewX = element.skewY = element.originX = element.originY = element.originZ = 0;
+    function isElement(o) {
+        return (
+          typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
+          o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName === "string"
+      );
     }
+
+    function Transform(obj, notPerspective) {
+       
+        var observeProps = ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"],
+            objIsElement = isElement(obj);
+        if (!notPerspective) {
+            observeProps.push("perspective");
+        }
+       
+        observe(
+            obj,
+            observeProps,
+            function () {
+                var mtx = obj.matrix3d.identity().appendTransform(obj.translateX, obj.translateY, obj.translateZ, obj.scaleX, obj.scaleY, obj.scaleZ, obj.rotateX, obj.rotateY, obj.rotateZ, obj.skewX, obj.skewY, obj.originX, obj.originY, obj.originZ);
+                var transform = (notPerspective ? "" : "perspective(" + obj.perspective + "px) ") + "matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
+                if (objIsElement) {
+                    obj.style.transform = obj.style.msTransform = obj.style.OTransform = obj.style.MozTransform = obj.style.webkitTransform = transform;
+                } else {
+                    obj.transform = transform;
+                }
+            });
+       
+        obj.matrix3d = new Matrix3D();
+        if (!notPerspective) {
+            obj.perspective = 500;
+        }
+        obj.scaleX = obj.scaleY = obj.scaleZ = 1;
+        //由于image自带了x\y\z，所有加上translate前缀
+        obj.translateX = obj.translateY = obj.translateZ = obj.rotateX = obj.rotateY = obj.rotateZ = obj.skewX = obj.skewY = obj.originX = obj.originY = obj.originZ = 0;
+    }
+
+    Transform.getMatrix3d = function (option) {
+        var defaultOption = {
+            translateX: 0,
+            translateY: 0,
+            translateZ: 0,
+            rotateX: 0,
+            rotateY: 0,
+            rotateZ: 0,
+            skewX: 0,
+            skewY: 0,
+            originX: 0,
+            originY: 0,
+            originZ: 0,
+            scaleX: 1,
+            scaleY: 1,
+            scaleZ: 1
+        };
+        for (var key in option) {
+            if (option.hasOwnProperty(key)) {
+                defaultOption[key] = option[key];
+            }
+        }
+        return new Matrix3D().identity().appendTransform(defaultOption.translateX, defaultOption.translateY, defaultOption.translateZ, defaultOption.scaleX, defaultOption.scaleY, defaultOption.scaleZ, defaultOption.rotateX, defaultOption.rotateY, defaultOption.rotateZ, defaultOption.skewX, defaultOption.skewY, defaultOption.originX, defaultOption.originY, defaultOption.originZ).elements;
+
+    }
+
 
     if (typeof module !== 'undefined' && typeof exports === 'object') {
         module.exports = Transform;
