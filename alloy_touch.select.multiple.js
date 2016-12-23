@@ -108,9 +108,9 @@
                 }\
                 .alloy-selector-line ul {\
                   list-style: none;\
-                  margin: 91px 0 0 22%;\
+                  margin: 91px 0 0 0;\
                   padding: 0;\
-                  width: 50%;\
+                  width: 100%;\
                   min-height: 256px;\
                 }\
                 .alloy-selector-line ul li {\
@@ -286,6 +286,7 @@
                     </div>';
 
         this.renderTo.insertAdjacentHTML('beforeEnd', tpl);
+        this.widget = document.getElementById(id);
 
         // mask.style.height = window.innerHeight + "px";
         
@@ -367,6 +368,16 @@
 
             return cache;
         }
-    }
+    };
+
+    AlloyTouch.MultipleSelect.prototype.show = function () {
+      this.widget.style.visibility = "visible";
+      this.widget.style.display = "block";
+    };
+
+    AlloyTouch.MultipleSelect.prototype.hide = function () {
+      this.widget.style.visibility = "hidden";
+      this.widget.style.display = "none";
+    };
     
-})()
+})();
