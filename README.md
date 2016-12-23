@@ -24,7 +24,6 @@ new AlloyTouch({
             max: 2000, 
             sensitivity: 1,
             factor: 1,
-            spring: true,
             step: 45,
             bindSelf: false,
             initialVaule: 0,
