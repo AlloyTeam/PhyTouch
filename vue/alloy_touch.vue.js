@@ -36,8 +36,12 @@ vueAlloyTouch.install = function(Vue){
                 if(!el.__alloytouch__handle) {
                     return;
                 }
-                el.__alloytouch__handle.min = value.min;
-                el.__alloytouch__handle.max = value.max;
+                if(value.min!=undefined){
+                    el.__alloytouch__handle.min = value.min;
+                }
+                if(value.max!= undefined){
+                    el.__alloytouch__handle.max = value.max;
+                }
             },
             unbind: function(el){
                 el.__alloytouch__handle = null;
@@ -55,8 +59,12 @@ vueAlloyTouch.install = function(Vue){
                     Transform(options.target);
                     this.el.__alloytouch__handle = new AlloyTouch(options);
                 }else {
-                    this.el.__alloytouch__handle.min = binding.min;
-                    this.el.__alloytouch__handle.max = binding.max; 
+                    if(binding.min!=undefined){
+                        this.el.__alloytouch__handle.min = binding.min;
+                    }
+                    if(binding.max!=undefined){
+                        this.el.__alloytouch__handle.max = binding.max; 
+                    }
                 }
             },
            unbind: function(){
@@ -76,7 +84,7 @@ vueAlloyTouch.install = function(Vue){
     function getAlloyTouchConfig(el, value) {
 
         var options = value.options || {}
-        var methods = value.methods;
+        var methods = value.methods || {};
         var result = {
             touch: el,//反馈触摸的dom
             target: el, //运动的对象
