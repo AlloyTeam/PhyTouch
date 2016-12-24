@@ -123,56 +123,7 @@
 <div id="wrapper">
     <div id="scroller">
         <ul>
-            <li>AlloyTouch</li>
-            <li>AlloyFinger - Super Tiny Size Gestures Library</li>
-            <li>Transformjs - Made CSS3 Super Easy</li>
-            <li>AlloyFlow - </li>
-            <li>Nuclear - Some HTML + Scoped CSS + JS </li>
-            <li>AlloyGameEngine</li>
-            <li>Rosin</li>
-            <li>LivePool</li>
-            <li>AlloyStick</li>
-            <li>CodeStar</li>
-            <li>AlloyDesigner</li>
-            <li>JXAnimate</li>
-            <li>Spirit</li>
-            <li>AlloyImage</li>
-            <li>ModJS</li>
-            <li>Pretty row 16</li>
-            <li>stepify</li>
-            <li>AlloyTimer</li>
-            <li>Alloy Desktop</li>
-            <li>JX UI</li>
-            <li>CodeTank</li>
-            <li>iSpriter</li>
-            <li>Rythem</li>
-            <li>Go!Png </li>
-            <li>JX</li>
-            <li>TEditor</li>
-            <li> row 1</li>
-            <li> row 2</li>
-            <li> row 3</li>
-            <li>row 5</li>
-            <li> row 5</li>
-            <li> row 7</li>
-            <li> row 8</li>
-            <li> row 9</li>
-            <li> row 11</li>
-            <li> row 11</li>
-            <li> row 12</li>
-            <li> row 13</li>
-            <li> row 14</li>
-            <li> row 15</li>
-            <li> row 16</li>
-            <li> row 17</li>
-            <li> row 18</li>
-            <li> row 19</li>
-            <li> row 20</li>
-            <li> row 21</li>
-            <li> row 22</li>
-            <li> row 23</li>
-            <li> row 24</li>
-            <li> row 25</li>
+
 
         </ul>
         <div class="loading" id="loading">loading...</div>
@@ -185,102 +136,153 @@
 <script src="../../transformjs/transform.js"></script>
 <script src="../../alloy_touch.js"></script>
 <script>
-    var target = document.querySelector("#scroller");
-    //给element注入transform属性
+
+    var allData = [],
+        index = 0,
+        at,
+        target = document.querySelector("#scroller"),
+        loading = false,
+        ul = document.querySelector("#scroller ul"),
+        loadingDiv = document.querySelector("#loading"),
+        currentHeight = 0;
+
     Transform(target,true);
 
-    var loading = false,
-            step = 40,
-            ul = document.querySelector("#scroller ul"),
-            rowNum =26,
-            loadingDiv = document.querySelector("#loading"),
-            currentHeight = 0;
+    function mockData() {
+        var dataList = [],
+                i = 0;
+        for (; i < 20; i++) {
+            dataList.push({name: "row", num: index++});
+        }
+        return dataList;
+    }
 
-    function initList(){
-        var lis = document.querySelectorAll("#scroller li"),
-                i= 1,
-                len=lis.length;
+    function processingData(dataList) {
+        var i = 0, len = dataList.length;
+        for (; i < len; i++) {
+            allData.push({data: dataList[i], translateY: 0, dom : null});
+        }
+    }
 
-
-                setTranslateY( lis[0],currentHeight);
-        var height = 0;
+    function render(renderTo,dataList){
+        var docfrag = document.createDocumentFragment();
+        var i= 0,len=dataList.length;
         for(;i<len;i++){
-            var li = lis[i-1];
-             height = parseInt( window.getComputedStyle(li,null).height);
-            currentHeight+=height;
-            setTranslateY( lis[i],currentHeight);
-
+            var item = dataList[i];
+            var li = document.createElement("li");
+            li.innerHTML = item.name+" "+item.num;
+            docfrag.appendChild(li);
         }
+        renderTo.appendChild(docfrag);
+    }
 
-        setTranslateY( loadingDiv,currentHeight+height);
-        ul.style.display="block";
+    function initList() {
+        var lis = document.querySelectorAll("#scroller li"),
+                i = 1,
+                len = lis.length;
+
+
+        setTranslateY(lis[0], 0);
+        allData[0].dom = lis[0];
+        var height = 0;
+        for (; i < len; i++) {
+            var li = lis[i - 1];
+            height = parseInt(window.getComputedStyle(li, null).height);
+            currentHeight += height;
+            setTranslateY(lis[i], currentHeight);
+            allData[i].translateY = currentHeight;
+            allData[i].dom = li;
+        }
+        currentHeight += height
+
+        setTranslateY(loadingDiv, currentHeight);
+        ul.style.display = "block";
     }
 
 
 
-    function setTranslateY(dom,value){
-
-        dom.style.transform = dom.style.msTransform = dom.style.OTransform = dom.style.MozTransform = dom.style.webkitTransform = "translateY("+value+"px) translateZ(0)";
+    function setTranslateY(dom,value) {
+        dom.style.transform = dom.style.msTransform = dom.style.OTransform = dom.style.MozTransform = dom.style.webkitTransform = "translateY(" + value + "px) translateZ(0)";
     }
 
-    var at= new AlloyTouch({
-        touch:"#wrapper",//反馈触摸的dom
-        vertical: true,//不必需，默认是true代表监听竖直方向touch
-        target: target, //运动的对象
-        property: "translateY",  //被滚动的属性
-        sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
-        factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
-        min: window.innerHeight - 45 - 48 - 2040, //不必需,滚动属性的最小值
-        max: 0, //不必需,滚动属性的最大值
-        change:function(v) {
-            if (v <= this.min + 20 && !loading) {
-                loadMore();
+
+    function newAlloyTouch() {
+        at = new AlloyTouch({
+            touch: "#wrapper",//反馈触摸的dom
+            vertical: true,//不必需，默认是true代表监听竖直方向touch
+            target: target, //运动的对象
+            property: "translateY",  //被滚动的属性
+
+            min: window.innerHeight - 45 - 48 - currentHeight - 40 , //不必需,滚动属性的最小值
+            max: 0, //不必需,滚动属性的最大值
+            change: function (v) {
+                if (v <= this.min + 20 && !loading) {
+                    loadMore();
+                }
+            },
+            animationEnd: function (value) {
+                //console.log(value);
+            },
+            pressMove: function (evt, value) {
+                //console.log(evt.deltaX + "_" + evt.deltaY + "__" + value);
             }
-        },
-        animationEnd: function (value) {
-            //console.log(value);
-        },
-        pressMove: function (evt,value) {
-            //console.log(evt.deltaX + "_" + evt.deltaY + "__" + value);
-        }
-    })
+        })
+    }
 
-
-    function loadMore(){
+    function loadMore() {
         loading = true;
 
-        setTimeout(function() {
+        setTimeout(function () {
             var arr = [];
-            var totalHeight =0;
-            for (var i = 0; i < 100; i++) {
+            var totalHeight = 0;
+            var docfrag = document.createDocumentFragment();
+            var dataList = mockData(),
+                    len =dataList.length,
+                    i= 0;
+            var allDataLen = allData.length;
+            processingData(dataList);
+            for ( ; i < len; i++) {
+                var data = dataList[i];
                 var li = document.createElement("li");
-                li.innerHTML = "row " + rowNum++;
-
-
-                ul.appendChild(li);
+                li.innerHTML =data.name + " " + data.num;
+                docfrag.appendChild(li);
                 arr.push(li);
-
             }
+
+            ul.appendChild(docfrag);
 
             //这里不考虑图片撑开的问题，因为最佳做法是上传后就知道宽高，服务器返回的json list里包含宽高信息。宽高信息建议直接作用于图片容器避免撑开的问题
-            var len = arr.length,height = 0;
-            setTranslateY(arr[0],currentHeight);
-            for( i = 1;i<len;i++){
-                var height = parseInt( window.getComputedStyle(arr[i-1],null).height);
-                totalHeight+=height;
-                currentHeight+=height;
-                setTranslateY(arr[i],currentHeight);
-
+            var len = arr.length,
+                    height = 0;
+            setTranslateY(arr[0], currentHeight);
+            allData[allDataLen].translateY = currentHeight;
+            allData[allDataLen].dom = arr[0];
+            for (i = 1; i < len; i++) {
+                var height = parseInt(window.getComputedStyle(arr[i - 1], null).height);
+                totalHeight += height;
+                currentHeight += height;
+                setTranslateY(arr[i], currentHeight);
+                allData[i+allDataLen].translateY = currentHeight;
+                allData[i+allDataLen].dom = arr[i];
             }
-
-            setTranslateY( loadingDiv,currentHeight+height);
-            at.min -= totalHeight;
+            currentHeight += height;
+            setTranslateY(loadingDiv,currentHeight);
+            at.min -= totalHeight+height;
             loading = false;
-        },1000);
-
+        }, 1000);
     }
 
-    initList();
+    function init(){
+        var dataList = mockData();
+        processingData(dataList);
+
+        render(ul,dataList);
+
+        initList();
+        newAlloyTouch();
+    }
+    init();
+
 
     //Keep only three screen content.
     //这样搞的话，li就要脱离标准流绝对定位且translateY要存起来
