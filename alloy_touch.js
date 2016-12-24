@@ -72,6 +72,8 @@
         this.max = option.max;
         this.deceleration = 0.0006;
         this.maxRegion = this._getValue(option.maxRegion, 60);
+        this.maxSpeed = option.maxSpeed;
+        this.hasMaxSpeed = !(this.maxSpeed === undefined);
 
         var noop = function () { };
         this.change = option.change || noop;
@@ -242,8 +244,11 @@
                     if (dt < 300) {
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
                             speed = Math.abs(distance) / dt,
-                            speed2 = this.factor * speed,
-                            destination = current + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
+                            speed2 = this.factor * speed;
+                        if(this.hasMaxSpeed&&speed2>this.maxSpeed) {
+                            speed2 = this.maxSpeed;
+                        }
+                        var destination = current + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
 
                         var tRatio = 1;
                         if (destination < this.min - this.maxRegion) {
