@@ -262,6 +262,7 @@
 
             }
 
+            //这里不考虑图片撑开的问题，因为最佳做法是上传后就知道宽高，服务器返回的json list里包含宽高信息。宽高信息建议直接作用于图片容器避免撑开的问题
             var len = arr.length,height = 0;
             setTranslateY(arr[0],currentHeight);
             for( i = 1;i<len;i++){
