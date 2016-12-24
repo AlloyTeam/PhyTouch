@@ -95,6 +95,7 @@
             margin: 0;
             width: 100%;
             text-align: left;
+            display: none;
         }
 
         #scroller li {
@@ -105,6 +106,10 @@
             border-top: 1px solid #fff;
             background-color: #fafafa;
             font-size: 14px;
+            position: absolute;
+            width: 100%;
+            top:0px;
+            left: 0px;
         }
         .loading{
             text-align: center;
@@ -170,7 +175,7 @@
             <li> row 25</li>
 
         </ul>
-        <div class="loading">loading...</div>
+        <div class="loading" id="loading">loading...</div>
     </div>
 </div>
 <div id="footer"></div>
@@ -184,7 +189,39 @@
     //给element注入transform属性
     Transform(target,true);
 
-    var loading = false;
+    var loading = false,
+            step = 40,
+            ul = document.querySelector("#scroller ul"),
+            rowNum =26,
+            loadingDiv = document.querySelector("#loading"),
+            currentHeight = 0;
+
+    function initList(){
+        var lis = document.querySelectorAll("#scroller li"),
+                i= 1,
+                len=lis.length;
+
+
+                setTranslateY( lis[0],currentHeight);
+        var height = 0;
+        for(;i<len;i++){
+            var li = lis[i-1];
+             height = parseInt( window.getComputedStyle(li,null).height);
+            currentHeight+=height;
+            setTranslateY( lis[i],currentHeight);
+
+        }
+
+        setTranslateY( loadingDiv,currentHeight+height);
+        ul.style.display="block";
+    }
+
+
+
+    function setTranslateY(dom,value){
+
+        dom.style.transform = dom.style.msTransform = dom.style.OTransform = dom.style.MozTransform = dom.style.webkitTransform = "translateY("+value+"px) translateZ(0)";
+    }
 
     var at= new AlloyTouch({
         touch:"#wrapper",//反馈触摸的dom
@@ -208,24 +245,41 @@
         }
     })
 
-    var ul = document.querySelector("#scroller ul"),
-            rowNum =26;
+
     function loadMore(){
         loading = true;
 
         setTimeout(function() {
+            var arr = [];
+            var totalHeight =0;
             for (var i = 0; i < 100; i++) {
                 var li = document.createElement("li");
                 li.innerHTML = "row " + rowNum++;
-                ul.appendChild(li)
+
+
+                ul.appendChild(li);
+                arr.push(li);
+
             }
-            at.min -= 100 * 40;
+
+            var len = arr.length,height = 0;
+            setTranslateY(arr[0],currentHeight);
+            for( i = 1;i<len;i++){
+                var height = parseInt( window.getComputedStyle(arr[i-1],null).height);
+                totalHeight+=height;
+                currentHeight+=height;
+                setTranslateY(arr[i],currentHeight);
+
+            }
+
+            setTranslateY( loadingDiv,currentHeight+height);
+            at.min -= totalHeight;
             loading = false;
         },1000);
 
-
-
     }
+
+    initList();
 
     //Keep only three screen content.
     //这样搞的话，li就要脱离标准流绝对定位且translateY要存起来
