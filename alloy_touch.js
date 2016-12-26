@@ -71,7 +71,8 @@
         this.min = option.min;
         this.max = option.max;
         this.deceleration = 0.0006;
-        this.maxRegion = this._getValue(option.maxRegion, 60);
+        this.maxRegion = this._getValue(option.maxRegion, 600);
+        this.springMaxRegion = this._getValue(option.springMaxRegion, 60);
         this.maxSpeed = option.maxSpeed;
         this.hasMaxSpeed = !(this.maxSpeed === undefined);
 
@@ -251,13 +252,23 @@
                         var destination = current + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
 
                         var tRatio = 1;
-                        if (destination < this.min - this.maxRegion) {
-                            tRatio = reverseEase((current - this.min + this.maxRegion) / (current - destination));
-                            destination = this.min - this.maxRegion;
-
-                        } else if (destination > this.max + this.maxRegion) {
-                            tRatio = reverseEase((this.max + this.maxRegion - current) / (destination - current));
-                            destination = this.max + this.maxRegion;
+                        if (destination < this.min ) {
+                            if (destination < this.min - this.maxRegion) {
+                                tRatio = reverseEase((current - this.min + this.springMaxRegion) / (current - destination));
+                                destination = this.min - this.springMaxRegion;
+                            } else {
+                                tRatio = reverseEase((current - this.min + this.springMaxRegion * (this.min - destination) / this.maxRegion) / (current - destination));
+                                destination = this.min - this.springMaxRegion * (this.min - destination) / this.maxRegion;
+                            }
+                        } else if (destination > this.max) {
+                            if (destination > this.max + this.maxRegion) {
+                                tRatio = reverseEase((this.max + this.springMaxRegion - current) / (destination - current));
+                                destination = this.max + this.springMaxRegion;
+                            } else {
+                                tRatio = reverseEase((this.max + this.springMaxRegion * ( destination-this.max) / this.maxRegion - current) / (destination - current));
+                                destination = this.max + this.springMaxRegion * (destination - this.max) / this.maxRegion;
+                                
+                            }
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
 
