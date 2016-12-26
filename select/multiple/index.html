@@ -19,7 +19,7 @@
 <script src="../../alloy_touch.select.multiple.js"></script>
 <script>
 
-    new AlloyTouch.MultipleSelect({
+    var at = new AlloyTouch.MultipleSelect({
         options: cityData,
         level: 2,
         renderTo: "#selectCtn",
@@ -29,6 +29,12 @@
         },
         complete: function (selectedIndex, text1, text2) {
             alert(text1 + '-' + text2);
+            at.hide();
+
+            setTimeout(function() {
+                at.reset();
+                at.show();
+            }, 3000);
         }
 
     })

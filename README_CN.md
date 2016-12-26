@@ -24,7 +24,6 @@ new AlloyTouch({
             max: 2000, //不必需,滚动属性的最大值
             sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
             factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
-            spring: true, //不必需,是否有回弹效果。默认是true
             step: 45,//用于校正到step的整数倍
             bindSelf: false,
             initialVaule: 0,

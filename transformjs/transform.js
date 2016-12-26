@@ -1,8 +1,10 @@
-﻿/* transformjs 1.1.1
+﻿/* transformjs 1.1.2
  * By dntzhang
  * Github: https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs
  */
 ; (function () {
+
+    var DEG_TO_RAD =  0.017453292519943295;
 
     var Matrix3D = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
         this.elements = window.Float32Array ? new Float32Array(16) : [];
@@ -13,7 +15,6 @@
         te[3] = n41 || 0; te[7] = n42 || 0; te[11] = n43 || 0; te[15] = (n44 !== undefined) ? n44 : 1;
     };
 
-    Matrix3D.DEG_TO_RAD = Math.PI / 180;
 
     Matrix3D.prototype = {
         set: function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
@@ -81,13 +82,13 @@
         },
         appendTransform: function (x, y, z, scaleX, scaleY, scaleZ, rotateX, rotateY, rotateZ, skewX, skewY, originX, originY, originZ) {
 
-            var rx = rotateX * Matrix3D.DEG_TO_RAD;
+            var rx = rotateX * DEG_TO_RAD;
             var cosx = this._rounded(Math.cos(rx));
             var sinx = this._rounded(Math.sin(rx));
-            var ry = rotateY * Matrix3D.DEG_TO_RAD;
+            var ry = rotateY * DEG_TO_RAD;
             var cosy = this._rounded(Math.cos(ry));
             var siny = this._rounded(Math.sin(ry));
-            var rz = rotateZ * Matrix3D.DEG_TO_RAD;
+            var rz = rotateZ * DEG_TO_RAD;
             var cosz = this._rounded(Math.cos(rz * -1));
             var sinz = this._rounded(Math.sin(rz * -1));
 
@@ -114,8 +115,8 @@
 
             if (skewX || skewY) {
                 this.multiplyMatrices(this, this._arrayWrap([
-                    this._rounded(Math.cos(skewX * Matrix3D.DEG_TO_RAD)), this._rounded(Math.sin(skewX * Matrix3D.DEG_TO_RAD)), 0, 0,
-                    -1 * this._rounded(Math.sin(skewY * Matrix3D.DEG_TO_RAD)), this._rounded(Math.cos(skewY * Matrix3D.DEG_TO_RAD)), 0, 0,
+                    this._rounded(Math.cos(skewX * DEG_TO_RAD)), this._rounded(Math.sin(skewX * DEG_TO_RAD)), 0, 0,
+                    -1 * this._rounded(Math.sin(skewY * DEG_TO_RAD)), this._rounded(Math.cos(skewY * DEG_TO_RAD)), 0, 0,
                     0, 0, 1, 0,
                     0, 0, 0, 1
                 ]));
@@ -128,6 +129,81 @@
                 this.elements[14] -= originX * this.elements[2] + originY * this.elements[6] + originZ * this.elements[10];
             }
             return this;
+        }
+    };
+
+    var Matrix2D = function(a, b, c, d, tx, ty) {
+        this.a = a == null ? 1 : a;
+        this.b = b || 0;
+        this.c = c || 0;
+        this.d = d == null ? 1 : d;
+        this.tx = tx || 0;
+        this.ty = ty || 0;
+        return this;
+    };
+
+    Matrix2D.prototype = {
+        identity : function() {
+            this.a = this.d = 1;
+            this.b = this.c = this.tx = this.ty = 0;
+            return this;
+        },
+        appendTransform : function(x, y, scaleX, scaleY, rotation, skewX, skewY, originX, originY) {
+            if (rotation % 360) {
+                var r = rotation * DEG_TO_RAD;
+                var cos = Math.cos(r);
+                var sin = Math.sin(r);
+            } else {
+                cos = 1;
+                sin = 0;
+            }
+            if (skewX || skewY) {
+                skewX *= DEG_TO_RAD;
+                skewY *= DEG_TO_RAD;
+                this.append(Math.cos(skewY), Math.sin(skewY), -Math.sin(skewX), Math.cos(skewX), x, y);
+                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, 0, 0);
+            } else {
+                this.append(cos * scaleX, sin * scaleX, -sin * scaleY, cos * scaleY, x, y);
+            }
+            if (originX || originY) {
+                this.tx -= originX * this.a + originY * this.c;
+                this.ty -= originX * this.b + originY * this.d;
+            }
+            return this;
+        },
+        append : function(a, b, c, d, tx, ty) {
+            var a1 = this.a;
+            var b1 = this.b;
+            var c1 = this.c;
+            var d1 = this.d;
+            this.a = a * a1 + b * c1;
+            this.b = a * b1 + b * d1;
+            this.c = c * a1 + d * c1;
+            this.d = c * b1 + d * d1;
+            this.tx = tx * a1 + ty * c1 + this.tx;
+            this.ty = tx * b1 + ty * d1 + this.ty;
+            return this;
+        },
+        initialize : function(a, b, c, d, tx, ty) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+            this.d = d;
+            this.tx = tx;
+            this.ty = ty;
+            return this;
+        },
+        setValues : function(a, b, c, d, tx, ty) {
+            this.a = a == null ? 1 : a;
+            this.b = b || 0;
+            this.c = c || 0;
+            this.d = d == null ? 1 : d;
+            this.tx = tx || 0;
+            this.ty = ty || 0;
+            return this;
+        },
+        copy : function(matrix) {
+            return this.setValues(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
         }
     };
 
@@ -190,7 +266,7 @@
         obj.translateX = obj.translateY = obj.translateZ = obj.rotateX = obj.rotateY = obj.rotateZ = obj.skewX = obj.skewY = obj.originX = obj.originY = obj.originZ = 0;
     }
 
-    Transform.getMatrix3d = function (option) {
+    Transform.getMatrix3D = function (option) {
         var defaultOption = {
             translateX: 0,
             translateY: 0,
@@ -216,6 +292,25 @@
 
     }
 
+    Transform.getMatrix2D = function(option){
+        var defaultOption = {
+            translateX: 0,
+            translateY: 0,
+            rotation: 0,
+            skewX: 0,
+            skewY: 0,
+            originX: 0,
+            originY: 0,
+            scaleX: 1,
+            scaleY: 1
+        };
+        for (var key in option) {
+            if (option.hasOwnProperty(key)) {
+                defaultOption[key] = option[key];
+            }
+        }
+        return new Matrix2D().identity().appendTransform(defaultOption.translateX, defaultOption.translateY, defaultOption.scaleX, defaultOption.scaleY, defaultOption.rotation, defaultOption.skewX, defaultOption.skewY, defaultOption.originX, defaultOption.originY);
+    }
 
     if (typeof module !== 'undefined' && typeof exports === 'object') {
         module.exports = Transform;

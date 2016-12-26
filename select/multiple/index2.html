@@ -18,7 +18,7 @@
 <script src="../../alloy_touch.select.multiple.js"></script>
 <script>
 
-    new AlloyTouch.MultipleSelect({
+    var at = new AlloyTouch.MultipleSelect({
         options: [
             {name: 'a0', list: [
                 {name: 'b0', list: [{name: 'c0'}, {name: 'c1'}]},
@@ -42,6 +42,7 @@
         },
         complete: function (selectedIndex, text1, text2, text3) {
             alert(text1 + '-' + text2 + '-' + text3);
+            at.hide();
         }
 
     })
