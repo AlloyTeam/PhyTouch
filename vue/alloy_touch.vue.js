@@ -88,6 +88,7 @@ vueAlloyTouch.install = function(Vue){
         var result = {
             touch: el,//反馈触摸的dom
             target: el, //运动的对象
+            bindSelf: _getOption(options.bindSelf, false),
             property: _getOption(options.property, 'translateY'),  //被运动的属性
             vertical: _getOption(options.vertical,1),//不必需，默认是true代表监听竖直方向touch
             min: _getOption(options.min, 0), //不必需,运动属性的最小值

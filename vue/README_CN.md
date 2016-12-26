@@ -4,7 +4,6 @@
 
 腾讯AlloyTeam移动Web触摸解决方案
 
-
 ### Demo(Mobile)
 
 - 滚动列表Vue1: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/vue1)
