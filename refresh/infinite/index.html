@@ -191,7 +191,7 @@
             currentHeight += height;
             setTranslateY(lis[i], currentHeight);
             allData[i].translateY = currentHeight;
-            allData[i].dom = li;
+            allData[i].dom = lis[i];
         }
         currentHeight += height
 
@@ -246,16 +246,16 @@
 
                     var item = allData[i];
                     //保留5屏顺序
-                    if (v + item.translateY > -vpHeight*2 && v + item.translateY < vpHeight * 3) {
+                    if (v + item.translateY > -vpHeight * 2 && v + item.translateY < vpHeight * 3) {
                         item.removed&&ul.appendChild(item.dom);
                         item.removed = false;
                     } else {
                         if (!item.removed) {
-                            if (item.dom.parentNode) {
-                                ul.removeChild(item.dom);
-                            }
+                            ul.removeChild(item.dom);
+                            item.removed = true;
+
                         }
-                        item.removed = true;
+
                     }
                 }
 
