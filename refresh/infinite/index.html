@@ -160,7 +160,7 @@
     function processingData(dataList) {
         var i = 0, len = dataList.length;
         for (; i < len; i++) {
-            allData.push({data: dataList[i], translateY: 0, dom : null});
+            allData.push({removed:false, data: dataList[i], translateY: 0, dom: null, docfrag: document.createDocumentFragment() });
         }
     }
 
@@ -205,6 +205,30 @@
         dom.style.transform = dom.style.msTransform = dom.style.OTransform = dom.style.MozTransform = dom.style.webkitTransform = "translateY(" + value + "px) translateZ(0)";
     }
 
+    function throttle(fn, threshhold, scope) {
+        threshhold || (threshhold = 250);
+        var last,
+            deferTimer;
+        return function () {
+            var context = scope || this;
+
+            var now = +new Date,
+                args = arguments;
+            if (last && now < last + threshhold) {
+                // hold on to it
+                clearTimeout(deferTimer);
+                deferTimer = setTimeout(function () {
+                    last = now;
+                    fn.apply(context, args);
+                }, threshhold);
+            } else {
+                last = now;
+                fn.apply(context, args);
+            }
+        };
+    }
+
+    var vpHeight = window.innerHeight - 45 - 48;
 
     function newAlloyTouch() {
         at = new AlloyTouch({
@@ -215,11 +239,30 @@
             maxSpeed: 2,
             min: window.innerHeight - 45 - 48 - currentHeight - 40 , //不必需,滚动属性的最小值
             max: 0, //不必需,滚动属性的最大值
-            change: function (v) {
+            change:throttle( function (v) {
+                var i = 0,len =allData.length;
+
+                for (; i < len; i++) {
+
+                    var item = allData[i];
+                    //保留5屏顺序
+                    if (v + item.translateY > -vpHeight*2 && v + item.translateY < vpHeight * 3) {
+                        item.removed&&ul.appendChild(item.dom);
+                        item.removed = false;
+                    } else {
+                        if (!item.removed) {
+                            if (item.dom.parentNode) {
+                                ul.removeChild(item.dom);
+                            }
+                        }
+                        item.removed = true;
+                    }
+                }
+
                 if (v <= this.min + 20 && !loading) {
                     loadMore();
                 }
-            },
+            },100),
             animationEnd: function (value) {
                 //console.log(value);
             },
@@ -284,14 +327,7 @@
     init();
 
 
-    //Keep only three screen content.
-    //这样搞的话，li就要脱离标准流绝对定位且translateY要存起来
-    var InfiniteManager = function(selector,viewportHeight,currentY){
 
-        setInterval(function(){
-
-        },100);
-    }
 </script>
 </body>
 </html>
