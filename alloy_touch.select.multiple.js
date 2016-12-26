@@ -237,6 +237,22 @@
         return touches;
     }
 
+    // get options list
+    function _getList(levelIndex) {
+        levelIndex = levelIndex || 0;
+        var parentSelected = this.nowSelected[0] || 0;
+        var cache = this.cache;
+
+        for(var i=0; i<levelIndex; i++) {
+            parentSelected = this.nowSelected[i];
+            cache = cache[parentSelected];
+
+            if(!cache) return {length: 0};
+        }
+
+        return cache;
+    }
+
     function _noop() {}
 
     AlloyTouch.MultipleSelect = function (option) {
@@ -247,7 +263,7 @@
         this.change = option.change || _noop;
 
         var that = this;
-        var _nowSelected = option.selectedIndex || [];
+        this.nowSelected = option.selectedIndex || [];
 
         // merge options list
         function _mergeListInfo(list) {
@@ -265,10 +281,10 @@
         }
 
         // init options
-        var _cache = _mergeListInfo(this.options);
+        this.cache = _mergeListInfo(this.options);
         // init selected
         for(var i=0; i<this.level; i++) {
-            if(!_nowSelected[i]) _nowSelected[i] = 0;
+            if(!this.nowSelected[i]) this.nowSelected[i] = 0;
         }
 
         var id = scoper(getCss(this.level));
@@ -291,10 +307,10 @@
         // mask.style.height = window.innerHeight + "px";
         
         // get selected arr
-        function getSelectedArr() {
-            var arr = [_nowSelected];
+        function getSelectedArr(nowSelected) {
+            var arr = [nowSelected];
             var options = that.options || [];
-            _nowSelected.forEach(function(sel) {
+            nowSelected.forEach(function(sel) {
                 options = options[sel] || {};
                 arr.push(options && options.name);
                 options = options.list || [];
@@ -306,78 +322,72 @@
         // enter btn
         var completeBtn = document.getElementById('alloy-selector-complete-button-1');
         completeBtn.addEventListener('touchend', function (e) {
-            that.complete.apply(that, getSelectedArr());
+            that.complete.apply(that, getSelectedArr(that.nowSelected));
             e.stopPropagation();
             e.preventDefault();
         }, false);
 
         var parent = document.getElementById('alloy-selector-body');
-        var list = createList(parent, this.level);
-        var touches = createTouch(parent, this.level);
-        var atList = {};
+        this.list = createList(parent, this.level);
+        this.touches = createTouch(parent, this.level);
+        this.atList = {};
 
         // init list
         for(var l=0; l<this.level; l++) {
             var info = _getList.call(this, l);
-            list[l].querySelector('ul').innerHTML = info.content;
+            this.list[l].querySelector('ul').innerHTML = info.content;
 
-            var listInit = info[_nowSelected[l]] ? _nowSelected[l] : 0;
-            _nowSelected[l] = listInit;
+            var listInit = info[this.nowSelected[l]] ? this.nowSelected[l] : 0;
+            this.nowSelected[l] = listInit;
             var at = new AlloyTouch({
-                touch: touches[l], // 反馈触摸的dom
-                target: list[l], // 运动的对象
+                touch: this.touches[l], // 反馈触摸的dom
+                target: this.list[l], // 运动的对象
                 initialVaule: listInit * -33,
                 property: 'translateY',  // 被滚动的属性
                 min: -33 * (info.length - 1), // 不必需,滚动属性的最小值
                 max: 0,
                 animationEnd: (function(l) {
                     return function(value) {
-                        _nowSelected[l] = Math.round(Math.abs(value / 33));
+                        that.nowSelected[l] = Math.round(Math.abs(value / 33));
 
                         if(l === that.level-1) return; // the last list has not children
 
                         for(var j=l+1; j < that.level; j++) {
                             var childrenInfo = _getList.call(that, j);
-                            _nowSelected[j] = 0;
-                            list[j].querySelector('ul').innerHTML = childrenInfo.content || '';
-                            atList[j].min = -33 * (childrenInfo.length - 1);
-                            list[j].translateY = 0;
+                            that.nowSelected[j] = 0;
+                            that.list[j].querySelector('ul').innerHTML = childrenInfo.content || '';
+                            that.atList[j].min = -33 * (childrenInfo.length - 1);
+                            that.list[j].translateY = 0;
                         }
 
-                        that.change.apply(that, getSelectedArr());
+                        that.change.apply(that, getSelectedArr(that.nowSelected));
                     }
                 })(l),
                 step: 33
             });
 
-            atList[l] = at;
+            this.atList[l] = at;
         }
+    };
 
-        // get options list
-        function _getList(levelIndex) {
-            levelIndex = levelIndex || 0;
-            var parentSelected = _nowSelected[0] || 0;
-            var cache = _cache;
-
-            for(var i=0; i<levelIndex; i++) {
-                parentSelected = _nowSelected[i];
-                cache = cache[parentSelected];
-
-                if(!cache) return {length: 0};
-            }
-
-            return cache;
+    AlloyTouch.MultipleSelect.prototype.reset = function () {
+        for(var l=0; l<this.level; l++) {
+            this.nowSelected[l] = 0;
+            var info = _getList.call(this, l);
+            this.list[l].querySelector('ul').innerHTML = info.content;
+            this.atList[l].min = -33 * (info.length - 1);
+            this.list[l].translateY = 0;
         }
     };
 
     AlloyTouch.MultipleSelect.prototype.show = function () {
-      this.widget.style.visibility = "visible";
-      this.widget.style.display = "block";
+        this.widget.style.visibility = "visible";
+        this.widget.style.display = "block";
     };
 
     AlloyTouch.MultipleSelect.prototype.hide = function () {
-      this.widget.style.visibility = "hidden";
-      this.widget.style.display = "none";
+        this.widget.style.visibility = "hidden";
+        this.widget.style.display = "none";
     };
     
 })();
