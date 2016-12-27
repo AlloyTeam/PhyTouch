@@ -469,7 +469,7 @@
                 vertical: true,//不必需，默认是true代表监听竖直方向touch
                 target: target, //运动的对象
                 property: "translateY",  //被滚动的属性
-                maxSpeed: 2,
+                maxSpeed: 1.4,
                 min: window.innerHeight - 45 - 48 - currentHeight - 40, //不必需,滚动属性的最小值
                 max: 0, //不必需,滚动属性的最大值
                 change: throttle(function (v) {
@@ -495,7 +495,7 @@
                     if (v <= this.min + 20 && !loading) {
                         loadMore();
                     }
-                }, 100),
+                }, 320),
                 animationEnd: function (value) {
                     //console.log(value);
                 },
