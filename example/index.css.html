@@ -186,6 +186,9 @@
             factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
             min: window.innerHeight - 45 - 48 - 2000, //不必需,滚动属性的最小值
             max: 0,
+            change: function (v) {
+                console.log(v);
+            },
             animationEnd: function (value) {
                 console.log(value);
             },

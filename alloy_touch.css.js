@@ -4,6 +4,32 @@
  * MIT Licensed.
  */
 ; (function () {
+    'use strict';
+
+    if (!Date.now)
+        Date.now = function () { return new Date().getTime(); };
+
+    var vendors = ['webkit', 'moz'];
+    for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
+        var vp = vendors[i];
+        window.requestAnimationFrame = window[vp + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = (window[vp + 'CancelAnimationFrame']
+                                   || window[vp + 'CancelRequestAnimationFrame']);
+    }
+    if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) // iOS6 is buggy
+        || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
+        var lastTime = 0;
+        window.requestAnimationFrame = function (callback) {
+            var now = Date.now();
+            var nextTime = Math.max(lastTime + 16, now);
+            return setTimeout(function () { callback(lastTime = nextTime); },
+                              nextTime - now);
+        };
+        window.cancelAnimationFrame = clearTimeout;
+    }
+}());
+
+; (function () {
 
     var _elementStyle = document.createElement('div').style,
         endTransitionEventName,
@@ -70,16 +96,12 @@
         this.maxRegion = this._getValue(option.maxRegion, 600);
         this.springMaxRegion = this._getValue(option.springMaxRegion, 60);
 
-        //css版本不再支持change事件
-        //this.change = option.change || function () { };
-        this.touchEnd = option.touchEnd || function () {
-            };
-        this.touchStart = option.touchStart || function () {
-            };
-        this.touchMove = option.touchMove || function () {
-            };
-        this.animationEnd = option.animationEnd || function () {
-            };
+        this.change = option.change || function () { };
+        this.touchEnd = option.touchEnd || function () { };
+        this.touchStart = option.touchStart || function () { };
+        this.touchMove = option.touchMove || function () { };
+        this.touchCancel = option.touchMove || function () { };
+        this.animationEnd = option.animationEnd || function () { };
 
         this.preventDefaultException = {tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/};
         this.hasMin = !(this.min === undefined);
@@ -129,12 +151,14 @@
                 this.correction();
                 if (this._endCallbackTag) {
                     this._endTimeout = setTimeout(function () {
-                        this.animationEnd.call(this,current);
+                        this.animationEnd.call(this, current);
+                        cancelAnimationFrame(this.tickID);
                     }.bind(this), 400);
                     this._endCallbackTag = false;
                 }
             } else {
-                this.animationEnd.call(this,current);
+                this.animationEnd.call(this, current);
+                cancelAnimationFrame(this.tickID);
             }
         },
         _cancelAnimation: function () {
@@ -142,7 +166,25 @@
             this.scroller.style[transform] = window.getComputedStyle(this.scroller)[transform];
 
         },
+        getComputedPosition: function () {
+            var matrix = window.getComputedStyle(this.scroller, null),
+                x, y;
+
+	            matrix = matrix[transform].split(')')[0].split(', ');
+	            x = +(matrix[12] || matrix[4]);
+	            y = +(matrix[13] || matrix[5]);
+	       
+	
+	        return { x: x, y: y };
+	    },
+        _tick: function () {
+            this.change.call(this, this.getComputedPosition());
+            this.tickID = requestAnimationFrame(this._tick.bind(this));
+        },
         _start: function (evt) {
+            cancelAnimationFrame(this.tickID);
+            this._tick();
+
             this._endCallbackTag = true;
             this.isTouchStart = true;
             this._firstTouchMove = true;
@@ -257,10 +299,12 @@
                 this.isTouchStart = false;
             }
         },
-        _cancel: function () {
+        _cancel: function (evt) {
+            cancelAnimationFrame(this.tickID);
             if (this.step) {
                 this.correction();
             }
+            this.touchCancel.call(this, evt);
         },
         to: function (value, time, ease) {
             var el = this.scroller,
