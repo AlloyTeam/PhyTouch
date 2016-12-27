@@ -357,7 +357,8 @@
             loading = false,
             ul = document.querySelector("#scroller .list"),
             loadingDiv = document.querySelector("#loading"),
-            currentHeight = 0;
+            currentHeight = 0,
+            step = 94;
 
         Transform(target, true);
 
@@ -416,10 +417,10 @@
 
             setTranslateY(lis[0], 0);
             allData[0].dom = lis[0];
-            var height = 0;
+            var height = step;
             for (; i < len; i++) {
                 var li = lis[i - 1];
-                height = parseInt(window.getComputedStyle(li, null).height);
+                //height = parseInt(window.getComputedStyle(li, null).height);
                 currentHeight += height;
                 setTranslateY(lis[i], currentHeight);
                 allData[i].translateY = currentHeight;
@@ -546,7 +547,10 @@
                 allData[allDataLen].translateY = currentHeight;
                 allData[allDataLen].dom = arr[0];
                 for (i = 1; i < len; i++) {
-                    var height = parseInt(window.getComputedStyle(arr[i - 1], null).height);
+                    //如果是未知高度需要getComputedStyle计算。
+                    //var height = parseInt(window.getComputedStyle(arr[i - 1], null).height);
+                    //否则直接用step
+                    var height = step;
                     totalHeight += height;
                     currentHeight += height;
                     setTranslateY(arr[i], currentHeight);
