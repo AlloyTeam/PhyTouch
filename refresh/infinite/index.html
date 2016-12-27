@@ -7,27 +7,127 @@
     <title>AlloyTouch</title>
 
     <style type="text/css">
-        * {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-
-        html {
-            -ms-touch-action: none;
-        }
-
-        body, ul, li {
-            padding: 0;
-            margin: 0;
-            border: 0;
-        }
-
         body {
             font-size: 12px;
             font-family: ubuntu, helvetica, arial;
             overflow: hidden;
         }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            font-family: "Helvetica Neue",Helvetica,STHeiTi,sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+
+
+        ul, li {
+            padding: 0;
+            margin: 0;
+        }
+
+
+        .b1 {
+            position: relative;
+        }
+
+            .b1:after {
+                display: block;
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                -webkit-transform-origin: 0 0;
+                -webkit-transform: scale(1);
+                pointer-events: none;
+            }
+
+        @media only screen and (-webkit-min-device-pixel-ratio:2) {
+            .b1:after {
+                right: -100%;
+                bottom: -100%;
+                -webkit-transform: scale(.5);
+            }
+        }
+
+        .b1.bb:after {
+            border-bottom: 1px solid #e4e4e4;
+        }
+
+        .b1.bt:after {
+            border-top: 1px solid #e4e4e4;
+        }
+
+        .b1.bl:after {
+            border-left: 1px solid #e4e4e4;
+        }
+
+        .b1.br:after {
+            border-right: 1px solid #e4e4e4;
+        }
+
+        @-webkit-keyframes spinner-12 {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            8.333333333333332% {
+                -webkit-transform: rotate(30deg);
+            }
+
+            16.666666666666664% {
+                -webkit-transform: rotate(60deg);
+            }
+
+            25% {
+                -webkit-transform: rotate(90deg);
+            }
+
+            33.33333333333333% {
+                -webkit-transform: rotate(120deg);
+            }
+
+            41.66666666666667% {
+                -webkit-transform: rotate(150deg);
+            }
+
+            50% {
+                -webkit-transform: rotate(180deg);
+            }
+
+            58.333333333333336% {
+                -webkit-transform: rotate(210deg);
+            }
+
+            66.66666666666666% {
+                -webkit-transform: rotate(240deg);
+            }
+
+            75% {
+                -webkit-transform: rotate(270deg);
+            }
+
+            83.33333333333334% {
+                -webkit-transform: rotate(300deg);
+            }
+
+            91.66666666666666% {
+                -webkit-transform: rotate(330deg);
+            }
+        }
+
 
         #header {
             position: absolute;
@@ -89,245 +189,447 @@
             text-size-adjust: none;
         }
 
-        #scroller ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            width: 100%;
-            text-align: left;
-            display: none;
-        }
+            #scroller .list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                text-align: left;
+                display: none;
+            }
 
-        #scroller li {
-            padding: 0 10px;
-            height: 40px;
-            line-height: 40px;
-            border-bottom: 1px solid #ccc;
-            border-top: 1px solid #fff;
-            background-color: #fafafa;
-            font-size: 14px;
-            position: absolute;
-            width: 100%;
-            top:0px;
-            left: 0px;
-        }
-        .loading{
+            #scroller .item {
+                padding: 0 10px;
+                line-height: 94px;
+                border-bottom: 1px solid #ccc;
+                border-top: 1px solid #fff;
+                background-color: #fafafa;
+                font-size: 14px;
+                position: absolute;
+                width: 100%;
+                top: 0px;
+                left: 0px;
+                height: 94px;
+            }
+
+        #loading {
             text-align: center;
             line-height: 40px;
             height: 40px;
         }
+
+
+
+        #scroller .user_list {
+        }
+
+        #scroller .qlogo {
+            overflow: hidden;
+            width: 70px;
+            height: 70px;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 12px;
+        }
+
+        #scroller .distance_info {
+            position: absolute;
+            top: -25px;
+            right: 9px;
+            color: #7B7B84;
+            font-size: 10px;
+        }
+
+        #scroller .main {
+            padding-top: 13px;
+            margin-left: 94px;
+        }
+
+
+
+        #scroller .nick {
+            line-height: 25px;
+            font-size: 18px;
+            width: 60%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        #scroller .icons {
+            height: 18px;
+            color: white;
+            font-size: 10px;
+            line-height: 18px;
+        }
+
+        #scroller .action {
+            line-height: 24px;
+            font-size: 14px;
+            color: #7B7B84;
+            width: 85%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        #scroller .boy_age {
+            display: inline-block;
+            width: auto;
+            padding-left: 3px;
+            padding-right: 3px;
+            height: 12px;
+            line-height: 13px;
+            letter-spacing: 0;
+            background-color: #a1c8fa;
+            text-align: center;
+        }
+
+            #scroller .girl_age img, #scroller .boy_age img {
+                width: 7px;
+                margin-right: 2px;
+            }
+
+            #scroller .boy_age img {
+                position: relative;
+                top: 1px;
+            }
+
+        #scroller .girl_age {
+            display: inline-block;
+            width: auto;
+            padding-left: 3px;
+            padding-right: 3px;
+            height: 12px;
+            line-height: 13px;
+            background-color: #ffb4c8;
+            text-align: center;
+        }
+
+        #scroller .profession {
+            display: inline-block;
+            width: auto;
+            padding-left: 3px;
+            padding-right: 3px;
+            height: 12px;
+            background-color: rgb(112, 211, 249);
+            line-height: 13px;
+            text-align: center;
+        }
+
+        #scroller .loading {
+            background-image: url(//s.url.cn/qqun/qun/qqweb/m/qun/confession/component/user_list/loading.png);
+            background-size: 20px 20px;
+            width: 20px;
+            height: 20px;
+            -webkit-animation: spinner-12 1.6s step-start infinite;
+            animation: spinner-12 1.6s step-start infinite;
+            display: inline-block;
+            position: relative;
+            top: 5px;
+        }
     </style>
 </head>
 <body>
-<div id="header">AlloyTouch</div>
-<div id="wrapper">
-    <div id="scroller">
-        <ul>
-
-
-        </ul>
-        <div class="loading" id="loading">loading...</div>
+    <div id="header">AlloyTouch</div>
+    <div id="wrapper">
+        <div id="scroller">
+            <div class="list">
+            </div>
+            <div id="loading"><span class="loading"></span><span>loading...</span></div>
+        </div>
     </div>
-</div>
-<div id="footer"></div>
-<a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
-    <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
-</a>
-<script src="../../transformjs/transform.js"></script>
-<script src="../../alloy_touch.js"></script>
-<script>
+    <div id="footer"></div>
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3; width: 140px; height: 140px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
+    </a>
+    <script src="../../transformjs/transform.js"></script>
+    <script src="../../alloy_touch.js"></script>
+    <script>
+        var cgiData = { "ec": 0, "next_grid": 126289218382848000, "orig_grid": 126299526304356000, "uin_info": [{ "age": 24, "charm": 1047, "charm_level": 5, "desc": "2.32km&nbsp;1小时", "distance": 2320, "intro": "我认真的时候&nbsp;你别闹！给你脸的时候你别傲", "lat": 22626609, "lon": 114086544, "nick": "👊金色&nbsp;👆华年&nbsp;👊", "praise": 1000, "profession_desc": "商业", "sex": "男", "sig": "", "time": 1482802326, "timeinterval": 30, "uin": "144115197668966492", "url": "http:\/\/q1.qlogo.cn\/g?b=qq&amp;k=axfJCm4ic2CuU9EicN6utCHw&amp;s=100" }, { "age": 27, "charm": 3116, "charm_level": 5, "desc": "1.82km&nbsp;1小时", "distance": 1828, "intro": "暖床要吗？？？？", "lat": 22625084, "lon": 114081972, "nick": "当街↣接吻", "praise": 10272, "profession_desc": "其他", "sex": "男", "sig": "", "time": 1482802697, "timeinterval": 23, "uin": "144115196669728751", "url": "http:\/\/q2.qlogo.cn\/g?b=qq&amp;k=cCqhXVwib6jokUDC0aH9zVQ&amp;s=100" }, { "age": 27, "charm": 549, "charm_level": 4, "desc": "2.14km&nbsp;1小时", "distance": 2140, "intro": "纯属虚构，乱‘是’佳人", "lat": 22624044, "lon": 114085936, "nick": "孤星天煞", "praise": 313, "profession_desc": "", "sex": "男", "sig": "", "time": 1482802885, "timeinterval": 20, "uin": "144115197737487704", "url": "http:\/\/q3.qlogo.cn\/g?b=qq&amp;k=4iaYk98yscUIuYJFMcSd0Ew&amp;s=100" }, { "age": 25, "charm": 987, "charm_level": 4, "desc": "1.85km&nbsp;1小时", "distance": 1853, "intro": "如果是妳，我会用一辈子时间疼妳、爱妳、保护妳", "lat": 22625003, "lon": 114082307, "nick": "单眼皮的男生", "praise": 1757, "profession_desc": "其他", "sex": "男", "sig": "", "time": 1482803000, "timeinterval": 18, "uin": "144115196672246542", "url": "http:\/\/q2.qlogo.cn\/g?b=qq&amp;k=1bhDn3ImSWpsQJJClDCuibQ&amp;s=100" }, { "age": 31, "charm": 1271, "charm_level": 5, "desc": "2.38km&nbsp;1小时", "distance": 2385, "intro": "人在江湖；身不由己", "lat": 22631852, "lon": 114083089, "nick": "浪子回头", "praise": 641, "profession_desc": "商业", "sex": "男", "sig": "", "time": 1482803135, "timeinterval": 16, "uin": "144115197683134582", "url": "http:\/\/q4.qlogo.cn\/g?b=qq&amp;k=6iaQe6Z5NddHhSvJTcSI9kA&amp;s=100" }, { "age": 30, "charm": 1276, "charm_level": 5, "desc": "2.26km&nbsp;1小时", "distance": 2269, "intro": "介孩纸情商太低，不适合谈恋爱😊", "lat": 22624842, "lon": 114086933, "nick": "这个可以有", "praise": 989, "profession_desc": "制造", "sex": "男", "sig": "", "time": 1482803176, "timeinterval": 16, "uin": "144115197686239746", "url": "http:\/\/q3.qlogo.cn\/g?b=qq&amp;k=ibHHKuK3NTE1LFKkU8d3nFQ&amp;s=100" }, { "age": 22, "charm": 6677, "charm_level": 5, "desc": "2.16km&nbsp;1小时", "distance": 2163, "intro": "或许你点赞我们就有故事了😂", "lat": 22625529, "lon": 114085440, "nick": "💋💋💋", "praise": 51523, "profession_desc": "IT", "sex": "男", "sig": "", "time": 1482803296, "timeinterval": 14, "uin": "144115196678440570", "url": "http:\/\/q1.qlogo.cn\/g?b=qq&amp;k=4egI7ezUNWKhG8icetT1Bkw&amp;s=100" }, { "age": 28, "charm": 1478, "charm_level": 5, "desc": "1.90km&nbsp;1小时", "distance": 1904, "intro": "低碳环保", "lat": 22625991, "lon": 114082238, "nick": "那年ヽ", "praise": 5336, "profession_desc": "商业", "sex": "男", "sig": "", "time": 1482803318, "timeinterval": 13, "uin": "144115196666236971", "url": "http:\/\/q1.qlogo.cn\/g?b=qq&amp;k=ey0khtlFFq4EYicRV8tiaezw&amp;s=100" }, { "age": 26, "charm": 5912, "charm_level": 5, "desc": "1.97km&nbsp;1小时", "distance": 1975, "intro": "人生不能靠心情活着，一定要靠心态活着，靠心智左右生活。", "lat": 22627515, "lon": 114081911, "nick": "﹎.亦念℡.", "praise": 35611, "profession_desc": "其他", "sex": "男", "sig": "", "time": 1482803580, "timeinterval": 9, "uin": "144115196963483887", "url": "http:\/\/q1.qlogo.cn\/g?b=qq&amp;k=yK7G9HRiabGUpsb6b7hQxGQ&amp;s=100" }, { "age": 31, "charm": 178, "charm_level": 2, "desc": "2.27km&nbsp;1小时", "distance": 2276, "intro": "", "lat": 22631233, "lon": 114082257, "nick": "双里人--海SZ", "praise": 71, "profession_desc": "", "sex": "男", "sig": "", "time": 1482803599, "timeinterval": 8, "uin": "144115197853290979", "url": "http:\/\/q4.qlogo.cn\/g?b=qq&amp;k=Ll0WnzywvqmG5dTMH00NIQ&amp;s=100" }, { "age": 27, "charm": 671, "charm_level": 4, "desc": "2.11km&nbsp;1小时", "distance": 2115, "intro": "生活，总要继续，把所有的不快给昨天，把所有的希望给明天，把所有的努力给今天", "lat": 22629803, "lon": 114081581, "nick": "风雨&amp;兼程", "praise": 987, "profession_desc": "其他", "sex": "男", "sig": "", "time": 1482803675, "timeinterval": 7, "uin": "144115196920362864", "url": "http:\/\/q1.qlogo.cn\/g?b=qq&amp;k=a1uDo4dxKRz7g3khagTuPw&amp;s=100" }, { "age": 22, "charm": 1116, "charm_level": 5, "desc": "2.39km&nbsp;1小时", "distance": 2394, "intro": "爱好旅游，", "lat": 22631908, "lon": 114083151, "nick": "小鸭子", "praise": 2442, "profession_desc": "商业", "sex": "男", "sig": "", "time": 1482803773, "timeinterval": 6, "uin": "144115196672659334", "url": "http:\/\/q2.qlogo.cn\/g?b=qq&amp;k=EiaGEXIzjscHYkKickDq2V3g&amp;s=100" }, { "age": 2, "charm": 72, "charm_level": 1, "desc": "1.93km&nbsp;1小时", "distance": 1932, "intro": "", "lat": 22628347, "lon": 114080616, "nick": "境由心生", "praise": 197, "profession_desc": "", "sex": "男", "sig": "", "time": 1482803865, "timeinterval": 4, "uin": "144115196728778699", "url": "http:\/\/q3.qlogo.cn\/g?b=qq&amp;k=wDZ3Rv4TqbYuSQ49ZLLUVg&amp;s=100" }, { "age": 20, "charm": 1491, "charm_level": 5, "desc": "1.94km&nbsp;1小时", "distance": 1942, "intro": "钱&nbsp;&nbsp;&nbsp;&nbsp;现实社会的万能钥匙", "lat": 22628400, "lon": 114080689, "nick": "0.0", "praise": 13541, "profession_desc": "其他", "sex": "男", "sig": "", "time": 1482803950, "timeinterval": 3, "uin": "144115196694994945", "url": "http:\/\/q4.qlogo.cn\/g?b=qq&amp;k=b8LQw6B5SBt1NDSlWR0ULQ&amp;s=100" }, { "age": 99, "charm": 1208, "charm_level": 5, "desc": "1.92km&nbsp;1小时", "distance": 1925, "intro": "人生难得一知已懂得包容才真正懂得快乐？", "lat": 22627780, "lon": 114081063, "nick": "快乐大叔", "praise": 4814, "profession_desc": "艺术", "sex": "男", "sig": "", "time": 1482804023, "timeinterval": 1, "uin": "144115196986079208", "url": "http:\/\/q1.qlogo.cn\/g?b=qq&amp;k=Hma9gaq2p5VZzIpQ0DaNmA&amp;s=100" }, { "age": 33, "charm": 150, "charm_level": 2, "desc": "1.71km&nbsp;1小时", "distance": 1717, "intro": "", "lat": 22625888, "lon": 114080097, "nick": "郑平", "praise": 90, "profession_desc": "", "sex": "男", "sig": "", "time": 1482804110, "timeinterval": 0, "uin": "144115196824999174", "url": "http:\/\/q1.qlogo.cn\/g?b=qq&amp;k=Zdiaq3B8HKTApnPic8lEu1bg&amp;s=100" }, { "age": 20, "charm": 2568, "charm_level": 5, "desc": "1.86km&nbsp;1小时", "distance": 1863, "intro": "求赞！！！", "lat": 22625440, "lon": 114082141, "nick": "丶花开花落花熙熙", "praise": 47246, "profession_desc": "商业", "sex": "女", "sig": "", "time": 1482802508, "timeinterval": 27, "uin": "144115196840916630", "url": "http:\/\/q1.qlogo.cn\/g?b=qq&amp;k=uu1g6xsEsWEY9LZEBhiaqJQ&amp;s=100" }, { "age": 26, "charm": 2450, "charm_level": 5, "desc": "2.03km&nbsp;1小时", "distance": 2035, "intro": "来了，就十连赞吧，谢谢", "lat": 22629239, "lon": 114081081, "nick": "孤諨吖頭♂小可", "praise": 18390, "profession_desc": "制造", "sex": "女", "sig": "", "time": 1482802596, "timeinterval": 25, "uin": "144115196842627334", "url": "http:\/\/q1.qlogo.cn\/g?b=qq&amp;k=NxUPNAbWzDXOsU6vC07g5w&amp;s=100" }, { "age": 24, "charm": 4059, "charm_level": 5, "desc": "2.27km&nbsp;1小时", "distance": 2278, "intro": "早知道浮生若夢，恨不得一夜白頭。", "lat": 22625955, "lon": 114086463, "nick": "抬頭、微笑^_^", "praise": 36666, "profession_desc": "其他", "sex": "女", "sig": "", "time": 1482802800, "timeinterval": 22, "uin": "144115197757562746", "url": "http:\/\/q4.qlogo.cn\/g?b=qq&amp;k=ussOoXJH9CiaRNl3vYRUaTQ&amp;s=100" }, { "age": 26, "charm": 237, "charm_level": 3, "desc": "1.54km&nbsp;1小时", "distance": 1545, "intro": "若不能长相厮守请别跟我走。。", "lat": 22618791, "lon": 114081548, "nick": "&nbsp;o鲱祢钚娶\/", "praise": 125, "profession_desc": "制造", "sex": "男", "sig": "", "time": 1482803344, "timeinterval": 13, "uin": "144115196697763929", "url": "http:\/\/q3.qlogo.cn\/g?b=qq&amp;k=AuQNCcicm8PKjSd5osHUC6g&amp;s=100" }] };
 
-    var allData = [],
-        index = 0,
-        at,
-        target = document.querySelector("#scroller"),
-        loading = false,
-        ul = document.querySelector("#scroller ul"),
-        loadingDiv = document.querySelector("#loading"),
-        currentHeight = 0;
+        var allData = [],
+            index = 0,
+            at,
+            target = document.querySelector("#scroller"),
+            loading = false,
+            ul = document.querySelector("#scroller .list"),
+            loadingDiv = document.querySelector("#loading"),
+            currentHeight = 0;
 
-    Transform(target,true);
+        Transform(target, true);
 
-    function mockData() {
-        var dataList = [],
-                i = 0;
-        for (; i < 100; i++) {
-            dataList.push({name: "row", num: index++});
+
+        var parser = new DOMParser();
+
+
+        function mockData() {
+            var dataList = [],
+                    i = 0;
+            for (; i < 100; i++) {
+                var user = randomUser();
+                dataList.push(user);
+            }
+            return dataList;
         }
-        return dataList;
-    }
 
-    function processingData(dataList) {
-        var i = 0, len = dataList.length;
-        for (; i < len; i++) {
-            allData.push({removed:false, data: dataList[i], translateY: 0, dom: null });
+        function processingData(dataList) {
+            var i = 0, len = dataList.length;
+            for (; i < len; i++) {
+                allData.push({ removed: false, data: dataList[i], translateY: 0, dom: null });
+            }
         }
-    }
 
-    function render(renderTo,dataList){
-        var docfrag = document.createDocumentFragment();
-        var i= 0,len=dataList.length;
-        for(;i<len;i++){
-            var item = dataList[i];
-            var li = document.createElement("li");
-            li.innerHTML = item.name+" "+item.num;
-            docfrag.appendChild(li);
+        function render(renderTo, dataList) {
+            var docfrag = document.createDocumentFragment();
+            var i = 0, len = dataList.length;
+            for (; i < len; i++) {
+                var user = dataList[i];
+
+                var doc = str2DOMElement(' <div class="item">\
+                                            <div class="qlogo">\
+                                                <img style="width: 70px;" src="' + user.url + '">\
+                                            </div>\
+                                            <div class="main b1 bb">\
+                                                <div class="nick">(^ω^)1/LG</div>\
+                                                <div class="icons"><span class="girl_age">\
+                                                    <img src="//s.url.cn/qqun/qun/qqweb/m/qun/confession/component/user_list/girl.png" alt="" /><span>26</span></span>\
+                                                    <span class="profession"><span>商业</span></span>             </div>\
+                                                <div class="action">去过深圳、北京、...；喜欢山炮进城、鬼吹灯之寻龙诀、...</div>\
+                                            </div>\
+                                            <div class="distance_info">0.33km · 1小时</div>\
+                                        </div>');
+
+
+                docfrag.appendChild(doc);
+
+            }
+            renderTo.appendChild(docfrag);
         }
-        renderTo.appendChild(docfrag);
-    }
 
-    function initList() {
-        var lis = document.querySelectorAll("#scroller li"),
-                i = 1,
-                len = lis.length;
+        function initList() {
+            var lis = document.querySelectorAll("#scroller .item"),
+                    i = 1,
+                    len = lis.length;
 
 
-        setTranslateY(lis[0], 0);
-        allData[0].dom = lis[0];
-        var height = 0;
-        for (; i < len; i++) {
-            var li = lis[i - 1];
-            height = parseInt(window.getComputedStyle(li, null).height);
-            currentHeight += height;
-            setTranslateY(lis[i], currentHeight);
-            allData[i].translateY = currentHeight;
-            allData[i].dom = lis[i];
+            window.xxx = lis
+
+            setTranslateY(lis[0], 0);
+            allData[0].dom = lis[0];
+            var height = 0;
+            for (; i < len; i++) {
+                var li = lis[i - 1];
+                height = parseInt(window.getComputedStyle(li, null).height);
+                currentHeight += height;
+                setTranslateY(lis[i], currentHeight);
+                allData[i].translateY = currentHeight;
+                allData[i].dom = lis[i];
+            }
+            currentHeight += height
+
+            setTranslateY(loadingDiv, currentHeight);
+            ul.style.display = "block";
         }
-        currentHeight += height
-
-        setTranslateY(loadingDiv, currentHeight);
-        ul.style.display = "block";
-    }
 
 
 
-    function setTranslateY(dom,value) {
-        dom.style.transform = dom.style.msTransform = dom.style.OTransform = dom.style.MozTransform = dom.style.webkitTransform = "translateY(" + value + "px) translateZ(0)";
-    }
+        function setTranslateY(dom, value) {
+            dom.style.transform = dom.style.msTransform = dom.style.OTransform = dom.style.MozTransform = dom.style.webkitTransform = "translateY(" + value + "px) translateZ(0)";
+        }
 
-    function throttle(fn, threshhold, scope) {
-        threshhold || (threshhold = 250);
-        var last,
-            deferTimer;
-        return function () {
-            var context = scope || this;
+        function throttle(fn, threshhold, scope) {
+            threshhold || (threshhold = 250);
+            var last,
+                deferTimer;
+            return function () {
+                var context = scope || this;
 
-            var now = +new Date,
-                args = arguments;
-            if (last && now < last + threshhold) {
-                // hold on to it
-                clearTimeout(deferTimer);
-                deferTimer = setTimeout(function () {
+                var now = +new Date,
+                    args = arguments;
+                if (last && now < last + threshhold) {
+                    // hold on to it
+                    clearTimeout(deferTimer);
+                    deferTimer = setTimeout(function () {
+                        last = now;
+                        fn.apply(context, args);
+                    }, threshhold);
+                } else {
                     last = now;
                     fn.apply(context, args);
-                }, threshhold);
-            } else {
-                last = now;
-                fn.apply(context, args);
-            }
-        };
-    }
+                }
+            };
+        }
 
-    var vpHeight = window.innerHeight - 45 - 48;
+        var vpHeight = window.innerHeight - 45 - 48;
 
-    function newAlloyTouch() {
-        at = new AlloyTouch({
-            touch: "#wrapper",//反馈触摸的dom
-            vertical: true,//不必需，默认是true代表监听竖直方向touch
-            target: target, //运动的对象
-            property: "translateY",  //被滚动的属性
-            maxSpeed: 2,
-            min: window.innerHeight - 45 - 48 - currentHeight - 40 , //不必需,滚动属性的最小值
-            max: 0, //不必需,滚动属性的最大值
-            change:throttle( function (v) {
-                var i = 0,len =allData.length;
+        function newAlloyTouch() {
+            at = new AlloyTouch({
+                touch: "#wrapper",//反馈触摸的dom
+                vertical: true,//不必需，默认是true代表监听竖直方向touch
+                target: target, //运动的对象
+                property: "translateY",  //被滚动的属性
+                maxSpeed: 2,
+                min: window.innerHeight - 45 - 48 - currentHeight - 40, //不必需,滚动属性的最小值
+                max: 0, //不必需,滚动属性的最大值
+                change: throttle(function (v) {
+                    var i = 0, len = allData.length;
 
-                for (; i < len; i++) {
+                    for (; i < len; i++) {
 
-                    var item = allData[i];
-                    //保留5屏顺序
-                    if (v + item.translateY > -vpHeight * 2 && v + item.translateY < vpHeight * 3) {
-                        item.removed&&ul.appendChild(item.dom);
-                        item.removed = false;
-                    } else {
-                        if (!item.removed) {
-                            ul.removeChild(item.dom);
-                            item.removed = true;
+                        var item = allData[i];
+                        //保留5屏顺序
+                        if (v + item.translateY > -vpHeight * 2 && v + item.translateY < vpHeight * 3) {
+                            item.removed && ul.appendChild(item.dom);
+                            item.removed = false;
+                        } else {
+                            if (!item.removed) {
+                                ul.removeChild(item.dom);
+                                item.removed = true;
+
+                            }
 
                         }
+                    }
 
+                    if (v <= this.min + 20 && !loading) {
+                        loadMore();
+                    }
+                }, 100),
+                animationEnd: function (value) {
+                    //console.log(value);
+                },
+                pressMove: function (evt, value) {
+                    //console.log(evt.deltaX + "_" + evt.deltaY + "__" + value);
+                }
+            })
+        }
+
+        function loadMore() {
+            loading = true;
+
+            setTimeout(function () {
+                var arr = [];
+                var totalHeight = 0;
+                var docfrag = document.createDocumentFragment();
+                var dataList = mockData(),
+                        len = dataList.length,
+                        i = 0;
+                var allDataLen = allData.length;
+                processingData(dataList);
+                for (; i < len; i++) {
+                    var user = dataList[i];
+
+                    var doc = str2DOMElement(' <div class="item">\
+                                            <div class="qlogo">\
+                                                <img style="width: 70px;" src="' + user.url + '">\
+                                            </div>\
+                                            <div class="main b1 bb">\
+                                                <div class="nick">(^ω^)1/LG</div>\
+                                                <div class="icons"><span class="girl_age">\
+                                                    <img src="//s.url.cn/qqun/qun/qqweb/m/qun/confession/component/user_list/girl.png" alt="" /><span>26</span></span>\
+                                                    <span class="profession"><span>商业</span></span>             </div>\
+                                                <div class="action">去过深圳、北京、...；喜欢山炮进城、鬼吹灯之寻龙诀、...</div>\
+                                            </div>\
+                                            <div class="distance_info">0.33km · 1小时</div>\
+                                        </div>');
+
+                    docfrag.appendChild(doc);
+                    arr.push(doc);
+                }
+
+                ul.appendChild(docfrag);
+
+                //这里不考虑图片撑开的问题，因为最佳做法是上传后就知道宽高，服务器返回的json list里包含宽高信息。宽高信息建议直接作用于图片容器避免撑开的问题
+                var len = arr.length,
+                        height = 0;
+                setTranslateY(arr[0], currentHeight);
+                allData[allDataLen].translateY = currentHeight;
+                allData[allDataLen].dom = arr[0];
+                for (i = 1; i < len; i++) {
+                    var height = parseInt(window.getComputedStyle(arr[i - 1], null).height);
+                    totalHeight += height;
+                    currentHeight += height;
+                    setTranslateY(arr[i], currentHeight);
+                    allData[i + allDataLen].translateY = currentHeight;
+                    allData[i + allDataLen].dom = arr[i];
+                }
+                currentHeight += height;
+                setTranslateY(loadingDiv, currentHeight);
+                at.min -= totalHeight + height;
+                loading = false;
+            }, 1000);
+        }
+
+        var str2DOMElement = function (html) {
+            var wrapMap = {
+                option: [1, "<select multiple='multiple'>", "</select>"],
+                legend: [1, "<fieldset>", "</fieldset>"],
+                area: [1, "<map>", "</map>"],
+                param: [1, "<object>", "</object>"],
+                thead: [1, "<table>", "</table>"],
+                tr: [2, "<table><tbody>", "</tbody></table>"],
+                col: [2, "<table><tbody></tbody><colgroup>", "</colgroup></table>"],
+                td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
+                body: [0, "", ""],
+                _default: [1, "<div>", "</div>"]
+            };
+            wrapMap.optgroup = wrapMap.option;
+            wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
+            wrapMap.th = wrapMap.td;
+            var match = /<\s*\w.*?>/g.exec(html);
+            var element = document.createElement('div');
+            if (match != null) {
+                var tag = match[0].replace(/</g, '').replace(/>/g, '').split(' ')[0];
+                if (tag.toLowerCase() === 'body') {
+                    var dom = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+                    var body = document.createElement("body");
+                    // keeping the attributes
+                    element.innerHTML = html.replace(/<body/g, '<div').replace(/<\/body>/g, '</div>');
+                    var attrs = element.firstChild.attributes;
+                    body.innerHTML = html;
+                    for (var i = 0; i < attrs.length; i++) {
+                        body.setAttribute(attrs[i].name, attrs[i].value);
+                    }
+                    return body;
+                } else {
+                    var map = wrapMap[tag] || wrapMap._default, element;
+                    html = map[1] + html + map[2];
+                    element.innerHTML = html;
+                    // Descend through wrappers to the right content
+                    var j = map[0] + 1;
+                    while (j--) {
+                        element = element.lastChild;
                     }
                 }
-
-                if (v <= this.min + 20 && !loading) {
-                    loadMore();
-                }
-            },100),
-            animationEnd: function (value) {
-                //console.log(value);
-            },
-            pressMove: function (evt, value) {
-                //console.log(evt.deltaX + "_" + evt.deltaY + "__" + value);
+            } else {
+                element.innerHTML = html;
+                element = element.lastChild;
             }
-        })
-    }
+            return element;
+        }
 
-    function loadMore() {
-        loading = true;
-
-        setTimeout(function () {
-            var arr = [];
-            var totalHeight = 0;
-            var docfrag = document.createDocumentFragment();
-            var dataList = mockData(),
-                    len =dataList.length,
-                    i= 0;
-            var allDataLen = allData.length;
+        function init() {
+            var dataList = mockData();
             processingData(dataList);
-            for ( ; i < len; i++) {
-                var data = dataList[i];
-                var li = document.createElement("li");
-                li.innerHTML =data.name + " " + data.num;
-                docfrag.appendChild(li);
-                arr.push(li);
-            }
 
-            ul.appendChild(docfrag);
+            render(ul, dataList);
 
-            //这里不考虑图片撑开的问题，因为最佳做法是上传后就知道宽高，服务器返回的json list里包含宽高信息。宽高信息建议直接作用于图片容器避免撑开的问题
-            var len = arr.length,
-                    height = 0;
-            setTranslateY(arr[0], currentHeight);
-            allData[allDataLen].translateY = currentHeight;
-            allData[allDataLen].dom = arr[0];
-            for (i = 1; i < len; i++) {
-                var height = parseInt(window.getComputedStyle(arr[i - 1], null).height);
-                totalHeight += height;
-                currentHeight += height;
-                setTranslateY(arr[i], currentHeight);
-                allData[i+allDataLen].translateY = currentHeight;
-                allData[i+allDataLen].dom = arr[i];
-            }
-            currentHeight += height;
-            setTranslateY(loadingDiv,currentHeight);
-            at.min -= totalHeight+height;
-            loading = false;
-        }, 1000);
-    }
-
-    function init(){
-        var dataList = mockData();
-        processingData(dataList);
-
-        render(ul,dataList);
-
-        initList();
-        newAlloyTouch();
-    }
-    init();
+            initList();
+            newAlloyTouch();
+        }
+        init();
 
 
+     
 
-</script>
+        function randomUser() {
+
+            var len = cgiData.uin_info.length;
+            return cgiData.uin_info[Math.floor(Math.random() * len)];
+        }
+    </script>
 </body>
 </html>
