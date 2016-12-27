@@ -154,7 +154,6 @@
             height: 48px;
             background: #e2e2e2;
             padding: 0;
-            line-height:24px;
         }
 
         #wrapper {
@@ -359,8 +358,7 @@
             ul = document.querySelector("#scroller .list"),
             loadingDiv = document.querySelector("#loading"),
             currentHeight = 0,
-            step = 94,
-            footer = document.querySelector("#footer");
+            step = 94;
 
         Transform(target, true);
 
@@ -381,7 +379,7 @@
         function processingData(dataList) {
             var i = 0, len = dataList.length;
             for (; i < len; i++) {
-                allData.push({ removed: false, hide:false, data: dataList[i], translateY: 0, dom: null });
+                allData.push({ removed: false, data: dataList[i], translateY: 0, dom: null });
             }
         }
 
@@ -463,14 +461,6 @@
             };
         }
 
-        function hideDom(dom) {
-            dom.style.visibility = "hidden";
-        }
-
-        function showDom(dom) {
-            dom.style.visibility = "visible";
-        }
-
         var vpHeight = window.innerHeight - 45 - 48;
 
         function newAlloyTouch() {
@@ -490,49 +480,22 @@
                         var item = allData[i];
                         //保留5屏顺序
                         if (v + item.translateY > -vpHeight * 2 && v + item.translateY < vpHeight * 3) {
-                            //trigger layout
-                            //item.removed && ul.appendChild(item.dom);
-                            item.hide && showDom(item.dom);
-                            item.hide = false;
-                        } else {
-                            if (!item.hide) {
-                                //trigger layout
-                                //ul.removeChild(item.dom);
-                                hideDom(item.dom);
-                                item.hide = true;
-
-                            }
-
-                        }
-                    }
-                    showDebugInfo();
-                    if (v <= this.min + 20 && !loading) {
-                        loadMore();
-                    }
-                }, 320),
-                touchEnd: function (evt,v) {
-                    var i = 0, len = allData.length;
-
-                    for (; i < len; i++) {
-
-                        var item = allData[i];
-                        //保留5屏顺序
-                        if (v + item.translateY > -vpHeight * 5 && v + item.translateY < vpHeight * 6) {
-                            //trigger layout
                             item.removed && ul.appendChild(item.dom);
                             item.removed = false;
                         } else {
                             if (!item.removed) {
-                                //trigger layout
                                 ul.removeChild(item.dom);
-                               
                                 item.removed = true;
 
                             }
 
                         }
                     }
-                },
+
+                    if (v <= this.min + 20 && !loading) {
+                        loadMore();
+                    }
+                }, 320),
                 animationEnd: function (value) {
                     //console.log(value);
                 },
@@ -653,31 +616,6 @@
         function randomUser() {
             var len = cgiData.uin_info.length;
             return cgiData.uin_info[Math.floor(Math.random() * len)];
-        }
-
-
-       
-        function showDebugInfo() {
-            var i = 0,
-                len = allData.length,
-                hideCount = 0,
-                removeCount = 0;
-
-            for (; i < len; i++) {
-                var item = allData[i];
-                if (item.hide) {
-                    hideCount++;
-                }
-                if (item.removed) {
-                    removeCount++;
-                }
-            }
-
-
-            footer.innerHTML = " Total Elements:" + len + "<br/>Hide Elements:" + hideCount + " Removed Elements:" + removeCount;
-            
-
-
         }
 
         function init() {
