@@ -414,9 +414,6 @@
                     i = 1,
                     len = lis.length;
 
-
-            window.xxx = lis
-
             setTranslateY(lis[0], 0);
             allData[0].dom = lis[0];
             var height = 0;
@@ -611,12 +608,16 @@
             return element;
         }
 
+
+        function randomUser() {
+            var len = cgiData.uin_info.length;
+            return cgiData.uin_info[Math.floor(Math.random() * len)];
+        }
+
         function init() {
             var dataList = mockData();
             processingData(dataList);
-
             render(ul, dataList);
-
             initList();
             newAlloyTouch();
         }
@@ -625,11 +626,6 @@
 
      
 
-        function randomUser() {
-
-            var len = cgiData.uin_info.length;
-            return cgiData.uin_info[Math.floor(Math.random() * len)];
-        }
     </script>
 </body>
 </html>
