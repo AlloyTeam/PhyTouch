@@ -129,12 +129,12 @@
                 this.correction();
                 if (this._endCallbackTag) {
                     this._endTimeout = setTimeout(function () {
-                        this.animationEnd(current);
+                        this.animationEnd.call(this,current);
                     }.bind(this), 400);
                     this._endCallbackTag = false;
                 }
             } else {
-                this.animationEnd(current);
+                this.animationEnd.call(this,current);
             }
         },
         _cancelAnimation: function () {
@@ -147,7 +147,7 @@
             this.isTouchStart = true;
             this._firstTouchMove = true;
             this._preventMoveDefault = true;
-            this.touchStart(this.scroller[this.property]);
+            this.touchStart.call(this,evt,this.scroller[this.property]);
             this._cancelAnimation();
             clearTimeout(this._endTimeout);
             if (this.hasMax && this.hasMin) {
@@ -190,7 +190,7 @@
                         this.startTime = timestamp;
                         this.start = this.vertical ? this.preY : this.preX;
                     }
-                    this.touchMove(this.scroller[this.property]);
+                    this.touchMove.call(this,evt,this.scroller[this.property]);
 
                     if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
                         evt.preventDefault();

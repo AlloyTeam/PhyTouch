@@ -381,7 +381,7 @@
         function processingData(dataList) {
             var i = 0, len = dataList.length;
             for (; i < len; i++) {
-                allData.push({ removed: false, hide:false, data: dataList[i], translateY: 0, dom: null });
+                allData.push({ removed: false,  data: dataList[i], translateY: 0, dom: null });
             }
         }
 
@@ -440,37 +440,7 @@
             dom.style.transform = dom.style.msTransform = dom.style.OTransform = dom.style.MozTransform = dom.style.webkitTransform = "translateY(" + value + "px) translateZ(0)";
         }
 
-        function throttle(fn, threshhold, scope) {
-            threshhold || (threshhold = 250);
-            var last,
-                deferTimer;
-            return function () {
-                var context = scope || this;
-
-                var now = +new Date,
-                    args = arguments;
-                if (last && now < last + threshhold) {
-                    // hold on to it
-                    clearTimeout(deferTimer);
-                    deferTimer = setTimeout(function () {
-                        last = now;
-                        fn.apply(context, args);
-                    }, threshhold);
-                } else {
-                    last = now;
-                    fn.apply(context, args);
-                }
-            };
-        }
-
-        function hideDom(dom) {
-            dom.style.visibility = "hidden";
-        }
-
-        function showDom(dom) {
-            dom.style.visibility = "visible";
-        }
-
+   
         var vpHeight = window.innerHeight - 45 - 48;
 
         function newAlloyTouch() {
@@ -482,36 +452,7 @@
                 maxSpeed: 1.4,
                 min: window.innerHeight - 45 - 48 - currentHeight - 40, //不必需,滚动属性的最小值
                 max: 0, //不必需,滚动属性的最大值
-                change: throttle(function (v) {
-                    var i = 0, len = allData.length;
-
-                    for (; i < len; i++) {
-
-                        var item = allData[i];
-                        //保留5屏顺序
-                        if (v + item.translateY > -vpHeight * 2 && v + item.translateY < vpHeight * 3) {
-                            //trigger layout
-                            //item.removed && ul.appendChild(item.dom);
-                            item.hide && showDom(item.dom);
-                            item.hide = false;
-                        } else {
-                            if (!item.hide) {
-                                //trigger layout
-                                //ul.removeChild(item.dom);
-                                hideDom(item.dom);
-                                item.hide = true;
-
-                            }
-
-                        }
-                    }
-                   // showDebugInfo();
-                   
-                }, 320),
                 touchStart: function (evt, v) {
-
-                },
-                touchEnd: function (evt, v) {
                     showDebugInfo();
                     var i = 0, len = allData.length;
 
@@ -527,7 +468,7 @@
                             if (!item.removed) {
                                 //trigger layout
                                 ul.removeChild(item.dom);
-                               
+
                                 item.removed = true;
 
                             }
@@ -537,7 +478,6 @@
                     if (v <= this.min + 20 && !loading) {
                         loadMore();
                     }
-                   
                 },
                 animationEnd: function (v) {
                     if (v <= this.min + 20 && !loading) {
@@ -668,21 +608,19 @@
         function showDebugInfo() {
             var i = 0,
                 len = allData.length,
-                hideCount = 0,
+               
                 removeCount = 0;
 
             for (; i < len; i++) {
                 var item = allData[i];
-                if (item.hide) {
-                    hideCount++;
-                }
+          
                 if (item.removed) {
                     removeCount++;
                 }
             }
 
 
-            footer.innerHTML = " Total Elements:" + len + "<br/>Hide Elements:" + hideCount + " Removed Elements:" + removeCount;
+            footer.innerHTML = " Total Elements:" + len + "<br/> Removed Elements:" + removeCount;
             
 
 
