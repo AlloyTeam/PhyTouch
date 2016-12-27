@@ -67,6 +67,9 @@
         this.maxRegion = this._getValue(option.maxRegion,60);
 
         this.deceleration = 0.0006;
+        this.maxRegion = this._getValue(option.maxRegion, 600);
+        this.springMaxRegion = this._getValue(option.springMaxRegion, 60);
+
         //css版本不再支持change事件
         //this.change = option.change || function () { };
         this.touchEnd = option.touchEnd || function () {
@@ -84,6 +87,8 @@
         this.isTouchStart = false;
         this.step = option.step;
         this.inertia = this._getValue(option.inertia,true);
+        this.maxSpeed = option.maxSpeed;
+        this.hasMaxSpeed = !(this.maxSpeed === undefined);
 
         if (this.hasMax && this.hasMin) {
             if (this.min > this.max) throw "min value can't be greater than max value";
@@ -195,11 +200,12 @@
         },
         _end: function (evt) {
             if (this.isTouchStart && this._preventMoveDefault) {
-                var self = this;
-                this.touchEnd(this.scroller[this.property]);
-                if (this.hasMax && this.scroller[this.property] > this.max) {
+                var self = this,
+                    current = this.scroller[this.property];
+                this.touchEnd.call(this,evt,current);
+                if (this.hasMax && current > this.max) {
                     this.to(this.max, 600, ease);
-                } else if (this.hasMin && this.scroller[this.property] < this.min) {
+                } else if (this.hasMin && current < this.min) {
                     this.to(this.min, 600, ease);
                 } else if (this.inertia) {
                     var dt = new Date().getTime() - this.startTime;
@@ -207,16 +213,30 @@
 
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
                             speed = Math.abs(distance) / dt,
-                            speed2 = this.factor * speed,
-                            destination = this.scroller[this.property] + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
-                        var tRatio = 1;
-                        if (destination < this.min - this.maxRegion) {
-                            tRatio = reverseEase((this.scroller[this.property] - this.min + this.maxRegion) / (this.scroller[this.property] - destination));
-                            destination = this.min - this.maxRegion;
+                            speed2 = this.factor * speed;
+                        if(this.hasMaxSpeed&&speed2>this.maxSpeed) {
+                            speed2 = this.maxSpeed;
+                        }
+                        var destination = current + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
 
-                        } else if (destination > this.max + this.maxRegion) {
-                            tRatio = reverseEase((this.max + this.maxRegion - this.scroller[this.property]) / (destination - this.scroller[this.property]));
-                            destination = this.max + this.maxRegion;
+                        var tRatio = 1;
+                        if (destination < this.min) {
+                            if (destination < this.min - this.maxRegion) {
+                                tRatio = reverseEase((current - this.min + this.springMaxRegion) / (current - destination));
+                                destination = this.min - this.springMaxRegion;
+                            } else {
+                                tRatio = reverseEase((current - this.min + this.springMaxRegion * (this.min - destination) / this.maxRegion) / (current - destination));
+                                destination = this.min - this.springMaxRegion * (this.min - destination) / this.maxRegion;
+                            }
+                        } else if (destination > this.max) {
+                            if (destination > this.max + this.maxRegion) {
+                                tRatio = reverseEase((this.max + this.springMaxRegion - current) / (destination - current));
+                                destination = this.max + this.springMaxRegion;
+                            } else {
+                                tRatio = reverseEase((this.max + this.springMaxRegion * (destination - this.max) / this.maxRegion - current) / (destination - current));
+                                destination = this.max + this.springMaxRegion * (destination - this.max) / this.maxRegion;
+
+                            }
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
 
