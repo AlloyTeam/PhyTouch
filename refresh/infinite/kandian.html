@@ -434,7 +434,7 @@
                 <h1 id="userName" class="userName">💋QQ看点👆</h1>
                 <p id="userAdress" class="userAdress">&nbsp;&nbsp;</p>
             </div>
-            <ul class="infoList">
+            <ul class="infoList" id="infoList">
 
                 <li class="uls">
                     <div class="status">
@@ -913,6 +913,11 @@
     <script src="../../transformjs/transform.js"></script>
     <script src="../../alloy_touch.css.js"></script>
     <script>
+        var infoList = document.getElementById("infoList");
+        var mockHTML = infoList.innerHTML;
+    </script>
+    <script>
+
         
         var scroller = document.getElementById("scroller");
         Transform(scroller,true);
@@ -925,49 +930,56 @@
         var userLogo = document.getElementById("user-logo-wrapper");
         Transform(userLogo);
 
+        var loading = false;
         var at = new AlloyTouch({
             touch: "#wrapper",
             vertical: true,
-            target: scroller, 
+            target: scroller,
             property: "translateY",
             maxSpeed: 2,
             outFactor: 0.1,
-            min: 160 * -20 + window.innerHeight - 202 - 50, 
+            min: 160 * -20 + window.innerHeight - 202 - 50,
             max: 0,
+            touchStart: function () {
+                reastMin();
+            },
             change: function (v) {
-         
+
+                if (v <= this.min + 5 && !loading) {
+                    loading = true;
+                    loadMore();
+                }
+
                 if (v < 0) {
                     if (v < -140) v = -140;
                     var scaleY = (240 + v) / 240;
-
-
                     header.scaleY = scaleY;
-
                     userLogo.scaleX = userLogo.scaleY = scaleY;
-
                     userLogo.translateY = v / 1.7;
 
                 } else {
                     var scaleY = 1 + v / 240;
-
-
                     header.scaleY = scaleY;
-
                     userLogo.scaleX = userLogo.scaleY = scaleY;
-
                     userLogo.translateY = v / 1.7;
-
                 }
-
             }
         })
+
+        function loadMore() {
+            setTimeout(function () {
+                infoList.innerHTML += mockHTML;
+                loading = false;
+                reastMin();
+                
+            },500)
+
+        }
 
         function reastMin() {
             at.min = -1 * parseInt(getComputedStyle(scroller).height) + window.innerHeight - 202;
         }
 
-        window.addEventListener("load", reastMin)
-        document.addEventListener("DOMContentLoaded", reastMin);
     </script>
 </body>
 
