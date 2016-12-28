@@ -1,6 +1,6 @@
 {
   "name": "alloytouch",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "super tiny size touch and physical motion library for the web ",
   "main": "alloy_touch.js",
   "directories": {

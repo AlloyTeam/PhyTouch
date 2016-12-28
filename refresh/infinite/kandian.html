@@ -962,9 +962,12 @@
             }
         })
 
-        window.onload = function () {
-            at.min = -1 * parseInt(getComputedStyle(scroller).height) + window.innerHeight - 202 ;
+        function reastMin() {
+            at.min = -1 * parseInt(getComputedStyle(scroller).height) + window.innerHeight - 202;
         }
+
+        window.addEventListener("load", reastMin)
+        document.addEventListener("DOMContentLoaded", reastMin);
     </script>
 </body>
 

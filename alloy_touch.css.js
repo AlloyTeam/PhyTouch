@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.1.2
+﻿/* AlloyTouch CSS v0.2.0
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
