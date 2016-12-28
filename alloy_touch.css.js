@@ -167,16 +167,10 @@
 
         },
         getComputedPosition: function () {
-            var matrix = window.getComputedStyle(this.scroller, null),
-                x, y;
-
-	            matrix = matrix[transform].split(')')[0].split(', ');
-	            x = +(matrix[12] || matrix[4]);
-	            y = +(matrix[13] || matrix[5]);
-	       
-	
-	            return this.vertical?y:x;
-	    },
+            var matrix = window.getComputedStyle(this.scroller, null);
+            matrix = matrix[transform].split(')')[0].split(', ');
+            return this.vertical ? (+(matrix[13] || matrix[5])) : (+(matrix[12] || matrix[4]));
+        },
         _tick: function () {
             this.change.call(this, this.getComputedPosition());
             this.tickID = requestAnimationFrame(this._tick.bind(this));
