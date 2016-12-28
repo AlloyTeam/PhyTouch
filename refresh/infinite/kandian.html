@@ -1,0 +1,967 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="dns-prefetch" href="//kandian.qq.com/">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="x5-pagetype" content="newspage">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="Copyright" content="Tencent">
+    <meta name="format-detection" content="telephone=no">
+    <meta itemprop="name" content="个人主页">
+    <meta name="description" itemprop="description" content="个人主页">
+    <title></title>
+    <script type="text/javascript">var t0 = Date.now();
+        window._timePoints_homepage = [t0];</script>
+    <style type="text/css">
+        body, html {
+            height: 100%;
+        }
+
+        .ui-foot, body {
+            position: relative;
+        }
+
+            .ui-foot, .ui-foot .content {
+                vertical-align: middle;
+                text-align: center;
+            }
+
+        html {
+            background: #fff;
+        }
+
+        a, article, body, dd, div, dl, dt, figcaption, figure, footer, form, h1, h2, h3, h4, h5, header, html, iframe, img, input, li, menu, nav, ol, p, section, table, tbody, td, textarea, tr, ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        * {
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -webkit-text-size-adjust: none;
+            font: 14px "Helvetica Neue",Helvetica,STHeiTi,"\5FAE\8F6F\96C5\9ED1",sans-serif;
+            width: 100%;
+            min-width: 320px;
+            max-width: 640px;
+            margin: auto;
+        }
+
+        a {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        a, img {
+            -webkit-touch-callout: none;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .box {
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+        }
+
+        .horizontal {
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+        }
+
+        .vertical {
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            box-orient: vertical;
+        }
+
+        .flex {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            box-flex: 1;
+        }
+
+        .hide {
+            display: none!important;
+        }
+
+        .ui-foot {
+            overflow: hidden;
+            height: 50px;
+        }
+
+            .ui-foot .line {
+                margin-top: 25px;
+                width: 100%;
+                border-bottom: 1px solid #dedfe0;
+                z-index: 0;
+                position: absolute;
+            }
+
+        @media screen and (-webkit-min-device-pixel-ratio:2) {
+            .ui-foot .line {
+                -webkit-transform: scaleY(.5);
+                -webkit-transform-origin: 0 0;
+            }
+        }
+
+        .ui-foot .content {
+            color: #b5b5b5;
+            background: #fff;
+            font-size: 12px;
+            display: inline-block;
+            padding: 0 5px;
+            z-index: 1;
+            line-height: 50px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .error-page {
+            position: absolute;
+            width: 300px;
+            text-align: center;
+            left: 50%;
+            top: 50%;
+            margin-left: -150px;
+        }
+
+        .empty-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .messageBox .empty-area {
+            background-color: #F7F8F9;
+        }
+
+        .empty-area .empty-wrapper {
+            position: relative;
+            text-align: center;
+            margin-top: 45%;
+            left: 50%;
+            -webkit-transform: translate(-50%,0);
+        }
+
+        .homepage .empty-wrapper {
+            margin-top: 80%;
+        }
+
+        .empty-area .empty-icon {
+            width: 104px;
+            height: 99px;
+            margin: 0 auto;
+            background-size: cover;
+            background-image: url(//sqimg.qq.com/qq_product_operations/kan/images/empty.png?_bid=2378);
+        }
+
+        .empty-area .empty-message {
+            color: #777;
+            font-size: 14px;
+            margin-top: 17px;
+        }
+
+        .border-line {
+            width: 100%;
+            border-bottom: 1px solid #ededed;
+        }
+
+        @media screen and (-webkit-min-device-pixel-ratio:2) {
+            .border-line {
+                -webkit-transform: scaleY(.5);
+                -webkit-transform-origin: 0 0;
+            }
+        }
+    </style>
+    <style type="text/css">
+        @charset "UTF-8";
+
+        #scroller, #wrapper, .header, .user-logo-wrapper {
+            position: absolute;
+            width: 100%;
+        }
+
+        #userLogo, .user-logo {
+            -webkit-background-size: cover;
+        }
+
+        #wrapper, .textOverflow, body {
+            overflow: hidden;
+        }
+
+        #wrapper {
+            z-index: 1;
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        #scroller {
+            padding-top: 202px;
+            z-index: 1;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            will-change: transform;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-text-size-adjust: none;
+            text-size-adjust: none;
+            -webkit-perspective: 1000;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .header {
+            top: 0;
+            left: 0;
+            z-index: 90;
+            background-color: #12B7F5;
+            height: 140px;
+            /*-webkit-transform-origin: top;*/
+        }
+
+        .user-logo-wrapper {
+            top: 0;
+            left: 0;
+            font-size: 0;
+            z-index: 100;
+            text-align: center;
+        }
+
+        .user-logo {
+            display: inline-block;
+            border: 2px solid #fff;
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            background-color: #ededed;
+           
+            margin-top: 86px;
+        }
+
+        #userLogo {
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+
+        .infoList {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+            .infoList li {
+                margin: 10px 0 24px;
+            }
+
+            .infoList .status {
+                font-size: 14px;
+                color: #777;
+                margin: 0 0 0 11px;
+            }
+
+            .infoList .status-comment {
+                float: left;
+                font-size: 14px;
+                color: #777;
+                margin: 0 0 0 12px;
+            }
+
+            .infoList .action {
+                margin-left: 5px;
+            }
+
+        .textOverflow {
+            line-height: 19px;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            word-break: break-word;
+        }
+
+        .homepage .flexcontainer {
+            position: relative;
+            clear: both;
+            height: 95px;
+            display: -webkit-box;
+            display: box;
+        }
+
+        .homepage .left, .homepage .right, .view .view-icon {
+            display: inline-block;
+        }
+
+        .homepage .item-active {
+            background-color: #e5e6e7;
+        }
+
+        .homepage .flex-column {
+            -webkit-user-select: none;
+            -webkit-box-flex: 1;
+            box-flex: 1;
+            padding: 15px 12px 0;
+        }
+
+        .view {
+            position: absolute;
+            bottom: 15px;
+            right: 12px;
+            font-size: 0;
+        }
+
+            .view .view-icon {
+                height: 10px;
+                width: 12px;
+                margin-right: 5px;
+                background-image: url(../images/view.png);
+                background-size: cover;
+            }
+
+            .view .view-count {
+                font-size: 12px;
+                color: #9d9d9d;
+            }
+
+        .homepage .userInfo {
+            text-align: center;
+        }
+
+        .homepage .userName {
+            font-size: 23px;
+            line-height: 23px;
+        }
+
+        .homepage .userAdress {
+            font-size: 14px;
+            line-height: 14px;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .homepage .left {
+            float: left;
+        }
+
+        .homepage .right {
+            float: right;
+        }
+
+        .homepage .bgimg {
+            width: 124px;
+            height: 95px;
+            -webkit-background-size: cover;
+            background-color: #ededed;
+        }
+
+        .homepage .abstract {
+            font-size: 17px;
+            line-height: 21px;
+        }
+
+        .homepage .from {
+            font-size: 12px;
+            color: #9d9d9d;
+            position: absolute;
+            bottom: 12px;
+        }
+
+        .homepage .comment {
+            padding-top: 5px;
+            clear: both;
+            font-size: 17px;
+            margin: 0 12px;
+            word-break: break-word;
+            line-height: 21px;
+        }
+
+        .homepage .error-page-home {
+            margin-top: 75px;
+        }
+
+        .homepage .ui-foot {
+            padding-top: 15px;
+            padding-bottom: 20px;
+            margin-top: -24px;
+            height: 14px;
+        }
+
+            .homepage .ui-foot .content {
+                color: #777;
+                font-size: 14px;
+                line-height: 14px;
+                background: 0 0;
+            }
+
+            .homepage .ui-foot .line {
+                border-bottom: transparent;
+            }
+
+        #scroller .loading-more {
+            padding: 15px 0 20px;
+            height: 14px;
+            margin: -20px auto 0;
+            text-align: center;
+            color: #777;
+            display: none;
+        }
+    </style>
+  
+</head>
+<body class="homepage">
+    <header class="header" id="header"></header>
+    <div class="user-logo-wrapper" id="user-logo-wrapper">
+        <div class="user-logo">
+            <img id="userLogo" src="https://q1.qlogo.cn/g?b=qq&k=LHKJrP4DibPicpLIJGhdVcuA&s=100&t=522"></div>
+    </div>
+    <section id="wrapper">
+        <div id="scroller" style="padding-top: 202px; transform: translate(0px, 0px) translateZ(0px);">
+            <div class="userInfo">
+                <h1 id="userName" class="userName">💋QQ看点👆</h1>
+                <p id="userAdress" class="userAdress">&nbsp;&nbsp;</p>
+            </div>
+            <ul class="infoList">
+
+                <li class="uls">
+                    <div class="status">
+                        <span>20天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-15524548.html?article_id=15524548&amp;_wv=2147483777&amp;sig=86fd9f739889d4dc34b1432caa1bed9e&amp;time=1481088300&amp;_pflag=1&amp;x5PreFetch=1" data-id="14095558">
+
+
+                        <div class="bgimg lazy" style="background-image: url('http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-D32F6241C6868DAC1C0FB1A1045EFBB9_open/320')"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">Gigi和Bella， 这俩姐妹... 全是腿啊！</p>
+                            <p class="from">英国那些事儿</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>33天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/article/2895853199-24363359.html?_wv=2281701505&amp;sig=fc71045b8b2c4c018863273a5aa52b8a&amp;article_id=24363359&amp;time=1479981906" data-id="13377424">
+
+
+                        <div class="bgimg lazy" style="background-image: url('http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-3943C30781AE530BF03E89B7A88A3792_open/320')"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">皇马队长谈妥赞助不涂黑战靴，比C罗少赚800万！</p>
+                            <p class="from">搜达足球</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>33天前 评论</span>
+                    </div>
+
+                    <div class="comment">
+                        <p>好美</p>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/article/3367643600-24333474.html?_wv=2281701505&amp;sig=3ea04b2b3e6b582220b7e960f9b8e4b4&amp;article_id=24333474&amp;time=1479960058" data-id="13353817">
+
+
+                        <div class="bgimg lazy" style="background-image: url('http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-706E9F5B4206818473019D054D5E1CCA_open/320')"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">高云翔董璇首曝全家福 有种美叫幸福胖</p>
+                            <p class="from">时尚潮搭</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>33天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/article/3367643600-24333474.html?_wv=2281701505&amp;sig=3ea04b2b3e6b582220b7e960f9b8e4b4&amp;article_id=24333474&amp;time=1479960058" data-id="13353817">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-706E9F5B4206818473019D054D5E1CCA_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">高云翔董璇首曝全家福 有种美叫幸福胖</p>
+                            <p class="from">时尚潮搭</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>36天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/article/3238318241-22418249.html?_wv=2281701505&amp;sig=3c4a8e79140700f9b782b690305ad2b5&amp;article_id=22418249&amp;time=1478537458" data-id="12228820">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-C246A9B079EC8CF5612DFCFDDC439172_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">澎湃联播|“快手”们的黑魔法</p>
+                            <p class="from">澎湃新闻</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>41天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/article/3367643600-23228075.html?_wv=2281701505&amp;sig=3e72513775cd15f113f95494906a0c7c&amp;article_id=23228075&amp;time=1479271030" data-id="12756099">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-5F4B772CDF897CBAECCE5EA6039D50FD_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">赵雅芝庆62岁生日 穿礼服秀好身材</p>
+                            <p class="from">时尚潮搭</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>46天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-14829624.html?article_id=14829624&amp;_wv=2281701505&amp;sig=0e210cf5006f453d85a033e8fd9d444c&amp;time=1478851800" data-id="12462990">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-4C05344C517135C430AD8D5407A5608D_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">太豪气！腾讯给员工发价值15亿元股票 每人300股</p>
+                            <p class="from">腾讯</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>52天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-14644267.html?article_id=14644267&amp;_wv=2281701505&amp;sig=c9e36a2db908226e9a60edbe17845844&amp;time=1478310600" data-id="12052762">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-066D908DF83172111478A71AEE92C22C_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">章子怡、超模GiGi、米兰达可儿…她们家这么好看，不光因为有钱</p>
+                            <p class="from">IF时尚</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>57天前 评论</span>
+                    </div>
+
+                    <div class="comment">
+                        <p>niu</p>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-14452445.html?article_id=14452445&amp;_wv=2281701505&amp;sig=6e3b4c8f2ef47786322ad98d27a6cd4b&amp;time=1477706400" data-id="11603916">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-7C5BA95C2358341288C660CE47D697EF_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">万圣节出什么好呢？带你看10大人气coser装扮</p>
+                            <p class="from">ACG动漫控</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>62天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-14372915.html?article_id=14372915&amp;_wv=2281701505&amp;sig=191f2dce7d7a5501c0a19f06e2cb32e0&amp;time=1477465200" data-id="11391529">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://p.qpic.cn/SubscribeSpecialPic/1000/16_1477473794000/0&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">深圳最有钱的8个女人是她们！ 其中一个是90后</p>
+                            <p class="from">深圳特区报</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>63天前 评论</span>
+                    </div>
+
+                    <div class="comment">
+                        <p>钱多真好</p>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-14319506.html?article_id=14319506&amp;_wv=2281701505&amp;sig=f5beaa8868ad0d36ad5d54e2f3912097&amp;time=1477300500" data-id="11269959">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-79B7AED82A891743D7FCF990C4127041_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">富豪套现排行榜：马化腾套现79亿成“2016套现王”，贾跃亭套现32亿也进了前十</p>
+                            <p class="from">虎嗅网</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>67天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-14249561.html?article_id=14249561&amp;_wv=2281701505&amp;sig=eb908bd3469dbcc9632dc6a4b43a0b98&amp;time=1477058400" data-id="11118430">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-220202EF1B00A9A6529A653E9EA4E344_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">华为秒杀高通，谁还敢看不起中国制造？</p>
+                            <p class="from">每日经济新闻</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>68天前 评论</span>
+                    </div>
+
+                    <div class="comment">
+                        <p>可以</p>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-14194597.html?article_id=14194597&amp;_wv=2281701505&amp;sig=1037ffe610dc127df8aa98cfaab80515&amp;time=1476896400" data-id="11005706">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public/0/0-2600001206-4C21EAE86E3315440A6E5D781E95D599/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">三星C9 Pro发布时间确定：10.21正式发布 </p>
+                            <p class="from">高科技</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>68天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-14194597.html?article_id=14194597&amp;_wv=2281701505&amp;sig=1037ffe610dc127df8aa98cfaab80515&amp;time=1476896400" data-id="11005706">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public/0/0-2600001206-4C21EAE86E3315440A6E5D781E95D599/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">三星C9 Pro发布时间确定：10.21正式发布 </p>
+                            <p class="from">高科技</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>69天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/200652470-14085471.html?article_id=14085471&amp;_wv=2281701505&amp;sig=fbab3fe7a3363fdf9127e685a87f1763&amp;time=1476656560" data-id="10814402">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-57047935337F33AD401F5DDBC6D94F73_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">美剧收入排行，谢耳朵成美剧片酬最昂贵男星</p>
+                            <p class="from">美了个剧</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>72天前 评论</span>
+                    </div>
+
+                    <div class="comment">
+                        <p>不错哦</p>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-14047620.html?article_id=14047620&amp;_wv=2281701505&amp;sig=1cbb5604678c9333e80043469afbd3a1&amp;time=1476605958" data-id="10787427">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-012687D28FCDDA2550E672D1F9841921_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">中国机器人产业的机遇与挑战并存</p>
+                            <p class="from">机器人砖家</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>74天前 评论</span>
+                    </div>
+
+                    <div class="comment">
+                        <p>已转粉</p>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/0-13856117.html?article_id=13856117&amp;_wv=2281701505&amp;sig=0a1b1768712c93f1c2314f96a169421d&amp;time=1476417600" data-id="10657509">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-BCE033E3DBD9AEB5E5662E2A1A0F7393_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">小学生翻拍《白蛇传》，秒杀经典啊。</p>
+                            <p class="from">我想静静</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>76天前 评论</span>
+                    </div>
+
+                    <div class="comment">
+                        <p>啦啊啦</p>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/200652470-13561347.html?article_id=13561347&amp;_wv=2281701505&amp;sig=efbff02e46482ba8e62cf6d5d3f79afe&amp;time=1476159760" data-id="10451592">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public/0/0-3162117534-3CFCF94F10DF7D3696A2806622F2E4F5/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">全世界都在安利这部爆款美剧，首播两集便已封神</p>
+                            <p class="from">热门电影图解剧场</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>76天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/200652470-13557030.html?article_id=13557030&amp;_wv=2281701505&amp;sig=1504e4622eef342c771acea4f1a48ce2&amp;time=1476156892" data-id="10447846">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public_cover/0/0-10000-003422C9F7EC5F8B119CE68629D43342_open/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">马云：冲击各行各业的不是互联网而是对互联网的无知</p>
+                            <p class="from">科技精英先锋</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+
+                <li class="uls">
+                    <div class="status">
+                        <span>76天前 推荐</span>
+                    </div>
+
+                    <div class="border-line" style="margin-top: 9px; -webkit-transform-origin: 0 100%;"></div>
+                    <div class="flexcontainer" cmd="jumpLink" data-url="http://post.mp.qq.com/kan/show/200652470-13561347.html?article_id=13561347&amp;_wv=2281701505&amp;sig=efbff02e46482ba8e62cf6d5d3f79afe&amp;time=1476159760" data-id="10451592">
+
+
+                        <div class="bgimg lazy" style="background-image: url(&quot;http://qqpublic.qpic.cn/qq_public/0/0-3162117534-3CFCF94F10DF7D3696A2806622F2E4F5/320&quot;);"></div>
+
+
+                        <div class="flex-column">
+                            <p class="textOverflow abstract">全世界都在安利这部爆款美剧，首播两集便已封神</p>
+                            <p class="from">热门电影图解剧场</p>
+                        </div>
+                    </div>
+                    <div class="border-line"></div>
+                </li>
+
+
+            </ul>
+            <div class="loading-more" style="display: block; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">正在加载中，请稍后...</div>
+        </div>
+    </section>
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 113; width: 140px; height: 140px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
+    </a>
+    <script src="../../transformjs/transform.js"></script>
+    <script src="../../alloy_touch.css.js"></script>
+    <script>
+        var step = 160;
+        var scroller = document.getElementById("scroller");
+        Transform(scroller);
+
+        var header = document.getElementById("header");
+        Transform(header);
+        header.originY = -70;
+        header.translateY = -70;
+        
+        var userLogo = document.getElementById("user-logo-wrapper");
+        Transform(userLogo);
+
+        new AlloyTouch({
+            touch: "#wrapper",//反馈触摸的dom
+            vertical: true,//不必需，默认是true代表监听竖直方向touch
+            target: scroller, //运动的对象
+            property: "translateY",  //被滚动的属性
+            maxSpeed: 2,
+            outFactor: 0.1,
+            min: 160 * -20 + window.innerHeight - 202 - 50, //不必需,滚动属性的最小值
+            max: 0,//不必需,滚动属性的最大值
+            change: function (v) {
+                console.log(v.y)
+                if (v.y < 0) {
+                    if (v.y < -140) v.y = -140;
+                    var scaleY = (240 + v.y) / 240;
+
+
+                    header.scaleY = scaleY;
+
+                    userLogo.scaleX = userLogo.scaleY = scaleY;
+
+                    userLogo.translateY = v.y / 1.7;
+
+                } else {
+                    var scaleY = 1 + v.y / 240;
+
+
+                    header.scaleY = scaleY;
+
+                    userLogo.scaleX = userLogo.scaleY = scaleY;
+
+                    userLogo.translateY = v.y / 1.7;
+
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>
