@@ -163,7 +163,7 @@
         },
         _cancelAnimation: function () {
             this.scroller.style[transitionDuration] = '0ms';
-            this.scroller.style[transform] = window.getComputedStyle(this.scroller)[transform];
+            this.scroller[this.property] = this.getComputedPosition();
 
         },
         getComputedPosition: function () {
@@ -175,7 +175,7 @@
 	            y = +(matrix[13] || matrix[5]);
 	       
 	
-	        return { x: x, y: y };
+	            return this.vertical?y:x;
 	    },
         _tick: function () {
             this.change.call(this, this.getComputedPosition());

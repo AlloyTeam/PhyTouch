@@ -913,9 +913,9 @@
     <script src="../../transformjs/transform.js"></script>
     <script src="../../alloy_touch.css.js"></script>
     <script>
-        var step = 160;
+        
         var scroller = document.getElementById("scroller");
-        Transform(scroller);
+        Transform(scroller,true);
 
         var header = document.getElementById("header");
         Transform(header);
@@ -926,36 +926,36 @@
         Transform(userLogo);
 
         var at = new AlloyTouch({
-            touch: "#wrapper",//反馈触摸的dom
-            vertical: true,//不必需，默认是true代表监听竖直方向touch
-            target: scroller, //运动的对象
-            property: "translateY",  //被滚动的属性
+            touch: "#wrapper",
+            vertical: true,
+            target: scroller, 
+            property: "translateY",
             maxSpeed: 2,
             outFactor: 0.1,
-            min: 160 * -20 + window.innerHeight - 202 - 50, //不必需,滚动属性的最小值
-            max: 0,//不必需,滚动属性的最大值
+            min: 160 * -20 + window.innerHeight - 202 - 50, 
+            max: 0,
             change: function (v) {
-                console.log(v.y)
-                if (v.y < 0) {
-                    if (v.y < -140) v.y = -140;
-                    var scaleY = (240 + v.y) / 240;
+         
+                if (v < 0) {
+                    if (v < -140) v = -140;
+                    var scaleY = (240 + v) / 240;
 
 
                     header.scaleY = scaleY;
 
                     userLogo.scaleX = userLogo.scaleY = scaleY;
 
-                    userLogo.translateY = v.y / 1.7;
+                    userLogo.translateY = v / 1.7;
 
                 } else {
-                    var scaleY = 1 + v.y / 240;
+                    var scaleY = 1 + v / 240;
 
 
                     header.scaleY = scaleY;
 
                     userLogo.scaleX = userLogo.scaleY = scaleY;
 
-                    userLogo.translateY = v.y / 1.7;
+                    userLogo.translateY = v / 1.7;
 
                 }
 
