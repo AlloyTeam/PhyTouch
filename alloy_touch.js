@@ -75,6 +75,7 @@
         this.springMaxRegion = this._getValue(option.springMaxRegion, 60);
         this.maxSpeed = option.maxSpeed;
         this.hasMaxSpeed = !(this.maxSpeed === undefined);
+        this.lockDirection = this._getValue(option.lockDirection, true);
 
         var noop = function () { };
         this.change = option.change || noop;
@@ -136,7 +137,7 @@
                     currentX = evt.touches[0].pageX,
                     currentY = evt.touches[0].pageY;
 
-                if (this._firstTouchMove) {
+                if (this._firstTouchMove && this.lockDirection) {
                     var dDis = Math.abs(currentX - this.x1) - Math.abs(currentY - this.y1);
                     if (dDis > 0 && this.vertical) {
                         this._preventMove = true;
@@ -240,7 +241,7 @@
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
-                } else if (this.inertia && !triggerTap) {
+                } else if (this.inertia && !triggerTap && !this._preventMove) {
                     var dt = new Date().getTime() - this.startTime;
                     if (dt < 300) {
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,

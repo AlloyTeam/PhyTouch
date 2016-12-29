@@ -943,6 +943,7 @@
             touchStart: function () {
                 reastMin();
             },
+            lockDirection: false,
             change: function (v) {
 
                 if (v <= this.min + 5 && !loading) {
@@ -980,6 +981,9 @@
             at.min = -1 * parseInt(getComputedStyle(scroller).height) + window.innerHeight - 202;
         }
 
+        document.addEventListener("touchmove", function (evt) {
+            evt.preventDefault();
+        }, false);
     </script>
 </body>
 

@@ -81,6 +81,7 @@
         this.property = option.property;
         this.preventDefault = this._getValue(option.preventDefault,true) ;
         this.sensitivity =  this._getValue(option.sensitivity,1);
+        this.lockDirection = this._getValue(option.lockDirection, true);
 
 
         this.moveFactor = this._getValue(option.moveFactor, 1);
@@ -182,7 +183,7 @@
             this._endCallbackTag = true;
             this.isTouchStart = true;
             this._firstTouchMove = true;
-            this._preventMoveDefault = true;
+            this._preventMove = false;
             this.touchStart.call(this,evt,this.scroller[this.property]);
             this._cancelAnimation();
             clearTimeout(this._endTimeout);
@@ -197,18 +198,18 @@
         _move: function (evt) {
             if (this.isTouchStart) {
                 var dx = Math.abs(evt.touches[0].pageX - this._startX), dy = Math.abs(evt.touches[0].pageY - this._startY);
-                if (this._firstTouchMove) {
+                if (this._firstTouchMove && this.lockDirection) {
                     var dDis = dx - dy;
                     if (dDis > 0 && this.vertical) {
-                        this._preventMoveDefault = false;
+                        this._preventMove = true;
                     } else if (dDis < 0 && !this.vertical) {
-                        this._preventMoveDefault = false;
+                        this._preventMove = true;
                     }
                     this._firstTouchMove = false;
                 }
                 if (dx < 10 && dy < 10) return;
 
-                if (this._preventMoveDefault) {
+                if (!this._preventMove) {
                     var f = this.moveFactor;
                     var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sensitivity;
                     if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
@@ -236,7 +237,7 @@
             }
         },
         _end: function (evt) {
-            if (this.isTouchStart && this._preventMoveDefault) {
+            if (this.isTouchStart) {
                 var self = this,
                     current = this.scroller[this.property];
                 this.touchEnd.call(this,evt,current);
@@ -244,7 +245,7 @@
                     this.to(this.max, 600, ease);
                 } else if (this.hasMin && current < this.min) {
                     this.to(this.min, 600, ease);
-                } else if (this.inertia) {
+                } else if (this.inertia && !this._preventMove) {
                     var dt = new Date().getTime() - this.startTime;
                     if (dt < 300) {
 
