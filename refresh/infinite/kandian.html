@@ -249,7 +249,6 @@
             width: 100px;
             border-radius: 50%;
             background-color: #ededed;
-           
             margin-top: 86px;
         }
 
@@ -420,13 +419,14 @@
             display: none;
         }
     </style>
-  
+
 </head>
 <body class="homepage">
     <header class="header" id="header"></header>
     <div class="user-logo-wrapper" id="user-logo-wrapper">
         <div class="user-logo">
-            <img id="userLogo" src="https://q1.qlogo.cn/g?b=qq&k=LHKJrP4DibPicpLIJGhdVcuA&s=100&t=522"></div>
+            <img id="userLogo" src="https://q1.qlogo.cn/g?b=qq&k=LHKJrP4DibPicpLIJGhdVcuA&s=100&t=522">
+        </div>
     </div>
     <section id="wrapper">
         <div id="scroller" style="padding-top: 202px; transform: translate(0px, 0px) translateZ(0px);">
@@ -913,25 +913,21 @@
     <script src="../../transformjs/transform.js"></script>
     <script src="../../alloy_touch.css.js"></script>
     <script>
-        var infoList = document.getElementById("infoList");
-        var mockHTML = infoList.innerHTML;
-    </script>
-    <script>
+        var infoList = document.getElementById("infoList"),
+            mockHTML = infoList.innerHTML,
+            scroller = document.getElementById("scroller"),
+            header = document.getElementById("header"),
+            userLogo = document.getElementById("user-logo-wrapper"),
+            loading = false,
+            alloyTouch = null;
 
-        
-        var scroller = document.getElementById("scroller");
-        Transform(scroller,true);
-
-        var header = document.getElementById("header");
+        Transform(scroller, true);
         Transform(header);
         header.originY = -70;
         header.translateY = -70;
-        
-        var userLogo = document.getElementById("user-logo-wrapper");
         Transform(userLogo);
 
-        var loading = false;
-        var at = new AlloyTouch({
+        alloyTouch = new AlloyTouch({
             touch: "#wrapper",
             vertical: true,
             target: scroller,
@@ -945,19 +941,16 @@
             },
             lockDirection: false,
             change: function (v) {
-
                 if (v <= this.min + 5 && !loading) {
                     loading = true;
                     loadMore();
                 }
-
                 if (v < 0) {
                     if (v < -140) v = -140;
                     var scaleY = (240 + v) / 240;
                     header.scaleY = scaleY;
                     userLogo.scaleX = userLogo.scaleY = scaleY;
                     userLogo.translateY = v / 1.7;
-
                 } else {
                     var scaleY = 1 + v / 240;
                     header.scaleY = scaleY;
@@ -972,13 +965,11 @@
                 infoList.innerHTML += mockHTML;
                 loading = false;
                 reastMin();
-                
-            },500)
-
+            }, 500)
         }
 
         function reastMin() {
-            at.min = -1 * parseInt(getComputedStyle(scroller).height) + window.innerHeight - 202;
+            alloyTouch.min = -1 * parseInt(getComputedStyle(scroller).height) + window.innerHeight - 202;
         }
 
         document.addEventListener("touchmove", function (evt) {
