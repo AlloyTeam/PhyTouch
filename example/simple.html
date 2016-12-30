@@ -162,7 +162,7 @@
                 <li> row 22</li>
                 <li> row 23</li>
                 <li> row 24</li>
-                <li> row 25</li>
+                <li> row 255</li>
             </ul>
         </div>
     </div>
@@ -194,6 +194,10 @@
                 //console.log(evt.deltaX + "_" + evt.deltaY + "__" + value);
             }
         })
+
+        document.addEventListener("touchmove", function (evt) {
+            evt.preventDefault();
+        }, false);
 
     </script>
 </body>
