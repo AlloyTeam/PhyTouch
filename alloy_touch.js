@@ -191,21 +191,7 @@
         _cancel: function (evt) {
             var current = this.target[this.property];
             this.touchCancel.call(this, evt, current);
-            if (this.hasMax && current > this.max) {
-                this._to(this.max, 200, ease, this.change, function (value) {
-                    this.reboundEnd.call(this, value);
-                    this.animationEnd.call(this, value);
-                }.bind(this));
-            } else if (this.hasMin && current < this.min) {
-                this._to(this.min, 200, ease, this.change, function (value) {
-                    this.reboundEnd.call(this, value);
-                    this.animationEnd.call(this, value);
-                }.bind(this));
-            } else {
-                this._correction();
-            }
-
-            this.x1 = this.x2 = this.y1 = this.y2 = null;
+            this._end(evt);
 
         },
         to: function (v, time, user_ease) {
