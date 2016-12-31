@@ -38,6 +38,7 @@ new AlloyTouch({
 ```
 # 演示(Mobile)
 
+- QQ KanDian: [http://alloyteam.github.io/AlloyTouch//refresh/infinite/kandian.html](http://alloyteam.github.io/AlloyTouch//refresh/infinite/kandian.html)
 - Full Page Scroll : [http://alloyteam.github.io/AlloyTouch/full_page/](http://alloyteam.github.io/AlloyTouch/full_page/)
 - Simple : [http://alloyteam.github.io/AlloyTouch/](http://alloyteam.github.io/AlloyTouch/)
 - 3D : [http://alloyteam.github.io/AlloyTouch/example/3d.html](http://alloyteam.github.io/AlloyTouch/example/3d.html)
