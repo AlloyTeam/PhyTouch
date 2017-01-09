@@ -240,7 +240,7 @@
             if (this.isTouchStart) {
                 var self = this,
                     current = this.scroller[this.property];
-                this.touchEnd.call(this,evt,current);
+                if (this.touchEnd.call(this, evt, current) === false) return;
                 if (this.hasMax && current > this.max) {
                     this.to(this.max, 600, ease);
                 } else if (this.hasMin && current < this.min) {
@@ -302,11 +302,12 @@
             }
             this.touchCancel.call(this, evt);
         },
-        to: function (value, time, ease) {
+        to: function (value, time, u_ease) {
             var el = this.scroller,
                 property = this.property;
-            el.style[transitionDuration] = time + 'ms';
-            el.style[transitionTimingFunction] = ease;
+
+           el.style[transitionDuration] =  this._getValue(time, 600) + 'ms';
+           el.style[transitionTimingFunction] = u_ease||ease;
             el[property] = value;
         },
         correction: function () {
