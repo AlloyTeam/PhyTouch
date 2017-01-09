@@ -63,7 +63,7 @@
             bottom: 48px;
             left: 0;
             width: 100%;
-            background:rgb(233, 230, 230);
+            background: rgb(233, 230, 230);
             overflow: hidden;
         }
 
@@ -89,60 +89,73 @@
             text-size-adjust: none;
         }
 
-        #scroller ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            width: 100%;
-            text-align: left;
-        }
+            #scroller ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                text-align: left;
+            }
 
-        #scroller li {
-            padding: 0 10px;
-            height: 40px;
-            line-height: 40px;
-            border-bottom: 1px solid #ccc;
-            border-top: 1px solid #fff;
-            background-color: #fafafa;
-            font-size: 14px;
-        }
+            #scroller li {
+                padding: 0 10px;
+                height: 40px;
+                line-height: 40px;
+                border-bottom: 1px solid #ccc;
+                border-top: 1px solid #fff;
+                background-color: #fafafa;
+                font-size: 14px;
+            }
 
-        .pull_refresh{
+        .pull_refresh {
             text-align: center;
             color: #00a9f2;
-            position:absolute;
-            z-index:10;
-            top:-10px;
-            width:100%;
+            position: absolute;
+            z-index: 10;
+            top: -10px;
+            width: 100%;
         }
-        .arrow{
+
+        .arrow {
             margin-top: 5px;
             margin-bottom: 5px;
         }
 
-        .arrow_up img{
+            .arrow:after {
+                content: "Pull to refresh";
+            }
+
+        .arrow_up.arrow:after {
+            content: "Release to refresh";
+        }
+
+        .arrow_up img {
             transform: rotateZ(180deg);
             -webkit-transform: rotateZ(180deg);
         }
 
-        .pull_refresh img{
+        .pull_refresh img {
             width: 20px;
             transition: transform .4s ease;
         }
-        .pull_refresh.refreshing .pull{
+
+        .pull_refresh.refreshing .pull {
             display: none;
         }
-        .pull_refresh.refreshing .loading{
+
+        .pull_refresh.refreshing .loading {
             display: block;
         }
-        .wording{
+
+        .wording {
             margin-bottom: 14px;
         }
 
-        .pull_refresh .pull{
+        .pull_refresh .pull {
             display: block;
         }
-        .pull_refresh .loading{
+
+        .pull_refresh .loading {
             display: none;
         }
     </style>
@@ -150,149 +163,162 @@
 <body>
 
 
-        <div class="pull_refresh" id="pull_refresh">
-            <div class="pull">
-                <div id="arrow" class="arrow">
-                    <img src="asset/arrow.png">
-                </div>
-                <div id="wording" class="wording">
-                    Pull to refresh
-                </div>
+    <div class="pull_refresh" id="pull_refresh">
+        <div class="pull">
+            <div id="arrow" class="arrow">
+                <img src="asset/arrow.png"><br />
             </div>
-            <div class="loading">
-                <svg width='40px' height='40px' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-default"><rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(0 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(30 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.08333333333333333s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(60 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.16666666666666666s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(90 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.25s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(120 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.3333333333333333s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(150 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.4166666666666667s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(180 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.5s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(210 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.5833333333333334s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(240 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.6666666666666666s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(270 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.75s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(300 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.8333333333333334s' repeatCount='indefinite'/></rect><rect  x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(330 50 50) translate(0 -30)'>  <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.9166666666666666s' repeatCount='indefinite'/></rect></svg>
-            </div>
-
         </div>
-
-<div id="header">AlloyTouch</div>
-<div id="wrapper">
-    <div id="scroller">
-        <ul id="list">
-            <li>Hello, AlloyTouch!</li>
-            <li>AlloyFinger - Super Tiny Size Gestures Library</li>
-            <li>Transformjs - Made CSS3 Super Easy</li>
-            <li>AlloyFlow - </li>
-            <li>Nuclear - Some HTML + Scoped CSS + JS </li>
-            <li>AlloyGameEngine</li>
-            <li>Rosin</li>
-            <li>LivePool</li>
-            <li>AlloyStick</li>
-            <li>CodeStar</li>
-            <li>AlloyDesigner</li>
-            <li>JXAnimate</li>
-            <li>Spirit</li>
-            <li>AlloyImage</li>
-            <li>ModJS</li>
-            <li>Pretty row 16</li>
-            <li>stepify</li>
-            <li>AlloyTimer</li>
-            <li>Alloy Desktop</li>
-            <li>JX UI</li>
-            <li>CodeTank</li>
-            <li>iSpriter</li>
-            <li>Rythem</li>
-            <li>Go!Png </li>
-            <li>JX</li>
-            <li>TEditor</li>
-            <li> row 1</li>
-            <li> row 2</li>
-            <li> row 3</li>
-            <li>row 5</li>
-            <li> row 5</li>
-            <li> row 7</li>
-            <li> row 8</li>
-            <li> row 9</li>
-            <li> row 11</li>
-            <li> row 11</li>
-            <li> row 12</li>
-            <li> row 13</li>
-            <li> row 14</li>
-            <li> row 15</li>
-            <li> row 16</li>
-            <li> row 17</li>
-            <li> row 18</li>
-            <li> row 19</li>
-            <li> row 20</li>
-            <li> row 21</li>
-            <li> row 22</li>
-            <li> row 23</li>
-            <li> row 24</li>
-            <li> row 25</li>
-        </ul>
+        <div class="loading">
+            <svg width='40px' height='40px' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-default">
+                <rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(0 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(30 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.08333333333333333s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(60 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.16666666666666666s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(90 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.25s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(120 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.3333333333333333s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(150 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.4166666666666667s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(180 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.5s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(210 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.5833333333333334s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(240 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.6666666666666666s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(270 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.75s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(300 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.8333333333333334s' repeatCount='indefinite' />
+                </rect><rect x='46.5' y='40' width='7' height='20' rx='5' ry='5' fill='#00a9f2' transform='rotate(330 50 50) translate(0 -30)'>
+                    <animate attributeName='opacity' from='1' to='0' dur='1s' begin='0.9166666666666666s' repeatCount='indefinite' />
+                </rect></svg>
+        </div>
     </div>
-</div>
-<div id="footer"></div>
-<a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 13;width:140px;height:140px;">
-    <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
-</a>
-<script src="../../transformjs/transform.js"></script>
-<script src="../../alloy_touch.css.js"></script>
-<script>
-    var target = document.querySelector("#scroller");
-    var arrow = document.querySelector("#arrow");
-    var pull_refresh= document.querySelector("#pull_refresh");
-    var list= document.querySelector("#list");
-    var wording= document.querySelector("#wording");
-    Transform(pull_refresh);
-    //给element注入transform属性
-    Transform(target,true);
 
-    var index = 0;
-    var at = new AlloyTouch({
-        touch: "#wrapper",//反馈触摸的dom
-        vertical: true,//不必需，默认是true代表监听竖直方向touch
-        target: target, //运动的对象
-        property: "translateY",  //被滚动的属性
-        initialVaule: 0,
-        min: window.innerHeight - 45 - 48 - 2000, //不必需,滚动属性的最小值
-        max: 0, //不必需,滚动属性的最大值
+    <div id="header">AlloyTouch</div>
+    <div id="wrapper">
+        <div id="scroller">
+            <ul id="list">
+                <li>Hello, AlloyTouch!</li>
+                <li>AlloyFinger - Super Tiny Size Gestures Library</li>
+                <li>Transformjs - Made CSS3 Super Easy</li>
+                <li>AlloyFlow - </li>
+                <li>Nuclear - Some HTML + Scoped CSS + JS </li>
+                <li>AlloyGameEngine</li>
+                <li>Rosin</li>
+                <li>LivePool</li>
+                <li>AlloyStick</li>
+                <li>CodeStar</li>
+                <li>AlloyDesigner</li>
+                <li>JXAnimate</li>
+                <li>Spirit</li>
+                <li>AlloyImage</li>
+                <li>ModJS</li>
+                <li>Pretty row 16</li>
+                <li>stepify</li>
+                <li>AlloyTimer</li>
+                <li>Alloy Desktop</li>
+                <li>JX UI</li>
+                <li>CodeTank</li>
+                <li>iSpriter</li>
+                <li>Rythem</li>
+                <li>Go!Png </li>
+                <li>JX</li>
+                <li>TEditor</li>
+                <li>row 1</li>
+                <li>row 2</li>
+                <li>row 3</li>
+                <li>row 5</li>
+                <li>row 5</li>
+                <li>row 7</li>
+                <li>row 8</li>
+                <li>row 9</li>
+                <li>row 11</li>
+                <li>row 11</li>
+                <li>row 12</li>
+                <li>row 13</li>
+                <li>row 14</li>
+                <li>row 15</li>
+                <li>row 16</li>
+                <li>row 17</li>
+                <li>row 18</li>
+                <li>row 19</li>
+                <li>row 20</li>
+                <li>row 21</li>
+                <li>row 22</li>
+                <li>row 23</li>
+                <li>row 24</li>
+                <li>row 25</li>
+            </ul>
+        </div>
+    </div>
+    <div id="footer"></div>
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 13; width: 140px; height: 140px;">
+        <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
+    </a>
+    <script src="../../transformjs/transform.js"></script>
+    <script src="../../alloy_touch.css.js"></script>
+    <script>
+        var scroller = document.querySelector("#scroller"),
+            arrow = document.querySelector("#arrow"),
+            pull_refresh = document.querySelector("#pull_refresh"),
+            list = document.querySelector("#list"),
+            index = 0;
 
-        animationEnd: function (value) {
-            // console.log(value);
-        },
-        change: function (value) {
-            pull_refresh.translateY = value;
-        },
-        touchMove: function (evt, value) {
-            if (value > 70) {
-                //http://caniuse.com/#search=classList
-                arrow.classList.add("arrow_up");
-                wording.innerHTML = "Release to refresh";
+        Transform(pull_refresh, true);
+        Transform(scroller, true);
 
-            } else {
-                arrow.classList.remove("arrow_up");
-                wording.innerHTML = "Pull to refresh";
-            }
-        },
-        touchEnd: function (evt, value) {
-            if (value > 70) {
-                this.to(60);
 
-                pull_refresh.classList.add("refreshing");
-                var self = this;
-                setTimeout(function () {
-                    var i = 0,
-                            len = 3;
-                    for (; i < len; i++) {
-                        var li = document.createElement("li");
-                        li.innerHTML = "new row " + index++;
-                        list.insertBefore(li, list.firstChild);
-                    }
+        var at = new AlloyTouch({
+            touch: "#wrapper",//反馈触摸的dom
+            vertical: true,//不必需，默认是true代表监听竖直方向touch
+            target: scroller, //运动的对象
+            property: "translateY",  //被滚动的属性
+            initialVaule: 0,
+            min: window.innerHeight - 45 - 48 - 2000, //不必需,滚动属性的最小值
+            max: 0, //不必需,滚动属性的最大值
+            change: function (value) {
+                pull_refresh.translateY = value;
+            },
+            touchMove: function (evt, value) {
+                if (value > 70) {
+                    //http://caniuse.com/#search=classList
+                    arrow.classList.add("arrow_up");
+                } else {
                     arrow.classList.remove("arrow_up");
-                    wording.innerHTML = "Pull to refresh";
-                    pull_refresh.classList.remove("refreshing");
-                    self.to(self.initialVaule);
+                }
+            },
+            touchEnd: function (evt, value) {
+                if (value > 70) {
+                    this.to(60);
 
-                    self.min -= 40 * 3;
-                }, 1000);
+                    pull_refresh.classList.add("refreshing");
+                    var self = this;
+                    setTimeout(function () {
+                        var i = 0,
+                                len = 3;
+                        for (; i < len; i++) {
+                            var li = document.createElement("li");
+                            li.innerHTML = "new row " + index++;
+                            list.insertBefore(li, list.firstChild);
+                        }
+                        arrow.classList.remove("arrow_up");
+                        pull_refresh.classList.remove("refreshing");
+                        self.to(self.initialVaule);
 
-                return false;
+                        self.min -= 40 * 3;
+                    }, 1000);
+
+                    return false;
+                }
+
             }
+        })
 
-        }
-    })
-
-</script>
+    </script>
 </body>
 </html>
