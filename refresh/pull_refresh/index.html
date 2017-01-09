@@ -273,7 +273,7 @@
         Transform(scroller, true);
 
 
-        var at = new AlloyTouch({
+        new AlloyTouch({
             touch: "#wrapper",//反馈触摸的dom
             vertical: true,//不必需，默认是true代表监听竖直方向touch
             target: scroller, //运动的对象
@@ -295,29 +295,28 @@
             touchEnd: function (evt, value) {
                 if (value > 70) {
                     this.to(60);
-
-                    pull_refresh.classList.add("refreshing");
-                    var self = this;
-                    setTimeout(function () {
-                        var i = 0,
-                                len = 3;
-                        for (; i < len; i++) {
-                            var li = document.createElement("li");
-                            li.innerHTML = "new row " + index++;
-                            list.insertBefore(li, list.firstChild);
-                        }
-                        arrow.classList.remove("arrow_up");
-                        pull_refresh.classList.remove("refreshing");
-                        self.to(self.initialVaule);
-
-                        self.min -= 40 * 3;
-                    }, 1000);
-
+                    mockRequest(this);
                     return false;
                 }
-
             }
         })
+
+        function mockRequest(at) {
+            pull_refresh.classList.add("refreshing");
+            setTimeout(function () {
+                var i = 0,
+                    len = 3;
+                for (; i < len; i++) {
+                    var li = document.createElement("li");
+                    li.innerHTML = "new row " + index++;
+                    list.insertBefore(li, list.firstChild);
+                }
+                arrow.classList.remove("arrow_up");
+                pull_refresh.classList.remove("refreshing");
+                at.to(at.initialVaule);
+                at.min -= 40 * 3;
+            }, 500);
+        }
 
     </script>
 </body>

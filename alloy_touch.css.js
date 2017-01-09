@@ -1,4 +1,4 @@
-﻿/* AlloyTouch CSS v0.2.0
+﻿/* AlloyTouch CSS v0.2.1
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -83,6 +83,8 @@
         this.sensitivity =  this._getValue(option.sensitivity,1);
         this.lockDirection = this._getValue(option.lockDirection, true);
 
+        this.initialVaule = this._getValue(option.initialVaule, this.scroller[this.property]);
+        this.scroller[this.property] = this.initialVaule;
 
         this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
