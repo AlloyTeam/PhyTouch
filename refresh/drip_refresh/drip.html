@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <title></title>
 </head>
-<body style="background-color: black;">
+<body style="background-color: white;">
     <canvas width="62" height="150" id="dripCanvas"></canvas>
     <script src="asset/drip.js"></script>
     <script>
 
         var drip = new Drip("#dripCanvas" ,30);
-
+        var id;
         var distance = 0,step =1;
         function tick() {
-            ( distance > 90 || distance < 0) && (step *= -1);
+            //( distance > 90 || distance < 0) && (step *= -1);
             distance += step;
-
+            id = requestAnimationFrame(tick);
             drip.setDistance(distance);
-            requestAnimationFrame(tick);
+            if (distance > 90) {
+                drip.toLoading();
+                cancelAnimationFrame(id);
+            }
+
+          
         }
 
         tick();
