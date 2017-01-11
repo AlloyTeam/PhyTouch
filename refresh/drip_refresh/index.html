@@ -195,73 +195,66 @@
     <script src="asset/drip.js"></script>
 
     <script>
-        var target = document.querySelector("#scroller");
-        var arrow = document.querySelector("#arrow");
-        var list = document.querySelector("#list");
-        var pull = document.querySelector("#pull");
-        Transform(pull);
-        var drip = new Drip("#dripCanvas", 30);
-        //给element注入transform属性
+        var target = document.querySelector("#scroller"),
+            list = document.querySelector("#list"),
+            pull = document.querySelector("#pull"),
+            drip = new Drip("#dripCanvas", 30),
+            index = 0,
+            loading = false;
+
+        //注入transform属性
+        Transform(pull,true);
         Transform(target, true);
 
-        var index = 0, loading = false;
-        var at = new AlloyTouch({
+       
+        new AlloyTouch({
             touch: "#wrapper",//反馈触摸的dom
-            vertical: true,//不必需，默认是true代表监听竖直方向touch
             target: target, //运动的对象
             property: "translateY",  //被滚动的属性
             initialVaule: 0,
             min: window.innerHeight - 45 - 48 - 2000, //不必需,滚动属性的最小值
             max: 0, //不必需,滚动属性的最大值
-
-            animationEnd: function (value) {
-                // console.log(value);
-            },
             touchStart: function () {
                 if (!loading) {
                     drip.show();
                 }
             },
             touchMove: function (evt, value) {
-
                 if (!loading) {
                     if (value < 40) {
                         pull.translateY = value;
-
-
                     } else if (value >= 40 && value < 90) {
                         drip.setDistance(2 * (value - 40));
-
                     } else {
-                        drip.toLoading();
-                        this.to(40);
-
-                        var self = this;
-                        loading = true;
-                        setTimeout(function () {
-                            var i = 0,
-                                    len = 3;
-                            for (; i < len; i++) {
-                                var li = document.createElement("li");
-                                li.innerHTML = "new row " + index++;
-                                list.insertBefore(li, list.firstChild);
-                            }
-                            drip.hide();
-                            pull.translateY = 0;
-
-                            self.to(self.initialVaule);
-                            loading = false;
-                            self.min -= 40 * 3;
-                        }, 1000);
+                        mockRequest(this);
                     }
                 }
             },
-            touchEnd: function () {
-
-                
+            touchEnd: function () {      
                 return false;
             }
         })
+
+        function mockRequest(at) {
+            drip.toLoading();
+            at.to(40);
+            loading = true;
+            setTimeout(function () {
+                var i = 0,
+                        len = 3;
+                for (; i < len; i++) {
+                    var li = document.createElement("li");
+                    li.innerHTML = "new row " + index++;
+                    list.insertBefore(li, list.firstChild);
+                }
+                drip.hide();
+                pull.translateY = 0;
+
+                at.to(at.initialVaule);
+                loading = false;
+                at.min -= 40 * 3;
+            }, 1000);
+        }
 
     </script>
 </body>
