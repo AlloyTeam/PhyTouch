@@ -119,6 +119,10 @@
             .pull canvas {
                 width: 31px;
             }
+
+            #list li:last-child{
+                border-bottom:none;
+            }
     </style>
 
 </head>
@@ -191,7 +195,7 @@
         <img src="http://alloyteam.github.io/AlloyGameEngine/AlloyPaper/example/asset/img/github.png" alt="">
     </a>
     <script src="../../transformjs/transform.js"></script>
-    <script src="../../alloy_touch.js"></script>
+    <script src="../../alloy_touch.css.js"></script>
     <script src="asset/drip.js"></script>
 
     <script>
@@ -219,27 +223,45 @@
                     drip.show();
                 }
             },
-            touchMove: function (evt, value) {
+            change: function (value) {
+                if (value < 40) {
+                    pull.translateY = value;
+                }
                 if (!loading) {
                     if (value < 40) {
                         pull.translateY = value;
+                        drip.setDistance(0);
                     } else if (value >= 40 && value < 90) {
                         drip.setDistance(2 * (value - 40));
                     } else {
+                        loading = true;
                         mockRequest(this);
                     }
                 }
             },
-            touchEnd: function () {      
-                return false;
+            touchEnd: function (evt, value) {
+                if (loading) {
+                    if (value > 40) {
+                        this.to(40);
+                    }
+                    return false;
+              
+                }
+                if (value > 90) {
+                    return false;
+                }
+               
+                
             }
         })
 
         function mockRequest(at) {
             drip.toLoading();
             at.to(40);
-            loading = true;
+           
             setTimeout(function () {
+                drip.hide();
+                pull.translateY = 0;
                 var i = 0,
                         len = 3;
                 for (; i < len; i++) {
@@ -247,13 +269,12 @@
                     li.innerHTML = "new row " + index++;
                     list.insertBefore(li, list.firstChild);
                 }
-                drip.hide();
-                pull.translateY = 0;
+               
 
                 at.to(at.initialVaule);
                 loading = false;
                 at.min -= 40 * 3;
-            }, 1000);
+            }, 2000);
         }
 
     </script>
