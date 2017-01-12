@@ -9,7 +9,10 @@
             if (type == "DOMMouseScroll" || type == "mousewheel") {
                 event.delta = event.wheelDelta ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
             }
-            fn.call(this, event);
+            
+            if (event.delta) {
+                fn.call(this, event);
+            }
         }, capture || false);
     };
 
