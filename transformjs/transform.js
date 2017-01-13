@@ -1,4 +1,4 @@
-﻿/* transformjs 1.1.2
+﻿/* transformjs 1.1.3
  * By dntzhang
  * Github: https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs
  */
@@ -237,7 +237,7 @@
     }
 
     function Transform(obj, notPerspective) {
-       
+        if(obj.hasOwnProperty("translateX")) return;
         var observeProps = ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"],
             objIsElement = isElement(obj);
         if (!notPerspective) {
