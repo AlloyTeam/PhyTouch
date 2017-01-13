@@ -1,0 +1,51 @@
+﻿
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+	<title>Canvas Loading</title>
+	<script type="text/javascript">
+	    var ctx;
+	    var drawIntervalID;
+	    var spokes = 12;	// Number of spokes on the wheel
+	    function init() {
+
+	        var canvas = document.getElementById('myCanvas');
+	        if (canvas.getContext) {
+
+	            ctx = canvas.getContext('2d');
+	            ctx.translate(15, 15);	// Center the origin
+	            ctx.lineWidth = 2;
+	            ctx.lineCap = "round"
+	            drawIntervalID = setInterval(draw, 150);
+	            return drawIntervalID;
+
+	        }
+
+	    }
+	    function draw() {
+
+	        ctx.clearRect(-15, -15, 30, 30);		// Clear the image
+	        ctx.rotate(Math.PI * 2 / spokes);	// Rotate the origin
+	        for (var i = 0; i < spokes; i++) {
+
+	            ctx.rotate(Math.PI * 2 / spokes);	// Rotate the origin
+	            ctx.strokeStyle = "rgba(0,111,255," + i / spokes + ")";	// Set transparency
+	            ctx.beginPath();
+	            ctx.moveTo(0, 8);
+	            ctx.lineTo(0, 12);
+	            ctx.stroke();
+
+	        }
+
+	    }
+	   </script>
+</head>
+<body onload="init();">
+    <div class="loading">
+        <canvas width="30" height="30" id="myCanvas"></canvas>
+        <span>载入中...</span>
+    </div>
+</body>
+</html>

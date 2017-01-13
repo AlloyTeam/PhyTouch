@@ -6,8 +6,8 @@ Smooth scrolling, rotation, pull to refresh and any motion for the web.
 
 ### Demo(Mobile)
 
-- ScrollList Vue1: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/vue1)
-- ScrollList Vue2: [http://alloyteam.github.io/AlloyTouch/vue/example/](http://alloyteam.github.io/AlloyTouch/vue/example/vue2)
+- ScrollList Vue1: [http://alloyteam.github.io/AlloyTouch/vue/example/vue1](http://alloyteam.github.io/AlloyTouch/vue/example/vue1)
+- ScrollList Vue2: [http://alloyteam.github.io/AlloyTouch/vue/example/vue2](http://alloyteam.github.io/AlloyTouch/vue/example/vue2)
 
 ```html
 <div id="wrapper" v-alloytouch="{options: options, methods:{animationEnd: onAnimationEnd}}">

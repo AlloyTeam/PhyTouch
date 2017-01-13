@@ -141,6 +141,7 @@
             return obj === undefined ? defaultValue : obj;
         },
         _transitionEnd: function () {
+            if (!this._triggerTransitionEnd) return;
             var current = this.scroller[this.property];
             if (current < this.min) {
                 this.to(this.min, 600, ease);
@@ -242,7 +243,12 @@
             if (this.isTouchStart) {
                 var self = this,
                     current = this.scroller[this.property];
-                if (this.touchEnd.call(this, evt, current) === false) return;
+                if (this.touchEnd.call(this, evt, current) === false) {
+                    this._triggerTransitionEnd = false;
+                    return;
+                } else {
+                    this._triggerTransitionEnd = true;
+                }
                 if (this.hasMax && current > this.max) {
                     this.to(this.max, 600, ease);
                 } else if (this.hasMin && current < this.min) {
