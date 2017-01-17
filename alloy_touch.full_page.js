@@ -19,7 +19,9 @@
     function addClass(element, className) {
 
         if (element.classList) {
-            element.classList.add(className);
+            className.split(' ').forEach(function(c) {
+                element.classList.add(c);
+            })
         } else {
             element.className += ' ' + className;
         }
@@ -29,7 +31,9 @@
     function removeClass(element, className) {
 
         if (element.classList) {
-            element.classList.remove(className);
+            className.split(' ').forEach(function(c) {
+                element.classList.remove(c);
+            })
         } else {
             element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
         }
