@@ -38,7 +38,7 @@
                     removeClass(element, active);
                 }, 150);
             };
-            touchMove = function () {
+            option.touchMove = function () {
                 removeClass(element, active);
             };
             option.touchEnd = function () {
