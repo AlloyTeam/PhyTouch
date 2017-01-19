@@ -83,8 +83,8 @@
         this.sensitivity =  this._getValue(option.sensitivity,1);
         this.lockDirection = this._getValue(option.lockDirection, true);
 
-        this.initialVaule = this._getValue(option.initialVaule, this.scroller[this.property]);
-        this.scroller[this.property] = this.initialVaule;
+        this.initialValue = this._getValue(option.initialValue, this.scroller[this.property]);
+        this.scroller[this.property] = this.initialValue;
 
         this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
