@@ -26,7 +26,7 @@ new AlloyTouch({
             factor: 1,
             step: 45,
             bindSelf: false,
-            initialVaule: 0,
+            initialValue: 0,
             change:function(value){  },
             touchStart:function(evt, value){  },
             touchMove:function(evt, value){  },
