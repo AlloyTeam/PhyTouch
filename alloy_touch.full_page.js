@@ -9,7 +9,7 @@
             if (type == "DOMMouseScroll" || type == "mousewheel") {
                 event.delta = event.wheelDelta ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
             }
-            
+
             if (event.delta) {
                 fn.call(this, event);
             }
@@ -19,7 +19,9 @@
     function addClass(element, className) {
 
         if (element.classList) {
-            element.classList.add(className);
+            className.split(' ').forEach(function(c) {
+                element.classList.add(c);
+            })
         } else {
             element.className += ' ' + className;
         }
@@ -29,7 +31,9 @@
     function removeClass(element, className) {
 
         if (element.classList) {
-            element.classList.remove(className);
+            className.split(' ').forEach(function(c) {
+                element.classList.remove(c);
+            })
         } else {
             element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
         }
@@ -59,7 +63,7 @@
         }
 
         this.duration = 600;
-
+        this.timeoutArr = [];
         this._transitionInit();
 
         var self = this;
@@ -133,13 +137,14 @@
                     var showClass = node.getAttribute("data-show");
                     var hideClass = node.getAttribute("data-hide");
                     node.style.visibility = "hidden";
-                    setTimeout((function(n,s,h){
+                    var timeout = setTimeout((function(n,s,h){
                         return function(){
                             n.style.visibility = "visible";
                             s&&addClass(n,s);
                             h&&removeClass(n,h);
                         }
                     })(node,showClass,hideClass),delay);
+                    this.timeoutArr.push(timeout);
                 }
             }
         },
@@ -155,6 +160,11 @@
                     hideClass&&addClass(node,hideClass);
                     showClass&&removeClass(node,showClass);
                 }
+            }
+
+            while (this.timeoutArr.length > 0) {
+                clearTimeout(this.timeoutArr[0]);
+                this.timeoutArr.shift();
             }
         },
         _transition: function (leaveIndex, toIndex) {

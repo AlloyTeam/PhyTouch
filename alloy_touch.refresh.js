@@ -60,8 +60,8 @@
         this.property = option.property;
         this.tickID = 0;
 
-        this.initialVaule = this._getValue(option.initialVaule, this.target[this.property]);
-        this.target[this.property] = this.initialVaule;
+        this.initialValue = this._getValue(option.initialValue, this.target[this.property]);
+        this.target[this.property] = this.initialValue;
 
         this.sensitivity = this._getValue(option.sensitivity, 1);
         this.moveFactor = this._getValue(option.moveFactor, 1);
