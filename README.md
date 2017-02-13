@@ -1,7 +1,8 @@
 ﻿# AlloyTouch
 
-腾讯AlloyTeam移动Web触摸解决方案(
-Smooth scrolling, rotation, pull to refresh and any motion for the web.)
+丝般顺滑的触摸运动方案
+
+Smooth scrolling, rotation, pull to refresh and any motion for the web.
 
 # Wiki
 
