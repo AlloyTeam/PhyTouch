@@ -40,6 +40,55 @@ domElement.originX = 0.5;
 //console.log(domElement.translateX )
 ```
 
+### Omi Version:
+
+* [omi-transform](https://github.com/AlloyTeam/omi/tree/master/plugins/omi-transform)
+* [demo](http://alloyteam.github.io/omi/plugins/omi-transform/example/transform/)
+
+```js
+import Omi from 'omi';
+import OmiTransform from '../../omi-transform.js';
+
+OmiTransform.init();
+
+class App extends Omi.Component {
+    constructor(data) {
+        super(data);
+    }
+
+    installed(){
+        setInterval(function(){
+            this.refs.test.rotateZ += 0.1;
+        }.bind(this));
+    }
+
+    render() {
+        return  `
+            <div omi-transform class="test" ref="test" rotateZ="45" translateX="100" >
+                omi-transform
+            </div>
+
+        `;
+    }
+
+    style(){
+        return  `
+            .test{
+                font-size: 20px;
+                border: 1px solid red;
+                width: 150px;
+                font-size
+                min-height: 150px;
+                text-align: center;
+                line-height:150px;
+            }
+         `;
+    }
+}
+
+Omi.render(new App(),"#container");
+```
+
 ### React Version:
 
 ```js
