@@ -1,4 +1,4 @@
-﻿/* transformjs 1.1.3
+﻿/* transformjs 1.1.4
  * By dntzhang
  * Github: https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs
  */
@@ -220,11 +220,8 @@
                 return this["_" + prop];
             },
             set: function (value) {
-                if (value !== this["_" + prop]) {
-                    this["_" + prop] = value;
-                    callback();
-                }
-
+                this["_" + prop] = value;
+                callback();
             }
         });
     }
