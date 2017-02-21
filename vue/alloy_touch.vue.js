@@ -6,7 +6,7 @@ var Transform = typeof require === 'function'
     ? require('../transformjs/transform.js')
     : window.Transform
 
-let vueAlloyTouch = {};
+var vueAlloyTouch = {};
 
 vueAlloyTouch.install = function(Vue){
 
@@ -97,6 +97,8 @@ vueAlloyTouch.install = function(Vue){
             factor: _getOption(options.factor, 1),//不必需,表示触摸位移与被运动属性映射关系，默认值是1
             spring: _getOption(options.spring, 1), //不必需,是否有回弹效果。默认是true
             step: _getOption(options.step, 45),//用于校正到step的整数倍
+            tap: methods.tap || noop,
+            pressMove: methods.pressMove || noop,
             change : methods.change || noop,
             touchEnd : methods.touchEnd || noop,
             touchStart : methods.touchStart || noop,
