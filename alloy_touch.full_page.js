@@ -1,5 +1,8 @@
 ;(function () {
-
+    var AlloyTouch = typeof require === 'function'
+        ? require('alloytouch')
+        : window.AlloyTouch;
+    
     var addEvent =  function(el, type, fn, capture) {
         if (type === "mousewheel" && document.mozHidden !== undefined) {
             type = "DOMMouseScroll";
@@ -200,6 +203,11 @@
         }
     };
 
-
-    AlloyTouch.FullPage = FullPage;
+    if (typeof exports == "object") {
+        module.exports = FullPage;
+    } else if (typeof define == "function" && define.amd) {
+        define([], function(){ return FullPage });
+    } else {
+        AlloyTouch.FullPage = FullPage;
+    }
 })();
