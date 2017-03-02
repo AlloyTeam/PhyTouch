@@ -4,9 +4,11 @@
 
 Smooth scrolling, rotation, pull to refresh and any motion for the web.
 
-# Wiki
+# Related links
 
-[https://github.com/AlloyTeam/AlloyTouch/wiki](https://github.com/AlloyTeam/AlloyTouch/wiki)
+* [AlloyTouch Wiki](https://github.com/AlloyTeam/AlloyTouch/wiki)
+* [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
+* [ omi-touch: Omi /AlloyTouch integration](https://github.com/AlloyTeam/omi/tree/master/plugins/omi-touch)
 
 # Install
 ```js
@@ -48,13 +50,6 @@ new AlloyTouch({
 - Carousel : [http://alloyteam.github.io/AlloyTouch/example/carousel.html](http://alloyteam.github.io/AlloyTouch/example/carousel.html)
 - Carousel2 : [http://alloyteam.github.io/AlloyTouch/example/carousel2.html](http://alloyteam.github.io/AlloyTouch/example/carousel2.html)
 - Three.js : [http://alloyteam.github.io/AlloyTouch/example/threejs/](http://alloyteam.github.io/AlloyTouch/example/threejs/)
-
-# Many thanks to 
-- [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
-
-# Who is using AlloyTouch?
-
-![preview](http://sqimg.qq.com/qq_product_operations/im/qqlogo/imlogo.png)
 
 # License
 This content is released under the [MIT](http://opensource.org/licenses/MIT) License.
