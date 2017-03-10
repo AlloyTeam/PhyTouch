@@ -8,7 +8,8 @@ Smooth scrolling, rotation, pull to refresh and any motion for the web.
 
 * [AlloyTouch Wiki](https://github.com/AlloyTeam/AlloyTouch/wiki)
 * [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
-* [ omi-touch: Omi /AlloyTouch integration](https://github.com/AlloyTeam/omi/tree/master/plugins/omi-touch)
+* [omi-touch: Omi /AlloyTouch integration](https://github.com/AlloyTeam/omi/tree/master/plugins/omi-touch)
+* [Donate to AlloyTouch](http://alloyteam.github.io/donate.html)
 
 # Install
 ```js
