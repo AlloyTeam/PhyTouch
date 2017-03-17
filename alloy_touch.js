@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.2.2
+﻿/* AlloyTouch v0.2.3
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -271,7 +271,11 @@
                                 self._to(self.min, 600, ease, self.change, self.animationEnd);
 
                             } else {
-                                self._correction();
+                                if(self.step) {
+                                    self._correction()
+                                }else{
+                                    self.animationEnd.call(self, value);
+                                }
                             }
 
                             self.change.call(this, value);
