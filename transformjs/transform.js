@@ -235,7 +235,7 @@
 
     function Transform(obj, notPerspective) {
         if(obj.hasOwnProperty("translateX")) return;
-        var observeProps = ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ","perspective"],
+        var observeProps = ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"],
             objIsElement = isElement(obj);
         if (!notPerspective) {
             observeProps.push("perspective");
