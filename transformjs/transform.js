@@ -1,4 +1,4 @@
-﻿/* transformjs 1.1.4
+﻿/* transformjs 1.1.6
  * By dntzhang
  * Github: https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs
  */
@@ -235,7 +235,7 @@
 
     function Transform(obj, notPerspective) {
         if(obj.hasOwnProperty("translateX")) return;
-        var observeProps = ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"],
+        var observeProps = ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ","perspective"],
             objIsElement = isElement(obj);
         if (!notPerspective) {
             observeProps.push("perspective");
@@ -256,7 +256,9 @@
        
         obj.matrix3d = new Matrix3D();
         if (!notPerspective) {
-            obj.perspective = 500;
+            if(!obj.hasOwnProperty('perspective')) {
+                obj.perspective = 500;
+            }
         }
         obj.scaleX = obj.scaleY = obj.scaleZ = 1;
         //由于image自带了x\y\z，所有加上translate前缀
