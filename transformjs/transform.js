@@ -228,9 +228,9 @@
 
     function isElement(o) {
         return (
-          typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
-          o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName === "string"
-      );
+            typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
+            o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName === "string"
+        );
     }
 
     function Transform(obj, notPerspective) {
@@ -240,7 +240,7 @@
         if (!notPerspective) {
             observeProps.push("perspective");
         }
-       
+
         observe(
             obj,
             observeProps,
@@ -253,12 +253,10 @@
                     obj.transform = transform;
                 }
             });
-       
+
         obj.matrix3d = new Matrix3D();
         if (!notPerspective) {
-            if(!obj.hasOwnProperty('perspective')) {
-                obj.perspective = 500;
-            }
+            obj.perspective = 500;
         }
         obj.scaleX = obj.scaleY = obj.scaleZ = 1;
         //由于image自带了x\y\z，所有加上translate前缀
