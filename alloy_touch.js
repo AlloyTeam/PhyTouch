@@ -288,9 +288,9 @@
                 } else {
                     self._correction();
                 }
-                if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
-                    evt.preventDefault();
-                }
+                // if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
+                //     evt.preventDefault();
+                // }
 
             }
             this.x1 = this.x2 = this.y1 = this.y2 = null;
