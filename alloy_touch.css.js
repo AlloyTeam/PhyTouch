@@ -107,13 +107,13 @@
         this.animationEnd = option.animationEnd || function () { };
 
         this.preventDefaultException = {tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/};
-        this.hasMin = !(this.min === void 0);
-        this.hasMax = !(this.max === void 0);
+        this.hasMin = !(this.min === undefined);
+        this.hasMax = !(this.max === undefined);
         this.isTouchStart = false;
         this.step = option.step;
         this.inertia = this._getValue(option.inertia,true);
         this.maxSpeed = option.maxSpeed;
-        this.hasMaxSpeed = !(this.maxSpeed === void 0);
+        this.hasMaxSpeed = !(this.maxSpeed === undefined);
 
         if (this.hasMax && this.hasMin) {
             if (this.min > this.max) throw "min value can't be greater than max value";
@@ -138,7 +138,7 @@
 
     AlloyTouch.prototype = {
         _getValue: function (obj, defaultValue) {
-            return obj === void 0 ? defaultValue : obj;
+            return obj === undefined ? defaultValue : obj;
         },
         _transitionEnd: function () {
             if (!this._triggerTransitionEnd) return;
