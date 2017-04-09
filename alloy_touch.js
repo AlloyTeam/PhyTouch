@@ -54,7 +54,7 @@
     }
 
     var AlloyTouch = function (option) {
-        
+
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
         this.target = this._getValue(option.target, this.element);
         this.vertical = this._getValue(option.vertical, true);
@@ -254,7 +254,7 @@
                             } else {
                                 tRatio = reverseEase((this.max + this.springMaxRegion * ( destination-this.max) / this.maxRegion - current) / (destination - current));
                                 destination = this.max + this.springMaxRegion * (destination - this.max) / this.maxRegion;
-                                
+
                             }
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
@@ -288,9 +288,9 @@
                 } else {
                     self._correction();
                 }
-                if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
-                    evt.preventDefault();
-                }
+                // if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
+                //     evt.preventDefault();
+                // }
 
             }
             this.x1 = this.x2 = this.y1 = this.y2 = null;
