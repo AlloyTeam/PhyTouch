@@ -74,7 +74,7 @@
         this.maxRegion = this._getValue(option.maxRegion, 600);
         this.springMaxRegion = this._getValue(option.springMaxRegion, 60);
         this.maxSpeed = option.maxSpeed;
-        this.hasMaxSpeed = !(this.maxSpeed === undefined);
+        this.hasMaxSpeed = !(this.maxSpeed === void 0);
         this.lockDirection = this._getValue(option.lockDirection, true);
 
         var noop = function () { };
@@ -91,8 +91,8 @@
 
         this.preventDefault = this._getValue(option.preventDefault, true);
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
-        this.hasMin = !(this.min === undefined);
-        this.hasMax = !(this.max === undefined);
+        this.hasMin = !(this.min === void 0);
+        this.hasMax = !(this.max === void 0);
         if (this.hasMin && this.hasMax && this.min > this.max) {
             throw "the min value can't be greater than the max value."
         }
@@ -117,7 +117,7 @@
 
     AlloyTouch.prototype = {
         _getValue: function (obj, defaultValue) {
-            return obj === undefined ? defaultValue : obj;
+            return obj === void 0 ? defaultValue : obj;
         },
         _start: function (evt) {
             this.isTouchStart = true;
@@ -321,7 +321,7 @@
             toTick();
         },
         _correction: function () {
-            if (this.step === undefined) return;
+            if (this.step === void 0) return;
             var el = this.target,
                 property = this.property;
             var value = el[property];
