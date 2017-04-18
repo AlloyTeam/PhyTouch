@@ -245,6 +245,7 @@
                     current = this.scroller[this.property];
                 if (this.touchEnd.call(this, evt, current) === false) {
                     this._triggerTransitionEnd = false;
+                    cancelAnimationFrame(this.tickID);
                     return;
                 } else {
                     this._triggerTransitionEnd = true;
