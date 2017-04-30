@@ -114,7 +114,7 @@
 <body>
 	<div id="page">
 		<div id="header">AlloyTouch</div>
-		<div id="wrapper" v-alloytouch="{options: options, methods:{animationEnd: onAnimationEnd}, min: min, max: max}">
+		<div id="wrapper" v-alloytouch="{options: options, methods:{animationEnd: onAnimationEnd, initAlloyTouch: initAlloyTouch}, min: min, max: max}">
 			<div id="scroller" class="alloytouch-target">
 				<ul>
 					<li>Hello, AlloyTouch!</li>
@@ -201,8 +201,13 @@
                 // 动态设置属性
                 min: window.innerHeight - 45 - 48 - 2000, //不必需,滚动属性的最小值
                 max: 0, //不必需,滚动属性的最大值
+                handleAlloyTouch: null
             },
             methods: {
+                initAlloyTouch(handle){
+                    console.log(handle)
+                    this.handleAlloyTouch = handle
+                },
                 // 回调函数
 		    	onAnimationEnd(){
 		    		console.log('onAnimationEnd')

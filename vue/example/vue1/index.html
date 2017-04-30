@@ -114,7 +114,7 @@
 <body>
 	<div id="page">
 		<div id="header">AlloyTouch</div>
-		<div id="wrapper" v-alloytouch="{options: options, methods:{animationEnd: onAnimationEnd}, min:min, max: max}">
+		<div id="wrapper" v-alloytouch="{options: options, methods:{animationEnd: onAnimationEnd, initAlloyTouch: initAlloyTouch}, min:min, max: max}">
 			<div id="scroller" class="alloytouch-target">
 				<ul>
 					<li>Hello, AlloyTouch!</li>
@@ -199,6 +199,10 @@
                 max: 0
 		    },
 		    methods: {
+                initAlloyTouch(handle){
+                    console.log(handle)
+                    this.handleAlloyTouch = handle
+                },
 		    	onAnimationEnd(){
 		    		console.log('onAnimationEnd')
 		    	}

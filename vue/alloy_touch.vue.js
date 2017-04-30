@@ -28,8 +28,12 @@ vueAlloyTouch.install = function(Vue){
             bind: function(el, binding){
                 //注册时的赋值 value, el已经挂载
                 var options = getAlloyTouchConfig(el, binding.value);
+                var initAlloyTouch = binding.value.methods.initAlloyTouch || null;
                 Transform(options.target);
                 el.__alloytouch__handle = new AlloyTouch(options);
+                if(initAlloyTouch && typeof initAlloyTouch == 'function'){
+                    initAlloyTouch(el.__alloytouch__handle);
+                }
             },
             update: function (el, binding) {
                 var value = binding.value;
@@ -51,13 +55,16 @@ vueAlloyTouch.install = function(Vue){
         directiveBinding = {
             bind: function(){
                 this.el.__alloytouch__handle = null;
-            
             } ,
             update: function(binding){
                 if(!this.el.__alloytouch__handle){
                     var options = getAlloyTouchConfig(this.el, binding);
+                    var initAlloyTouch = binding.methods.initAlloyTouch || null
                     Transform(options.target);
                     this.el.__alloytouch__handle = new AlloyTouch(options);
+                    if(initAlloyTouch && typeof initAlloyTouch == 'function'){
+                        initAlloyTouch(this.el.__alloytouch__handle);
+                    }
                 }else {
                     if(binding.min!=undefined){
                         this.el.__alloytouch__handle.min = binding.min;
