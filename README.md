@@ -18,7 +18,7 @@ npm install alloytouch
 
 # API
 ```js
-new AlloyTouch({
+var alloyTouch = new AlloyTouch({
             touch:"#wrapper",//反馈触摸的dom
             vertical: true,//不必需，默认是true代表监听竖直方向touch
             target: target, //运动的对象
@@ -30,7 +30,7 @@ new AlloyTouch({
             step: 45,//用于校正到step的整数倍
             bindSelf: false,
             initialValue: 0,
-            change:function(value){  }, //不必需，属性改变的回调。alloytouch.css版本不支持该事件
+            change:function(value){  }, 
             touchStart:function(evt, value){  },
             touchMove:function(evt, value){  },
             touchEnd:function(evt,value){  },
@@ -39,6 +39,16 @@ new AlloyTouch({
             animationEnd:function(value){  } //运动结束
  })
 ```
+
+通过对象的实例也可以运动DOM:
+
+``` js
+alloyTouch.to(value, time, ease)
+```
+
+* `value`是必填项
+* `time`是非必填项，默认值是600
+* `ease`是非必填项，默认值是先加速后减速的运动函数，CSS版本默认值是`cubic-bezier(0.1, 0.57, 0.1, 1)`
 
 # Demo(Mobile)
 
