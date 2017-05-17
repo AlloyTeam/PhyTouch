@@ -40,7 +40,7 @@ var alloyTouch = new AlloyTouch({
  })
 ```
 
-通过对象的实例也可以运动DOM:
+通过对象的实例可以自行运动DOM:
 
 ``` js
 alloyTouch.to(value, time, ease)
