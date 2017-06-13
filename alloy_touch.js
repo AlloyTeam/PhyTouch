@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.2.3
+﻿/* AlloyTouch v0.2.5
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -118,6 +118,10 @@
     AlloyTouch.prototype = {
         _getValue: function (obj, defaultValue) {
             return obj === void 0 ? defaultValue : obj;
+        },
+        stop:function(){
+            cancelAnimationFrame(this.tickID);
+            this._calculateIndex();
         },
         _start: function (evt) {
             this.isTouchStart = true;

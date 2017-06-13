@@ -1,4 +1,4 @@
-﻿/* AlloyTouch CSS v0.2.2
+﻿/* AlloyTouch CSS v0.2.5
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -178,6 +178,14 @@
         _tick: function () {
             this.change.call(this, this.getComputedPosition());
             this.tickID = requestAnimationFrame(this._tick.bind(this));
+        },
+        stop:function(){
+            cancelAnimationFrame(this.tickID);
+            this._cancelAnimation();
+            clearTimeout(this._endTimeout);
+            if (this.hasMax && this.hasMin) {
+                this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
+            }
         },
         _start: function (evt) {
             cancelAnimationFrame(this.tickID);

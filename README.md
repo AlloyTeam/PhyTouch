@@ -16,6 +16,11 @@ Smooth scrolling, rotation, pull to refresh and any motion for the web.
 npm install alloytouch
 ```
 
+# CDN
+
+*[https://unpkg.com/alloytouch@0.2.5/alloy_touch.js](https://unpkg.com/alloytouch@0.2.5/alloy_touch.js)
+*[https://unpkg.com/alloytouch@0.2.5/alloy_touch.css.js](https://unpkg.com/alloytouch@0.2.5/alloy_touch.css.js)
+
 # API
 ```js
 var alloyTouch = new AlloyTouch({
@@ -49,6 +54,13 @@ alloyTouch.to(value, time, ease)
 * `value`是必填项
 * `time`是非必填项，默认值是600
 * `ease`是非必填项，默认值是先加速后减速的运动函数，CSS版本默认值是`cubic-bezier(0.1, 0.57, 0.1, 1)`
+
+
+通过对象的实例可以自行停止DOM运动:
+
+``` js
+alloyTouch.stop()
+```
 
 # Demo(Mobile)
 
