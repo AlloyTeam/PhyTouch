@@ -18,8 +18,8 @@ npm install alloytouch
 
 # CDN
 
-*[https://unpkg.com/alloytouch@0.2.5/alloy_touch.js](https://unpkg.com/alloytouch@0.2.5/alloy_touch.js)
-*[https://unpkg.com/alloytouch@0.2.5/alloy_touch.css.js](https://unpkg.com/alloytouch@0.2.5/alloy_touch.css.js)
+* [https://unpkg.com/alloytouch@0.2.5/alloy_touch.js](https://unpkg.com/alloytouch@0.2.5/alloy_touch.js)
+* [https://unpkg.com/alloytouch@0.2.5/alloy_touch.css.js](https://unpkg.com/alloytouch@0.2.5/alloy_touch.css.js)
 
 # API
 ```js
