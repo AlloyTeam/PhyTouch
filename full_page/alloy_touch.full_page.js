@@ -3,18 +3,22 @@
         ? require('alloytouch')
         : window.AlloyTouch;
     
+    // fix MouseScroll on Firefox
+    var u = navigator.userAgent.toLowerCase();
+    var isFirefox = u.indexOf('firefox') > -1;
     var addEvent =  function(el, type, fn, capture) {
-        if (type === "mousewheel" && document.mozHidden !== undefined) {
+        if (type === "mousewheel" && isFirefox) {
             type = "DOMMouseScroll";
         }
-        el.addEventListener(type, function(event) {
-            var type = event.type;
+        el.addEventListener(type, function(e) {
+            var evt = e || window.event
+            var type = evt.type;
             if (type == "DOMMouseScroll" || type == "mousewheel") {
-                event.delta = event.wheelDelta ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
+                evt.delta = evt.wheelDelta ? evt.wheelDelta / 120 : -(evt.detail || 0) / 3;
             }
 
-            if (event.delta) {
-                fn.call(this, event);
+            if (evt.delta) {
+                fn.call(this, evt);
             }
         }, capture || false);
     };
