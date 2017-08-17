@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="address=no" name="format-detection" />
+    <title>m-select</title>
+</head>
+<body>
+ <div id="selectCtn"></div>
+</body>
+<script src="./asset/alloy_touch.js"></script>
+<script src="./asset/transform.js"></script>
+<script src="./asset/ctiy_data.js"></script>
+<script src="index.js"></script>
+<script>
+
+    var ms = new MSelect({
+        options: cityData,
+        level:2,
+        renderTo: "#selectCtn",
+        selectedIndex: [1,2],
+        change: function (data) {
+            console.log(data);
+        },
+        complete: function (data) {
+
+            console.log(data);
+
+//            setTimeout(function() {
+//                at.reset();
+//                at.show();
+//            }, 3000);
+        }
+
+    })
+</script>
+</html>

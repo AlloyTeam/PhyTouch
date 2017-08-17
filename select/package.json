@@ -1,0 +1,31 @@
+{
+  "name": "m-select",
+  "version": "0.1.0",
+  "description": "Select component for the mobile.",
+  "main": "alloy_touch.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlloyTeam/Alloytouch.git"
+  },
+  "keywords": [
+    "touch",
+    "scroll",
+    "smooth"
+  ],
+  "author": "dntzhang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlloyTeam/Alloytouch/issues"
+  },
+  "homepage": "https://github.com/AlloyTeam/Alloytouch#readme",
+  "dependencies": {
+    "alloytouch": "latest",
+    "css3transform": "latest"
+  }
+}

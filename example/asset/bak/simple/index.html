@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AlloyTouch</title>
+    <style>
+        html, body, ul, li {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .button {
+            background-color: #00ABEB;
+            border: 1px solid #c3c8cc;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            height: 29px;
+            font-size: 14px;
+            color: white;
+            text-align: center;
+            line-height: 26px;
+            width: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -100px;
+            margin-top: -15px;
+        }
+
+
+            .button.active {
+                background-color: #006389;
+            }
+    </style>
+
+    <style>
+        .b1:after {
+            display: block;
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            -webkit-transform-origin: 0 0;
+            -webkit-transform: scale(1);
+            pointer-events: none;
+        }
+
+        @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+            .b1:after {
+                right: -100%;
+                bottom: -100%;
+                -webkit-transform: scale(0.5);
+            }
+        }
+
+
+        .b1.bb:after {
+            border-bottom: 1px solid #e4e4e4;
+        }
+
+        .b1.bt:after {
+            border-top: 1px solid #e4e4e4;
+        }
+
+        .b1.bl:after {
+            border-left: 1px solid #e4e4e4;
+        }
+
+        .b1.br:after {
+            border-right: 1px solid #e4e4e4;
+        }
+    </style>
+
+    <link rel="stylesheet" href="select.css" />
+</head>
+<body>
+    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 1313; width: 140px; height: 140px;">
+        <img src="//alloyteam.github.io/github.png" alt="">
+    </a>
+    <div class="button" id="button">AlloyTouch Button</div>
+    <script src="../../transformjs/transform.js"></script>
+    <script src="../../alloy_touch.js"></script>
+    <script src="../../alloy_touch.button.js"></script>
+    
+    <script src="alloy_touch.select.js"></script>
+    <script>
+        var iselect = new AlloyTouch.Select({
+            options: [
+                { value: "all", text: "累计" },
+                { value: "2015-9", text: "2015年9月" },
+                { value: "2015-8", text: "2015年8月" },
+                { value: "2015-7", text: "2015年7月" },
+                { value: "2015-6", text: "2015年6月" },
+                { value: "2015-5", text: "2015年5月" },
+                { value: "2015-4", text: "2015年4月" },
+                { value: "2015-3", text: "2015年3月" },
+                { value: "2015-2", text: "2015年2月" },
+                { value: "2015-1", text: "2015年1月" },
+                { value: "2014-12", text: "2014年12月" },
+                { value: "2014-11", text: "2014年11月" },
+                { value: "2014-10", text: "2014年10月" }
+            ],
+            selectedIndex: 3,
+            change: function (item, index) {
+               
+            },
+            complete: function (item, index) {
+                document.body.insertAdjacentHTML("beforeEnd", "<br/>选了第" + index + "项<br/>value:" + item.value + "<br/>text:" + item.text);
+            }
+        })
+
+        iselect.show();
+        new AlloyTouch.Button("#button", function () {
+            iselect.show();
+        }, "active");
+
+
+
+    </script>
+</body>
+</html>
