@@ -1,10 +1,10 @@
-## 安装
+## 瀹夎
 
 ```
 npm install m-select 
 ```
 
-## 使用
+## 浣跨敤
 
 ```
 import MSelect from 'm-select'
