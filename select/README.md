@@ -9,7 +9,30 @@ npm install m-select
 ```js
 import MSelect from 'm-select'
 
-var ms = new MSelect({
+let cityData = [
+    {
+        name: 'a',
+        value: 1,
+        list: [
+            {
+                name: 'a-1',
+                value: 3
+            }
+        ]
+    },
+    {
+        name: 'b',
+        value: 2,
+        list: [
+            {
+                name: 'b-1',
+                value: 4
+            }
+        ]
+    }
+]
+
+let ms = new MSelect({
 	options: cityData,
 	level: 2,   //只有一个层级的话不用设置level或者设置为1
 	renderTo: "#selectCtn",
@@ -22,6 +45,7 @@ var ms = new MSelect({
 	}
 })
 
+//methods
 ms.show()
 ms.hide()
 ms.reset()
