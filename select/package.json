@@ -2,7 +2,7 @@
   "name": "m-select",
   "version": "0.1.0",
   "description": "Select component for the mobile.",
-  "main": "alloy_touch.js",
+  "main": "index.js",
   "directories": {
     "example": "example"
   },
