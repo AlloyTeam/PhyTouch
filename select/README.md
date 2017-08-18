@@ -37,10 +37,10 @@ let ms = new MSelect({
 	level: 2,   //只有一个层级的话不用设置level或者设置为1
 	renderTo: "#selectCtn",
 	selectedIndex: [1, 2],
-	change: function (data) {
+	change: function (data, selectedIndex) {
 	
 	},
-	complete: function (data) {
+	complete: function (data, selectedIndex) {
 	
 	}
 })
