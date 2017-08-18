@@ -76,8 +76,9 @@
             }
             return outArr
         }
+        this.parentNode = document.getElementById(id)
         // enter btn
-        var completeBtn = document.getElementById('alloy-selector-complete-button-1');
+        var completeBtn = this.parentNode.querySelector('#alloy-selector-complete-button-1');
         completeBtn.addEventListener('touchend', function (e) {
             that.complete.call(that, getSelectedItem(that.nowSelected.slice(0),that.options,[]));
             that.hide()
@@ -85,7 +86,7 @@
             e.preventDefault();
         }, false);
 
-        var parent = document.getElementById('alloy-selector-body');
+        var parent =  this.parentNode.querySelector('#alloy-selector-body');
         this.list = createList(parent, this.level);
         this.touches = createTouch(parent, this.level);
         this.atList = {};
