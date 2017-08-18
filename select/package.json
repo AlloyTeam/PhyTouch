@@ -1,6 +1,6 @@
 {
   "name": "m-select",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Select component for the mobile.",
   "main": "index.js",
   "directories": {
