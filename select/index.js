@@ -79,7 +79,7 @@
         // enter btn
         var completeBtn = document.getElementById('alloy-selector-complete-button-1');
         completeBtn.addEventListener('touchend', function (e) {
-            that.complete.call(that, getSelectedItem(that.nowSelected,that.options,[]));
+            that.complete.call(that, getSelectedItem(that.nowSelected.slice(0),that.options,[]));
             that.hide()
             e.stopPropagation();
             e.preventDefault();
@@ -120,7 +120,7 @@
                         }
 
 
-                        that.change.call(that, getSelectedItem(that.nowSelected,that.options,[]));
+                        that.change.call(that, getSelectedItem(that.nowSelected.slice(0),that.options,[]));
 
                     }
                 })(l),
