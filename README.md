@@ -34,6 +34,7 @@ var alloyTouch = new AlloyTouch({
             factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
             step: 45,//用于校正到step的整数倍
             bindSelf: false,
+            maxSpeed: 2, //不必需，触摸反馈的最大速度限制 
             initialValue: 0,
             change:function(value){  }, 
             touchStart:function(evt, value){  },
