@@ -110,7 +110,7 @@
         this.hasMin = !(this.min === void 0);
         this.hasMax = !(this.max === void 0);
         this.isTouchStart = false;
-        this.step = option.step;
+        this.step = this._getValue(option.step, 45);
         this.inertia = this._getValue(option.inertia,true);
         this.maxSpeed = option.maxSpeed;
         this.hasMaxSpeed = !(this.maxSpeed === void 0);
