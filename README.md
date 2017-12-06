@@ -31,7 +31,8 @@ var alloyTouch = new AlloyTouch({
             min: 100, //不必需,运动属性的最小值
             max: 2000, //不必需,滚动属性的最大值
             sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
-            factor: 1,//不必需,表示触摸位移与被运动属性映射关系，默认值是1
+            factor: 1,//不必需,表示触摸位移运动位移与被运动属性映射关系，默认值是1
+            moveFactor: 1,//不必需,表示touchmove位移与被运动属性映射关系，默认值是1
             step: 45,//用于校正到step的整数倍
             bindSelf: false,
             maxSpeed: 2, //不必需，触摸反馈的最大速度限制 
