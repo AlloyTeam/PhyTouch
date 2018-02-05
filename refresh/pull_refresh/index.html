@@ -313,6 +313,7 @@
                 }
                 arrow.classList.remove("arrow_up");
                 pull_refresh.classList.remove("refreshing");
+                pull_refresh.translateY = 0;
                 at.to(at.initialValue);
                 at.min -= 40 * 3;
             }, 500);
