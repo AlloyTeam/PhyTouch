@@ -153,7 +153,7 @@ function isDiff(o, n) {
     if((!o && n) || (o && !n)) {
         return true;
     } else if(n && o && o !== n) {
-        for(let i=0,len=propArr.length; propArr.length; i++) {
+        for(let i=0,len=propArr.length; i<len; i++) {
             if(o[propArr[i]] !== n[propArr[i]]) {
                 return true;
             }
