@@ -43,32 +43,23 @@ domElement.originX = 0.5;
 ### Omi Version:
 
 * [omi-transform](https://github.com/AlloyTeam/omi/tree/master/plugins/omi-transform)
-* [demo](http://alloyteam.github.io/omi/plugins/omi-transform/example/transform/)
+
 
 ```js
-import Omi from 'omi';
-import OmiTransform from '../../omi-transform.js';
-
-OmiTransform.init();
+import Omi from 'omix'
+import 'omi-transform'
 
 class App extends Omi.Component {
-    constructor(data) {
-        super(data);
-    }
-
     installed(){
-        setInterval(function(){
-            this.refs.test.rotateZ += 0.1;
-        }.bind(this));
+        setInterval(()=>{
+            this.refs.test.rotateY += 1
+        })
     }
 
     render() {
-        return  `
-            <div omi-transform class="test" ref="test" rotateZ="45" translateX="100" >
-                omi-transform
-            </div>
-
-        `;
+        return  <div omi-transform class="test" ref="test" rotateZ="0" translateX="100" perspective="400" >
+                    omi-transform
+                </div>
     }
 
     style(){
@@ -82,11 +73,11 @@ class App extends Omi.Component {
                 text-align: center;
                 line-height:150px;
             }
-         `;
+         `
     }
 }
 
-Omi.render(new App(),"#container");
+Omi.render(new App(),"#container")
 ```
 
 ### React Version:
