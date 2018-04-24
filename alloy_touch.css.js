@@ -76,6 +76,11 @@
 
     var AlloyTouch = function (option) {
         this.scroller = option.target;
+
+        //内部会有scroll出现的DOM
+        //如果配置这个属性，min=max=0，否则会有意想不到的糟糕效果
+        this.scrollDom = option.scrollDom;
+
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
         this.vertical = this._getValue(option.vertical,true) ;
         this.property = option.property;
@@ -206,7 +211,43 @@
             this._startY = this.preY = evt.touches[0].pageY;
             this.start = this.vertical ? this.preY : this.preX;
         },
+        /**
+         * 根据滑动方向判断
+         * @param element 具有scroll的DOM
+         * @param move 滚动的距离
+         * @param property 滚动的方向
+         * @returns {*} 返回当前滑动状态下，element元素的scroll位置信息，'middle'-scroll正在滚动
+         * @private
+         */
+        _scrollPosition: function(element, move, property){
+            var scrollKeys = property === 'translateY'
+                ? ['scrollTop', 'offsetHeight', 'scrollHeight']
+                : property === 'translateX' ? ['scrollLeft', 'offsetWidth', 'scrollWidth'] : null;
+            if(!scrollKeys){return ''}
+
+            var scroll_start = element[scrollKeys[0]] || 0;
+            if(scroll_start === 0 && move >= 0){
+                return 'start'
+            }
+            var visible_range = element[scrollKeys[1]] || 0,
+                scroll_range = element[scrollKeys[2]] || 0;
+            if(scroll_range === visible_range + scroll_start){
+                return 'end'
+            }
+            return 'middle'
+        },
         _move: function (evt) {
+
+            //如果当前滑动的时候，滚动元素scrollDOM非触发边界，则不触发滚动效果
+            if(this.scrollDom && this._scrollPosition(
+                    this.scrollDom,
+                    this.scroller[this.property],
+                    this.property
+                ) === 'middle'){
+                evt.preventDefault();
+                return false;
+            }
+
             if (this.isTouchStart) {
                 var dx = Math.abs(evt.touches[0].pageX - this._startX), dy = Math.abs(evt.touches[0].pageY - this._startY);
                 if (this._firstTouchMove && this.lockDirection) {
