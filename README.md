@@ -1,4 +1,4 @@
-﻿# AlloyTouch
+﻿﻿# AlloyTouch
 
 丝般顺滑的触摸运动方案
 
@@ -27,19 +27,6 @@ var alloyTouch = new AlloyTouch({
             touch:"#wrapper",//反馈触摸的dom
             vertical: true,//不必需，默认是true代表监听竖直方向touch
             target: target, //运动的对象
-
-            scrollDom: scrollDom, //内部具有scroll的DOM元素
-            //当上拉加载更多，无限加载，且元素的高度无法确定的情况下，需要在列表主体配置scroll时，可以配置此项
-            /*
-            例如:
-                scrllDom: document.getElementById('ul')
-
-            <div id="wrapper">
-                <ul id="ul" style="height: 100%;overflow-y: auto;">
-                    <li>高度不确定的元素</li>
-                </ul>
-            </div>
-            */
             property: "translateY",  //被运动的属性
             min: 100, //不必需,运动属性的最小值
             max: 2000, //不必需,滚动属性的最大值

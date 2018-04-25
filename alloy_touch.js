@@ -1,4 +1,4 @@
-﻿/* AlloyTouch v0.2.5
+﻿﻿/* AlloyTouch v0.2.5
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -15,7 +15,7 @@
         var vp = vendors[i];
         window.requestAnimationFrame = window[vp + 'RequestAnimationFrame'];
         window.cancelAnimationFrame = (window[vp + 'CancelAnimationFrame']
-                                   || window[vp + 'CancelRequestAnimationFrame']);
+        || window[vp + 'CancelRequestAnimationFrame']);
     }
     if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) // iOS6 is buggy
         || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
@@ -24,7 +24,7 @@
             var now = Date.now();
             var nextTime = Math.max(lastTime + 16, now);
             return setTimeout(function () { callback(lastTime = nextTime); },
-                              nextTime - now);
+                nextTime - now);
         };
         window.cancelAnimationFrame = clearTimeout;
     }
@@ -54,10 +54,6 @@
     }
 
     var AlloyTouch = function (option) {
-
-        //内部会有scroll出现的DOM
-        //如果配置这个属性，min=max=0，否则会有意想不到的糟糕效果
-        this.scrollDom = option.scrollDom;
 
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
         this.target = this._getValue(option.target, this.element);
@@ -139,44 +135,7 @@
             this._firstTouchMove = true;
             this._preventMove = false;
         },
-        /**
-         * 根据滑动方向判断
-         * @param element 具有scroll的DOM
-         * @param move 滚动的距离
-         * @param property 滚动的方向
-         * @returns {*} 返回当前滑动状态下，element元素的scroll位置信息，'middle'-scroll正在滚动
-         * @private
-         */
-        _scrollPosition: function(element, move, property){
-            var scrollKeys = property === 'translateY'
-                ? ['scrollTop', 'offsetHeight', 'scrollHeight']
-                : property === 'translateX' ? ['scrollLeft', 'offsetWidth', 'scrollWidth'] : null;
-            if(!scrollKeys){return ''}
-
-            var scroll_start = element[scrollKeys[0]] || 0;
-            if(scroll_start === 0 && move >= 0){
-                return 'start'
-            }
-            var visible_range = element[scrollKeys[1]] || 0,
-                scroll_range = element[scrollKeys[2]] || 0;
-            if(scroll_range === visible_range + scroll_start){
-                return 'end'
-            }
-            return 'middle'
-        },
         _move: function (evt) {
-
-            //如果当前滑动的时候，滚动元素scrollDOM非触发边界，则不触发滚动效果
-            if(this.scrollDom && this._scrollPosition(
-                    this.scrollDom,
-                    this.scroller[this.property],
-                    this.property
-                ) === 'middle'){
-                evt.preventDefault();
-                return false;
-            }
-
-
             if (this.isTouchStart) {
                 var len = evt.touches.length,
                     currentX = evt.touches[0].pageX,
