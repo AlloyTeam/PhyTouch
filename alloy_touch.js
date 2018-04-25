@@ -1,4 +1,4 @@
-﻿﻿/* AlloyTouch v0.2.5
+﻿/* AlloyTouch v0.2.5
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/AlloyTouch
  * MIT Licensed.
@@ -15,7 +15,7 @@
         var vp = vendors[i];
         window.requestAnimationFrame = window[vp + 'RequestAnimationFrame'];
         window.cancelAnimationFrame = (window[vp + 'CancelAnimationFrame']
-        || window[vp + 'CancelRequestAnimationFrame']);
+                                   || window[vp + 'CancelRequestAnimationFrame']);
     }
     if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) // iOS6 is buggy
         || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
@@ -24,7 +24,7 @@
             var now = Date.now();
             var nextTime = Math.max(lastTime + 16, now);
             return setTimeout(function () { callback(lastTime = nextTime); },
-                nextTime - now);
+                              nextTime - now);
         };
         window.cancelAnimationFrame = clearTimeout;
     }
