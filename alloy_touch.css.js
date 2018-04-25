@@ -78,7 +78,7 @@
         this.scroller = option.target;
 
         //内部会有scroll出现的DOM
-        //如果配置这个属性，min=max=0，否则会有意想不到的糟糕效果
+        //如果配置这个属性，需要min=max=0，否则会有意想不到的糟糕效果
         this.scrollDom = option.scrollDom;
 
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
