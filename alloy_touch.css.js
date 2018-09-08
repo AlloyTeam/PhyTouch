@@ -370,7 +370,8 @@
         },
         correction: function () {
             var m_str = window.getComputedStyle(this.scroller)[transform];
-            var value = this.vertical ? parseInt(m_str.split(',')[13]) : parseInt(m_str.split(',')[12]);
+            var m_arr = m_str.split(',');
+            var value = this.vertical ? parseInt(13 in m_arr ? m_arr[13] : m_arr[5]) : parseInt(12 in m_arr ? m_arr[12] : m_arr[4]);
             var rpt = Math.floor(Math.abs(value / this.step));
             var dy = value % this.step;
             var result;
