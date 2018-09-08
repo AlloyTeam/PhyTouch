@@ -368,7 +368,8 @@
            el.style[transitionTimingFunction] = u_ease||ease;
             el[property] = value;
         },
-        correction: function () {
+        correction: function (time) {
+            var time = typeof time === 'number' ? time : 400;
             var m_str = window.getComputedStyle(this.scroller)[transform];
             var value = this.vertical ? parseInt(m_str.split(',')[13]) : parseInt(m_str.split(',')[12]);
             var rpt = Math.floor(Math.abs(value / this.step));
@@ -378,12 +379,12 @@
                 result = (value < 0 ? -1 : 1) * (rpt + 1) * this.step;
                 if (result > this.max) result = this.max;
                 if (result < this.min) result = this.min;
-                this.to(result, 400, ease);
+                this.to(result, time, ease);
             } else {
                 result = (value < 0 ? -1 : 1) * rpt * this.step;
                 if (result > this.max) result = this.max;
                 if (result < this.min) result = this.min;
-                this.to(result, 400, ease);
+                this.to(result, time, ease);
             }
         },
         destroy: function () {
