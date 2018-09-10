@@ -1,27 +1,20 @@
-﻿# AlloyTouch
+## AlloyTouch
 
 丝般顺滑的触摸运动方案
 
 Smooth scrolling, rotation, pull to refresh and any motion for the web.
 
-# Related links
+## Install
 
-* [AlloyTouch Wiki](https://github.com/AlloyTeam/AlloyTouch/wiki)
-* [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
-* [omi-touch: Omi /AlloyTouch integration](https://github.com/AlloyTeam/omi/tree/master/plugins/omi-touch)
-* [Donate to AlloyTouch](http://alloyteam.github.io/donate.html)
-
-# Install
 ```js
 npm install alloytouch
 ```
 
-# CDN
-
 * [https://unpkg.com/alloytouch@0.2.5/alloy_touch.js](https://unpkg.com/alloytouch@0.2.5/alloy_touch.js)
 * [https://unpkg.com/alloytouch@0.2.5/alloy_touch.css.js](https://unpkg.com/alloytouch@0.2.5/alloy_touch.css.js)
 
-# API
+## Usage
+
 ```js
 var alloyTouch = new AlloyTouch({
             touch:"#wrapper",//反馈触摸的dom
@@ -64,7 +57,7 @@ alloyTouch.to(value, time, ease)
 alloyTouch.stop()
 ```
 
-# Demo(Mobile)
+## Demo(Mobile)
 
 - Pull To Refresh: [http://alloyteam.github.io/AlloyTouch/refresh/pull_refresh/](http://alloyteam.github.io/AlloyTouch/refresh/pull_refresh/)
 - QQ KanDian: [http://alloyteam.github.io/AlloyTouch//refresh/infinite/kandian.html](http://alloyteam.github.io/AlloyTouch//refresh/infinite/kandian.html)
@@ -76,5 +69,11 @@ alloyTouch.stop()
 - Carousel2 : [http://alloyteam.github.io/AlloyTouch/example/carousel2.html](http://alloyteam.github.io/AlloyTouch/example/carousel2.html)
 - Three.js : [http://alloyteam.github.io/AlloyTouch/example/threejs/](http://alloyteam.github.io/AlloyTouch/example/threejs/)
 
-# License
+## Related links
+
+* [AlloyTouch Wiki](https://github.com/AlloyTeam/AlloyTouch/wiki)
+* [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
+* [omi-touch: Omi /AlloyTouch integration](https://github.com/AlloyTeam/omi/tree/master/plugins/omi-touch)
+
+## License
 This content is released under the [MIT](http://opensource.org/licenses/MIT) License.
