@@ -6,7 +6,9 @@
     var Transform = typeof require === 'function'
         ? require('css3transform')
         : window.Transform
-
+    if (typeof Transform !== 'function') {
+        Transform = Transform.default
+    }
 
     var MSelect = function (option) {
         this.renderTo = typeof option.renderTo === 'string' ? document.querySelector(option.renderTo) : option.renderTo;
