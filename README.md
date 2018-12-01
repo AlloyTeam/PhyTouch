@@ -71,9 +71,9 @@ alloyTouch.stop()
 
 ## Related links
 
+* [omi-touch: Omi /AlloyTouch integration](https://github.com/Tencent/omi/tree/master/packages/omi-touch)
 * [AlloyTouch Wiki](https://github.com/AlloyTeam/AlloyTouch/wiki)
 * [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
-* [omi-touch: Omi /AlloyTouch integration](https://github.com/AlloyTeam/omi/tree/master/plugins/omi-touch)
 
 ## License
 This content is released under the [MIT](http://opensource.org/licenses/MIT) License.
