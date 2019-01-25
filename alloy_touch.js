@@ -233,7 +233,7 @@
                     }.bind(this));
                 } else if (this.inertia && !triggerTap && !this._preventMove) {
                     var dt = new Date().getTime() - this.startTime;
-                    if (dt < 300) {
+                    if (dt < 300 && dt > 0) {
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
                             speed = Math.abs(distance) / dt,
                             speed2 = this.factor * speed;
