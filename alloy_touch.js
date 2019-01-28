@@ -55,6 +55,7 @@
 
     var AlloyTouch = function (option) {
 
+        this.reverse = this._getValue(option.reverse, false);
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
         this.target = this._getValue(option.target, this.element);
         this.vertical = this._getValue(option.vertical, true);
@@ -68,9 +69,23 @@
         this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
         this.outFactor = this._getValue(option.outFactor, 0.3);
-        this.min = option.min;
-        this.max = option.max;
-        this.deceleration = 0.0006;
+        this.min = function () {
+            if (option.min === undefined || option.min === null) return void 0;
+            if (typeof option.min === 'function') {
+                return option.min()
+            } else {
+                return option.min;
+            }
+        }
+        this.max = function () {
+            if (option.max === undefined || option.max === null) return void 0;
+            if (typeof option.max === 'function') {
+                return option.max()
+            } else {
+                return option.max;
+            }
+        };
+        this.deceleration = this._getValue(option.deceleration, 0.0006);
         this.maxRegion = this._getValue(option.maxRegion, 600);
         this.springMaxRegion = this._getValue(option.springMaxRegion, 60);
         this.maxSpeed = option.maxSpeed;
@@ -78,6 +93,7 @@
         this.lockDirection = this._getValue(option.lockDirection, true);
 
         var noop = function () { };
+        const alwaysTrue = function () { return true; };
         this.change = option.change || noop;
         this.touchEnd = option.touchEnd || noop;
         this.touchStart = option.touchStart || noop;
@@ -88,14 +104,12 @@
         this.correctionEnd = option.correctionEnd || noop;
         this.tap = option.tap || noop;
         this.pressMove = option.pressMove || noop;
+        this.shouldRebound = option.shouldRebound || alwaysTrue;
 
         this.preventDefault = this._getValue(option.preventDefault, true);
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
-        this.hasMin = !(this.min === void 0);
-        this.hasMax = !(this.max === void 0);
-        if (this.hasMin && this.hasMax && this.min > this.max) {
-            throw "the min value can't be greater than the max value."
-        }
+        this.hasMin = !(this.min() === void 0);
+        this.hasMax = !(this.max() === void 0);
         this.isTouchStart = false;
         this.step = option.step;
         this.inertia = this._getValue(option.inertia, true);
@@ -116,6 +130,12 @@
     };
 
     AlloyTouch.prototype = {
+        isAtMax: function () {
+            return this.hasMax && this.target[this.property] >= this.max();
+        },
+        isAtMin: function () {
+            return this.hasMin && this.target[this.property] <= this.min();
+        },
         _getValue: function (obj, defaultValue) {
             return obj === void 0 ? defaultValue : obj;
         },
@@ -153,16 +173,16 @@
                 if(!this._preventMove) {
                     var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
                     var f = this.moveFactor;
-                    if (this.hasMax && this.target[this.property] > this.max && d > 0) {
+                    if (this.isAtMax() && (this.reverse ? -d : d) > 0) {
                         f = this.outFactor;
-                    } else if (this.hasMin && this.target[this.property] < this.min && d < 0) {
+                    } else if (this.isAtMin() && (this.reverse ? -d : d) < 0) {
                         f = this.outFactor;
                     }
                     d *= f;
                     this.preX = currentX;
                     this.preY = currentY;
                     if (!this.fixed) {
-                        this.target[this.property] += d;
+                        this.target[this.property] += this.reverse ? -d : d;
                     }
                     this.change.call(this, this.target[this.property]);
                     var timestamp = new Date().getTime();
@@ -198,17 +218,18 @@
             this._end(evt);
 
         },
-        to: function (v, time, user_ease) {
+        to: function (v, time, user_ease, callback) {
             this._to(v, this._getValue(time, 600), user_ease || ease, this.change, function (value) {
                 this._calculateIndex();
                 this.reboundEnd.call(this, value);
                 this.animationEnd.call(this, value);
+                callback && callback.call(this, value);
             }.bind(this));
 
         },
         _calculateIndex: function () {
             if (this.hasMax && this.hasMin) {
-                this.currentPage = Math.round((this.max - this.target[this.property]) / this.step);
+                this.currentPage = Math.round((this.max() - this.target[this.property]) / this.step);
             }
         },
         _end: function (evt) {
@@ -221,58 +242,73 @@
                     this.tap.call(this, evt, current);
                 }
                 if (this.touchEnd.call(this, evt, current, this.currentPage) === false) return;
-                if (this.hasMax && current > this.max) {
-                    this._to(this.max, 200, ease, this.change, function (value) {
+                if (this.hasMax && current > this.max()) {
+                    if (!this.shouldRebound(current)) {
+                        return;
+                    }
+                    this._to(this.max(), 200, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
-                } else if (this.hasMin && current < this.min) {
-                    this._to(this.min, 200, ease, this.change, function (value) {
+                } else if (this.hasMin && current < this.min()) {
+                    if (!this.shouldRebound(current)) {
+                        return;
+                    }
+                    this._to(this.min(), 200, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
-                } else if (this.inertia && !triggerTap && !this._preventMove) {
+                } else if (this.inertia && !triggerTap && !this._preventMove && !this.fixed) {
                     var dt = new Date().getTime() - this.startTime;
-                    if (dt < 300 && dt > 0) {
+                    if (dt < 300) {
                         var distance = ((this.vertical ? evt.changedTouches[0].pageY : evt.changedTouches[0].pageX) - this.start) * this.sensitivity,
                             speed = Math.abs(distance) / dt,
-                            speed2 = this.factor * speed;
-                        if(this.hasMaxSpeed&&speed2>this.maxSpeed) {
-                            speed2 = this.maxSpeed;
+                            actualSpeed = this.factor * speed;
+                        if (this.hasMaxSpeed && actualSpeed > this.maxSpeed) {
+                            actualSpeed = this.maxSpeed;
                         }
-                        var destination = current + (speed2 * speed2) / (2 * this.deceleration) * (distance < 0 ? -1 : 1);
+                        var direction = distance < 0 ? -1 : 1;
+                        if (this.reverse) {
+                            direction = -direction;
+                        }
+                        var destination = current + (actualSpeed * actualSpeed) / (2 * this.deceleration) * direction;
 
                         var tRatio = 1;
-                        if (destination < this.min ) {
-                            if (destination < this.min - this.maxRegion) {
-                                tRatio = reverseEase((current - this.min + this.springMaxRegion) / (current - destination));
-                                destination = this.min - this.springMaxRegion;
+                        if (destination < this.min()) {
+                            if (destination < this.min() - this.maxRegion) {
+                                tRatio = reverseEase((current - this.min() + this.springMaxRegion) / (current - destination));
+                                destination = this.min() - this.springMaxRegion;
                             } else {
-                                tRatio = reverseEase((current - this.min + this.springMaxRegion * (this.min - destination) / this.maxRegion) / (current - destination));
-                                destination = this.min - this.springMaxRegion * (this.min - destination) / this.maxRegion;
+                                tRatio = reverseEase((current - this.min() + this.springMaxRegion * (this.min() - destination) / this.maxRegion) / (current - destination));
+                                destination = this.min() - this.springMaxRegion * (this.min() - destination) / this.maxRegion;
                             }
-                        } else if (destination > this.max) {
-                            if (destination > this.max + this.maxRegion) {
-                                tRatio = reverseEase((this.max + this.springMaxRegion - current) / (destination - current));
-                                destination = this.max + this.springMaxRegion;
+                        } else if (destination > this.max()) {
+                            if (destination > this.max() + this.maxRegion) {
+                                tRatio = reverseEase((this.max() + this.springMaxRegion - current) / (destination - current));
+                                destination = this.max() + this.springMaxRegion;
                             } else {
-                                tRatio = reverseEase((this.max + this.springMaxRegion * ( destination-this.max) / this.maxRegion - current) / (destination - current));
-                                destination = this.max + this.springMaxRegion * (destination - this.max) / this.maxRegion;
+                                tRatio = reverseEase((this.max() + this.springMaxRegion * (destination - this.max()) / this.maxRegion - current) / (destination - current));
+                                destination = this.max() + this.springMaxRegion * (destination - this.max()) / this.maxRegion;
 
                             }
                         }
                         var duration = Math.round(speed / self.deceleration) * tRatio;
 
                         self._to(Math.round(destination), duration, ease, self.change, function (value) {
-                            if (self.hasMax && self.target[self.property] > self.max) {
 
+                            if (self.hasMax && self.target[self.property] > self.max()) {
+                                if (!this.shouldRebound(self.target[self.property])) {
+                                    return;
+                                }
                                 cancelAnimationFrame(self.tickID);
-                                self._to(self.max, 600, ease, self.change, self.animationEnd);
+                                self._to(self.max(), 600, ease, self.change, self.animationEnd);
 
-                            } else if (self.hasMin && self.target[self.property] < self.min) {
-
+                            } else if (self.hasMin && self.target[self.property] < self.min()) {
+                                if (!this.shouldRebound(self.target[self.property])) {
+                                    return;
+                                }
                                 cancelAnimationFrame(self.tickID);
-                                self._to(self.min, 600, ease, self.change, self.animationEnd);
+                                self._to(self.min(), 600, ease, self.change, self.animationEnd);
 
                             } else {
                                 if(self.step) {
@@ -292,25 +328,20 @@
                 } else {
                     self._correction();
                 }
-                // if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
-                //     evt.preventDefault();
-                // }
-
             }
             this.x1 = this.x2 = this.y1 = this.y2 = null;
 
         },
         _to: function (value, time, ease, onChange, onEnd) {
-            if (this.fixed) return;
             var el = this.target,
                 property = this.property;
             var current = el[property];
             var dv = value - current;
-            var beginTime = new Date();
+            var beginTime = +new Date();
             var self = this;
             var toTick = function () {
 
-                var dt = new Date() - beginTime;
+                var dt = +new Date() - beginTime;
                 if (dt >= time) {
                     el[property] = value;
                     onChange && onChange.call(self, value);
@@ -319,7 +350,6 @@
                 }
                 el[property] = dv * ease(dt / time) + current;
                 self.tickID = requestAnimationFrame(toTick);
-                //cancelAnimationFrame必须在 tickID = requestAnimationFrame(toTick);的后面
                 onChange && onChange.call(self, el[property]);
             };
             toTick();
