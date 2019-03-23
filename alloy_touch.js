@@ -58,12 +58,22 @@
         this.reverse = this._getValue(option.reverse, false);
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
         this.target = this._getValue(option.target, this.element);
+        var followersArr = this._getValue(option.followers, []);
+        this.followers = followersArr.map(function(follower){
+            return {
+                element: typeof follower.element === 'string' ? document.querySelector(follower.element) : follower.element,
+                offset: follower.offset,
+            }
+        })
         this.vertical = this._getValue(option.vertical, true);
         this.property = option.property;
         this.tickID = 0;
 
         this.initialValue = this._getValue(option.initialValue, this.target[this.property]);
         this.target[this.property] = this.initialValue;
+        this.followers.forEach(function(follower){
+            follower.element[this.property] = this.initialValue + follower.offset;
+        }.bind(this))
         this.fixed = this._getValue(option.fixed, false);
         this.sensitivity = this._getValue(option.sensitivity, 1);
         this.moveFactor = this._getValue(option.moveFactor, 1);
@@ -182,7 +192,11 @@
                     this.preX = currentX;
                     this.preY = currentY;
                     if (!this.fixed) {
-                        this.target[this.property] += this.reverse ? -d : d;
+                        var detalD = this.reverse ? -d : d;
+                        this.target[this.property] += detalD;
+                        this.followers.forEach(function(follower){
+                            follower.element[this.property] += detalD;
+                        }.bind(this))
                     }
                     this.change.call(this, this.target[this.property]);
                     var timestamp = new Date().getTime();
@@ -335,6 +349,7 @@
         _to: function (value, time, ease, onChange, onEnd) {
             var el = this.target,
                 property = this.property;
+            var followers = this.followers;
             var current = el[property];
             var dv = value - current;
             var beginTime = +new Date();
@@ -348,7 +363,11 @@
                     onEnd && onEnd.call(self, value);
                     return;
                 }
-                el[property] = dv * ease(dt / time) + current;
+                var nextPosition = dv * ease(dt / time) + current
+                el[property] = nextPosition;
+                followers.forEach(function(follower){
+                    follower.element[property] = nextPosition + follower.offset;
+                })
                 self.tickID = requestAnimationFrame(toTick);
                 onChange && onChange.call(self, el[property]);
             };
