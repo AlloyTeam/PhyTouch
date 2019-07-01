@@ -10,8 +10,8 @@ Smooth scrolling, rotation, pull to refresh and any motion for the web.
 npm install alloytouch
 ```
 
-* [https://unpkg.com/alloytouch@0.2.5/index.js](https://unpkg.com/alloytouch@0.2.5/index.js)
-* [https://unpkg.com/alloytouch@0.2.5/css.js](https://unpkg.com/alloytouch@0.2.5/css.js)
+* [https://unpkg.com/alloytouch@0.2.6/index.js](https://unpkg.com/alloytouch@0.2.6/index.js)
+* [https://unpkg.com/alloytouch@0.2.6/css.js](https://unpkg.com/alloytouch@0.2.6/css.js)
 
 ## Usage
 
