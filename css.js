@@ -74,6 +74,14 @@
         return false;
     }
 
+    function getTransform(ele){
+        return +ele.style[transform].replace(/[^\-?\d.]/g, '') 
+    }
+
+    function setTransform(ele,prop,val){
+        ele.style[transform] = prop + '(' + val +'px)'
+    }
+
     var AlloyTouch = function (option) {
         this.scroller = option.target;
 
@@ -83,13 +91,14 @@
 
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
         this.vertical = this._getValue(option.vertical,true) ;
-        this.property = option.property;
+        this.property = this.vertical ? 'translateY' : 'translateX';
         this.preventDefault = this._getValue(option.preventDefault,true) ;
         this.sensitivity =  this._getValue(option.sensitivity,1);
         this.lockDirection = this._getValue(option.lockDirection, true);
 
-        this.initialValue = this._getValue(option.initialValue, this.scroller[this.property]);
-        this.scroller[this.property] = this.initialValue;
+        this.value = this._getValue(option.value, 0);
+       
+        setTransform(this.scroller, this.property, this.value)
 
         this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
@@ -122,7 +131,7 @@
 
         if (this.hasMax && this.hasMin) {
             if (this.min > this.max) throw "min value can't be greater than max value";
-            this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
+            this.currentPage = Math.round((this.max - getTransform(this.scroller)) / this.step);
         }
 
         this._startHandler = this._start.bind(this);
@@ -147,7 +156,7 @@
         },
         _transitionEnd: function () {
             if (!this._triggerTransitionEnd) return;
-            var current = this.scroller[this.property];
+            var current = getTransform(this.scroller);
             if (current < this.min) {
                 this.to(this.min, 600, ease);
                 return;
@@ -172,7 +181,7 @@
         },
         _cancelAnimation: function () {
             this.scroller.style[transitionDuration] = '0ms';
-            this.scroller[this.property] = this.getComputedPosition();
+            setTransform(this.scroller, this.property, this.getComputedPosition());
 
         },
         getComputedPosition: function () {
@@ -189,7 +198,7 @@
             this._cancelAnimation();
             clearTimeout(this._endTimeout);
             if (this.hasMax && this.hasMin) {
-                this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
+                this.currentPage = Math.round((this.max - getTransform(this.scroller)) / this.step);
             }
         },
         _start: function (evt) {
@@ -200,11 +209,11 @@
             this.isTouchStart = true;
             this._firstTouchMove = true;
             this._preventMove = false;
-            this.touchStart.call(this,evt,this.scroller[this.property]);
+            this.touchStart.call(this,evt, getTransform(this.scroller));
             this._cancelAnimation();
             clearTimeout(this._endTimeout);
             if (this.hasMax && this.hasMin) {
-                this.currentPage = Math.round((this.max - this.scroller[this.property]) / this.step);
+                this.currentPage = Math.round((this.max - getTransform(this.scroller)) / this.step);
             }
             this.startTime = new Date().getTime();
             this._startX = this.preX = evt.touches[0].pageX;
@@ -241,7 +250,7 @@
             //如果当前滑动的时候，滚动元素scrollDOM非触发边界，则不触发滚动效果
             if(this.scrollDom && this._scrollPosition(
                     this.scrollDom,
-                    this.scroller[this.property],
+                    getTransform(this.scroller),
                     this.property
                 ) === 'middle'){
                 evt.preventDefault();
@@ -264,25 +273,25 @@
                 if (!this._preventMove) {
                     var f = this.moveFactor;
                     var d = (this.vertical ? evt.touches[0].pageY - this.preY : evt.touches[0].pageX - this.preX) * this.sensitivity;
-                    if (this.hasMax && this.scroller[this.property] > this.max && d > 0) {
+                    if (this.hasMax && getTransform(this.scroller) > this.max && d > 0) {
                         f = this.outFactor;
-                    } else if (this.hasMin && this.scroller[this.property] < this.min && d < 0) {
+                    } else if (this.hasMin && getTransform(this.scroller) < this.min && d < 0) {
                         f = this.outFactor;
                     }
                     d *= f;
                     this.preX = evt.touches[0].pageX;
                     this.preY = evt.touches[0].pageY;
-                    this.scroller[this.property] += d;
+                    setTransform(this.scroller, this.property, getTransform(this.scroller) + d);
 
                     var timestamp = new Date().getTime();
                     if (timestamp - this.startTime > 300) {
                         this.startTime = timestamp;
                         this.start = this.vertical ? this.preY : this.preX;
                     }
-                    this.touchMove.call(this,evt,this.scroller[this.property]);
+                    this.touchMove.call(this,evt, getTransform(this.scroller));
 
                 }
-
+                
                 if (this.preventDefault && !preventDefaultTest(evt.target, this.preventDefaultException)) {
                     evt.preventDefault();
                 }
@@ -291,7 +300,7 @@
         _end: function (evt) {
             if (this.isTouchStart) {
                 var self = this,
-                    current = this.scroller[this.property];
+                    current = getTransform(this.scroller);
                 if (this.touchEnd.call(this, evt, current) === false) {
                     this._triggerTransitionEnd = false;
                     cancelAnimationFrame(this.tickID);
@@ -366,13 +375,12 @@
 
            el.style[transitionDuration] =  this._getValue(time, 600) + 'ms';
            el.style[transitionTimingFunction] = u_ease||ease;
-            el[property] = value;
+            setTransform(el, property, value)
         },
         correction: function (time) {
             var time = typeof time === 'number' ? time : 400;
-            var m_str = window.getComputedStyle(this.scroller)[transform];
-            var m_arr = m_str.split(',');
-            var value = this.vertical ? parseInt(13 in m_arr ? m_arr[13] : m_arr[5]) : parseInt(12 in m_arr ? m_arr[12] : m_arr[4]);
+       
+            var value = getTransform(this.scroller)
             var rpt = Math.floor(Math.abs(value / this.step));
             var dy = value % this.step;
             var result;

@@ -69,10 +69,10 @@
         this.property = option.property;
         this.tickID = 0;
 
-        this.initialValue = this._getValue(option.initialValue, this.target[this.property]);
-        this.target[this.property] = this.initialValue;
+        this.value = this._getValue(option.value, this.target[this.property]);
+        this.target[this.property] = this.value;
         this.followers.forEach(function(follower){
-            follower.element[this.property] = this.initialValue + follower.offset;
+            follower.element[this.property] = this.value + follower.offset;
         }.bind(this))
         this.fixed = this._getValue(option.fixed, false);
         this.sensitivity = this._getValue(option.sensitivity, 1);
