@@ -13420,7 +13420,7 @@
 	    }, props, {
 	      defaultChecked: undefined,
 	      defaultValue: undefined,
-	      value: value != null ? value : inst._wrapperState.initialValue,
+	      value: value != null ? value : inst._wrapperState.value,
 	      checked: checked != null ? checked : inst._wrapperState.initialChecked,
 	      onChange: inst._wrapperState.onChange
 	    });
@@ -13455,7 +13455,7 @@
 	    var defaultValue = props.defaultValue;
 	    inst._wrapperState = {
 	      initialChecked: props.checked != null ? props.checked : props.defaultChecked,
-	      initialValue: props.value != null ? props.value : defaultValue,
+	      value: props.value != null ? props.value : defaultValue,
 	      listeners: null,
 	      onChange: _handleChange.bind(inst)
 	    };
@@ -14048,7 +14048,7 @@
 	    var value = LinkedValueUtils.getValue(props);
 	    inst._wrapperState = {
 	      pendingUpdate: false,
-	      initialValue: value != null ? value : props.defaultValue,
+	      value: value != null ? value : props.defaultValue,
 	      listeners: null,
 	      onChange: _handleChange.bind(inst),
 	      wasMultiple: Boolean(props.multiple)
@@ -14063,7 +14063,7 @@
 	  getSelectValueContext: function (inst) {
 	    // ReactDOMOption looks at this initial value so the initial generated
 	    // markup has correct `selected` attributes
-	    return inst._wrapperState.initialValue;
+	    return inst._wrapperState.value;
 	  },
 
 	  postUpdateWrapper: function (inst) {
@@ -14071,7 +14071,7 @@
 
 	    // After the initial mount, we control selected-ness manually so don't pass
 	    // this value down
-	    inst._wrapperState.initialValue = undefined;
+	    inst._wrapperState.value = undefined;
 
 	    var wasMultiple = inst._wrapperState.wasMultiple;
 	    inst._wrapperState.wasMultiple = Boolean(props.multiple);
@@ -14169,7 +14169,7 @@
 	    var hostProps = _assign({}, props, {
 	      value: undefined,
 	      defaultValue: undefined,
-	      children: '' + inst._wrapperState.initialValue,
+	      children: '' + inst._wrapperState.value,
 	      onChange: inst._wrapperState.onChange
 	    });
 
@@ -14190,7 +14190,7 @@
 	    }
 
 	    var value = LinkedValueUtils.getValue(props);
-	    var initialValue = value;
+	    var value = value;
 
 	    // Only bother fetching default value if we're going to use it
 	    if (value == null) {
@@ -14212,11 +14212,11 @@
 	      if (defaultValue == null) {
 	        defaultValue = '';
 	      }
-	      initialValue = defaultValue;
+	      value = defaultValue;
 	    }
 
 	    inst._wrapperState = {
-	      initialValue: '' + initialValue,
+	      value: '' + value,
 	      listeners: null,
 	      onChange: _handleChange.bind(inst)
 	    };

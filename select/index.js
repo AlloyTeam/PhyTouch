@@ -103,7 +103,7 @@
             var at = new AlloyTouch({
                 touch: this.touches[l], // 反馈触摸的dom
                 target: this.list[l], // 运动的对象
-                initialValue: listInit * -33,
+                value: listInit * -33,
                 property: 'translateY',  // 被滚动的属性
                 min: -33 * (info.length - 1), // 不必需,滚动属性的最小值
                 max: 0,

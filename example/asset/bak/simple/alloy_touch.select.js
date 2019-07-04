@@ -59,7 +59,7 @@ AlloyTouch.Select = function (option) {
         touch: container,
         vertical: true,
         target: scroll,
-        initialValue: preSelectedIndex*-1*step,
+        value: preSelectedIndex*-1*step,
         property: "translateY",
         min: (len-1)*-30,
         max: 0,     

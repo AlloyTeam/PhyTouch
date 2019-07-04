@@ -278,7 +278,7 @@
             vertical: true,//不必需，默认是true代表监听竖直方向touch
             target: scroller, //运动的对象
             property: "translateY",  //被滚动的属性
-            initialValue: 0,
+            value: 0,
             min: window.innerHeight - 45 - 48 - 2000, //不必需,滚动属性的最小值
             max: 0, //不必需,滚动属性的最大值
             change: function (value) {
@@ -314,7 +314,7 @@
                 arrow.classList.remove("arrow_up");
                 pull_refresh.classList.remove("refreshing");
                 pull_refresh.translateY = 0;
-                at.to(at.initialValue);
+                at.to(at.value);
                 at.min -= 40 * 3;
             }, 500);
         }
