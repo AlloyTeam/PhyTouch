@@ -79,22 +79,8 @@
         this.moveFactor = this._getValue(option.moveFactor, 1);
         this.factor = this._getValue(option.factor, 1);
         this.outFactor = this._getValue(option.outFactor, 0.3);
-        this.min = function () {
-            if (option.min === undefined || option.min === null) return void 0;
-            if (typeof option.min === 'function') {
-                return option.min()
-            } else {
-                return option.min;
-            }
-        }
-        this.max = function () {
-            if (option.max === undefined || option.max === null) return void 0;
-            if (typeof option.max === 'function') {
-                return option.max()
-            } else {
-                return option.max;
-            }
-        };
+        this.min = option.min
+        this.max = option.max
         this.deceleration = this._getValue(option.deceleration, 0.0006);
         this.maxRegion = this._getValue(option.maxRegion, 600);
         this.springMaxRegion = this._getValue(option.springMaxRegion, 60);
@@ -118,8 +104,8 @@
 
         this.preventDefault = this._getValue(option.preventDefault, true);
         this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
-        this.hasMin = !(this.min() === void 0);
-        this.hasMax = !(this.max() === void 0);
+        this.hasMin = !(this.min === void 0);
+        this.hasMax = !(this.max === void 0);
         this.isTouchStart = false;
         this.step = option.step;
         this.inertia = this._getValue(option.inertia, true);
@@ -141,10 +127,10 @@
 
     AlloyTouch.prototype = {
         isAtMax: function () {
-            return this.hasMax && this.target[this.property] >= this.max();
+            return this.hasMax && this.target[this.property] >= this.max;
         },
         isAtMin: function () {
-            return this.hasMin && this.target[this.property] <= this.min();
+            return this.hasMin && this.target[this.property] <= this.min;
         },
         _getValue: function (obj, defaultValue) {
             return obj === void 0 ? defaultValue : obj;
@@ -243,7 +229,7 @@
         },
         _calculateIndex: function () {
             if (this.hasMax && this.hasMin) {
-                this.currentPage = Math.round((this.max() - this.target[this.property]) / this.step);
+                this.currentPage = Math.round((this.max - this.target[this.property]) / this.step);
             }
         },
         _end: function (evt) {
@@ -256,19 +242,19 @@
                     this.tap.call(this, evt, current);
                 }
                 if (this.touchEnd.call(this, evt, current, this.currentPage) === false) return;
-                if (this.hasMax && current > this.max()) {
+                if (this.hasMax && current > this.max) {
                     if (!this.shouldRebound(current)) {
                         return;
                     }
-                    this._to(this.max(), 200, ease, this.change, function (value) {
+                    this._to(this.max, 200, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
-                } else if (this.hasMin && current < this.min()) {
+                } else if (this.hasMin && current < this.min) {
                     if (!this.shouldRebound(current)) {
                         return;
                     }
-                    this._to(this.min(), 200, ease, this.change, function (value) {
+                    this._to(this.min, 200, ease, this.change, function (value) {
                         this.reboundEnd.call(this, value);
                         this.animationEnd.call(this, value);
                     }.bind(this));
@@ -288,21 +274,21 @@
                         var destination = current + (actualSpeed * actualSpeed) / (2 * this.deceleration) * direction;
 
                         var tRatio = 1;
-                        if (destination < this.min()) {
-                            if (destination < this.min() - this.maxRegion) {
-                                tRatio = reverseEase((current - this.min() + this.springMaxRegion) / (current - destination));
-                                destination = this.min() - this.springMaxRegion;
+                        if (destination < this.min) {
+                            if (destination < this.min - this.maxRegion) {
+                                tRatio = reverseEase((current - this.min + this.springMaxRegion) / (current - destination));
+                                destination = this.min - this.springMaxRegion;
                             } else {
-                                tRatio = reverseEase((current - this.min() + this.springMaxRegion * (this.min() - destination) / this.maxRegion) / (current - destination));
-                                destination = this.min() - this.springMaxRegion * (this.min() - destination) / this.maxRegion;
+                                tRatio = reverseEase((current - this.min + this.springMaxRegion * (this.min - destination) / this.maxRegion) / (current - destination));
+                                destination = this.min - this.springMaxRegion * (this.min - destination) / this.maxRegion;
                             }
-                        } else if (destination > this.max()) {
-                            if (destination > this.max() + this.maxRegion) {
-                                tRatio = reverseEase((this.max() + this.springMaxRegion - current) / (destination - current));
-                                destination = this.max() + this.springMaxRegion;
+                        } else if (destination > this.max) {
+                            if (destination > this.max + this.maxRegion) {
+                                tRatio = reverseEase((this.max + this.springMaxRegion - current) / (destination - current));
+                                destination = this.max + this.springMaxRegion;
                             } else {
-                                tRatio = reverseEase((this.max() + this.springMaxRegion * (destination - this.max()) / this.maxRegion - current) / (destination - current));
-                                destination = this.max() + this.springMaxRegion * (destination - this.max()) / this.maxRegion;
+                                tRatio = reverseEase((this.max + this.springMaxRegion * (destination - this.max) / this.maxRegion - current) / (destination - current));
+                                destination = this.max + this.springMaxRegion * (destination - this.max) / this.maxRegion;
 
                             }
                         }
@@ -310,19 +296,19 @@
 
                         self._to(Math.round(destination), duration, ease, self.change, function (value) {
 
-                            if (self.hasMax && self.target[self.property] > self.max()) {
+                            if (self.hasMax && self.target[self.property] > self.max) {
                                 if (!this.shouldRebound(self.target[self.property])) {
                                     return;
                                 }
                                 cancelAnimationFrame(self.tickID);
-                                self._to(self.max(), 600, ease, self.change, self.animationEnd);
+                                self._to(self.max, 600, ease, self.change, self.animationEnd);
 
-                            } else if (self.hasMin && self.target[self.property] < self.min()) {
+                            } else if (self.hasMin && self.target[self.property] < self.min) {
                                 if (!this.shouldRebound(self.target[self.property])) {
                                     return;
                                 }
                                 cancelAnimationFrame(self.tickID);
-                                self._to(self.min(), 600, ease, self.change, self.animationEnd);
+                                self._to(self.min, 600, ease, self.change, self.animationEnd);
 
                             } else {
                                 if(self.step) {

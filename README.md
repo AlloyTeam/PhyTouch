@@ -11,7 +11,6 @@ npm install alloytouch
 ```
 
 * [https://unpkg.com/alloytouch@0.2.6/index.js](https://unpkg.com/alloytouch@0.2.6/index.js)
-* [https://unpkg.com/alloytouch@0.2.6/css.js](https://unpkg.com/alloytouch@0.2.6/css.js)
 
 ## Usage
 
