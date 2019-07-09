@@ -1,6 +1,6 @@
-﻿/* AlloyTouch v0.1.3
+﻿/* PhyTouch v0.1.3
  * By AlloyTeam http://www.alloyteam.com/
- * Github: https://github.com/AlloyTeam/AlloyTouch
+ * Github: https://github.com/AlloyTeam/PhyTouch
  * MIT Licensed.
  */
 
@@ -53,7 +53,7 @@
         return false;
     }
 
-    var AlloyTouch = function (option) {
+    var PhyTouch = function (option) {
         this.target = option.target;
         this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
         this.vertical = this._getValue(option.vertical, true);
@@ -105,7 +105,7 @@
         this._initRefresh();
     };
 
-    AlloyTouch.prototype = {
+    PhyTouch.prototype = {
         _initRefresh:function () {
             var option = this.refreshOption;
             if(!option) return;
@@ -356,9 +356,9 @@
     };
 
     if (typeof module !== 'undefined' && typeof exports === 'object') {
-        module.exports = AlloyTouch;
+        module.exports = PhyTouch;
     } else {
-        window.AlloyTouch = AlloyTouch;
+        window.PhyTouch = PhyTouch;
     }
 
 })();

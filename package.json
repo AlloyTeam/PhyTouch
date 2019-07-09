@@ -1,7 +1,7 @@
 {
-  "name": "alloytouch",
-  "version": "0.3.0",
-  "description": "super tiny size touch and physical motion library for the web ",
+  "name": "phy-touch",
+  "version": "0.0.0",
+  "description": "Super tiny size touch and physical motion library for the web ",
   "main": "index.js",
   "directories": {
     "example": "example"

@@ -4,13 +4,13 @@ made css3 transform super easy
 
 ## Home
 
-[http://alloyteam.github.io/AlloyTouch/transformjs/](http://alloyteam.github.io/AlloyTouch/transformjs/)
+[http://alloyteam.github.io/PhyTouch/transformjs/](http://alloyteam.github.io/PhyTouch/transformjs/)
 
 ## Demo
 
-- [http://alloyteam.github.io/AlloyTouch/transformjs/example/all.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/all.html)
-- [http://alloyteam.github.io/AlloyTouch/transformjs/example/soft.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/soft.html)
-- [http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html)
+- [http://alloyteam.github.io/PhyTouch/transformjs/example/all.html](http://alloyteam.github.io/PhyTouch/transformjs/example/all.html)
+- [http://alloyteam.github.io/PhyTouch/transformjs/example/soft.html](http://alloyteam.github.io/PhyTouch/transformjs/example/soft.html)
+- [http://alloyteam.github.io/PhyTouch/transformjs/example/stars.html](http://alloyteam.github.io/PhyTouch/transformjs/example/stars.html)
 
 ## Install
 

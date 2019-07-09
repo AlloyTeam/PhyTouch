@@ -1,4 +1,4 @@
-## AlloyTouch
+## PhyTouch
 
 丝般顺滑的触摸运动方案
 
@@ -7,15 +7,15 @@ Smooth scrolling, rotation, pull to refresh and any motion for the web.
 ## Install
 
 ```js
-npm install alloytouch
+npm install phy-touch
 ```
 
-* [https://unpkg.com/alloytouch@0.2.6/index.js](https://unpkg.com/alloytouch@0.2.6/index.js)
+* [https://unpkg.com/phy-touch@0.2.6/index.js](https://unpkg.com/phy-touch@0.2.6/index.js)
 
 ## Usage
 
 ```js
-var alloyTouch = new AlloyTouch({
+var phyTouch = new PhyTouch({
   touch:"#wrapper",//反馈触摸的dom
   vertical: true,//不必需，默认是true代表监听竖直方向touch
   target: target, //运动的对象
@@ -42,7 +42,7 @@ var alloyTouch = new AlloyTouch({
 通过对象的实例可以自行运动DOM:
 
 ``` js
-alloyTouch.to(value, time, ease)
+phyTouch.to(value, time, ease)
 ```
 
 * `value`是必填项
@@ -53,25 +53,25 @@ alloyTouch.to(value, time, ease)
 通过对象的实例可以自行停止DOM运动:
 
 ``` js
-alloyTouch.stop()
+phyTouch.stop()
 ```
 
 ## Demo(Mobile)
 
-- Pull To Refresh: [http://alloyteam.github.io/AlloyTouch/refresh/pull_refresh/](http://alloyteam.github.io/AlloyTouch/refresh/pull_refresh/)
-- QQ KanDian: [http://alloyteam.github.io/AlloyTouch//refresh/infinite/kandian.html](http://alloyteam.github.io/AlloyTouch//refresh/infinite/kandian.html)
-- Full Page Scroll : [http://alloyteam.github.io/AlloyTouch/full_page/](http://alloyteam.github.io/AlloyTouch/full_page/)
-- Simple : [http://alloyteam.github.io/AlloyTouch/example/simple.html](http://alloyteam.github.io/AlloyTouch/example/simple.html)
-- 3D : [http://alloyteam.github.io/AlloyTouch/example/3d.html](http://alloyteam.github.io/AlloyTouch/example/3d.html)
-- Rotate : [http://alloyteam.github.io/AlloyTouch/example/rotate.html](http://alloyteam.github.io/AlloyTouch/example/rotate.html)
-- Carousel : [http://alloyteam.github.io/AlloyTouch/example/carousel.html](http://alloyteam.github.io/AlloyTouch/example/carousel.html)
-- Carousel2 : [http://alloyteam.github.io/AlloyTouch/example/carousel2.html](http://alloyteam.github.io/AlloyTouch/example/carousel2.html)
-- Three.js : [http://alloyteam.github.io/AlloyTouch/example/threejs/](http://alloyteam.github.io/AlloyTouch/example/threejs/)
+- Pull To Refresh: [http://alloyteam.github.io/PhyTouch/refresh/pull_refresh/](http://alloyteam.github.io/PhyTouch/refresh/pull_refresh/)
+- QQ KanDian: [http://alloyteam.github.io/PhyTouch//refresh/infinite/kandian.html](http://alloyteam.github.io/PhyTouch//refresh/infinite/kandian.html)
+- Full Page Scroll : [http://alloyteam.github.io/PhyTouch/full_page/](http://alloyteam.github.io/PhyTouch/full_page/)
+- Simple : [http://alloyteam.github.io/PhyTouch/example/simple.html](http://alloyteam.github.io/PhyTouch/example/simple.html)
+- 3D : [http://alloyteam.github.io/PhyTouch/example/3d.html](http://alloyteam.github.io/PhyTouch/example/3d.html)
+- Rotate : [http://alloyteam.github.io/PhyTouch/example/rotate.html](http://alloyteam.github.io/PhyTouch/example/rotate.html)
+- Carousel : [http://alloyteam.github.io/PhyTouch/example/carousel.html](http://alloyteam.github.io/PhyTouch/example/carousel.html)
+- Carousel2 : [http://alloyteam.github.io/PhyTouch/example/carousel2.html](http://alloyteam.github.io/PhyTouch/example/carousel2.html)
+- Three.js : [http://alloyteam.github.io/PhyTouch/example/threejs/](http://alloyteam.github.io/PhyTouch/example/threejs/)
 
 ## Related links
 
-* [omi-touch: Omi /AlloyTouch integration](https://github.com/Tencent/omi/tree/master/packages/omi-touch)
-* [AlloyTouch Wiki](https://github.com/AlloyTeam/AlloyTouch/wiki)
+* [omi-touch: Omi /PhyTouch integration](https://github.com/Tencent/omi/tree/master/packages/omi-touch)
+* [PhyTouch Wiki](https://github.com/AlloyTeam/PhyTouch/wiki)
 * [css3transform](https://github.com/Tencent/omi/tree/master/packages/omi-transform)
 
 ## License

@@ -907,7 +907,7 @@
             <div class="loading-more" style="display: block; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">正在加载中，请稍后...</div>
         </div>
     </section>
-    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 113; width: 140px; height: 140px;">
+    <a href="https://github.com/AlloyTeam/PhyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 113; width: 140px; height: 140px;">
         <img src="//alloyteam.github.io/github.png" alt="">
     </a>
     <script src="../../transformjs/transform.js"></script>
@@ -919,7 +919,7 @@
             header = document.getElementById("header"),
             userLogo = document.getElementById("user-logo-wrapper"),
             loading = false,
-            alloyTouch = null;
+            phyTouch = null;
 
         Transform(scroller, true);
         Transform(header);
@@ -927,7 +927,7 @@
         header.translateY = -70;
         Transform(userLogo);
 
-        alloyTouch = new AlloyTouch({
+        phyTouch = new PhyTouch({
             touch: "#wrapper",
             vertical: true,
             target: scroller,
@@ -969,7 +969,7 @@
         }
 
         function reastMin() {
-            alloyTouch.min = -1 * parseInt(getComputedStyle(scroller).height) + window.innerHeight - 202;
+            phyTouch.min = -1 * parseInt(getComputedStyle(scroller).height) + window.innerHeight - 202;
         }
 
         document.addEventListener("touchmove", function (evt) {

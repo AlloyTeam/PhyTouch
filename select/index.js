@@ -1,8 +1,8 @@
 (function () {
 
-    var AlloyTouch = typeof require === 'function'
-        ? require('alloytouch')
-        : window.AlloyTouch
+    var PhyTouch = typeof require === 'function'
+        ? require('phy-touch')
+        : window.PhyTouch
     var Transform = typeof require === 'function'
         ? require('css3transform')
         : window.Transform
@@ -100,7 +100,7 @@
 
             var listInit = info[this.nowSelected[l]] ? this.nowSelected[l] : 0;
             this.nowSelected[l] = listInit;
-            var at = new AlloyTouch({
+            var at = new PhyTouch({
                 touch: this.touches[l], // 反馈触摸的dom
                 target: this.list[l], // 运动的对象
                 value: listInit * -33,

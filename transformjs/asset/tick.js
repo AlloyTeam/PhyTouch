@@ -1,4 +1,4 @@
-﻿/* tick https://github.com/AlloyTeam/AlloyTouch/blob/master/transformjs/asset/tick.js
+﻿/* tick https://github.com/AlloyTeam/PhyTouch/blob/master/transformjs/asset/tick.js
  * By dntzhang|当耐特
  */
 ; (function () {

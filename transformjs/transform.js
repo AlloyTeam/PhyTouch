@@ -1,6 +1,6 @@
 ﻿/* transformjs 1.1.6
  * By dntzhang
- * Github: https://github.com/AlloyTeam/AlloyTouch/tree/master/transformjs
+ * Github: https://github.com/AlloyTeam/PhyTouch/tree/master/transformjs
  */
 ; (function () {
 

@@ -1,7 +1,7 @@
 ;(function () {
-    var AlloyTouch = typeof require === 'function'
-        ? require('alloytouch')
-        : window.AlloyTouch;
+    var PhyTouch = typeof require === 'function'
+        ? require('phy-touch')
+        : window.PhyTouch;
     
     // fix MouseScroll on Firefox
     var u = navigator.userAgent.toLowerCase();
@@ -75,7 +75,7 @@
 
         var self = this;
 
-        this.alloyTouch = new AlloyTouch({
+        this.phyTouch = new PhyTouch({
             touch: this.parent,
             target: this.parent,
             property: "translateY",
@@ -179,7 +179,7 @@
             this. _toPage(toIndex);
         },
         next: function () {
-            var index = this.alloyTouch.currentPage + 1;
+            var index = this.phyTouch.currentPage + 1;
 
             if (index > this.length - 1) {
                 index = this.length - 1;
@@ -189,7 +189,7 @@
             this.to(index);
         },
         prev: function () {
-            var index = this.alloyTouch.currentPage - 1;
+            var index = this.phyTouch.currentPage - 1;
 
             if (index < 0) {
                 index = 0;
@@ -200,10 +200,10 @@
         },
         to: function (index) {
 
-            this.leavePage.call(this, this.alloyTouch.currentPage);
+            this.leavePage.call(this, this.phyTouch.currentPage);
             this.beginToPage.call(this, index);
-            this._transition(this.alloyTouch.currentPage, index);
-            this.alloyTouch.to(-1 * index * this.stepHeight,this.duration);
+            this._transition(this.phyTouch.currentPage, index);
+            this.phyTouch.to(-1 * index * this.stepHeight,this.duration);
         }
     };
 
@@ -212,6 +212,6 @@
     } else if (typeof define == "function" && define.amd) {
         define([], function(){ return FullPage });
     } else {
-        AlloyTouch.FullPage = FullPage;
+        PhyTouch.FullPage = FullPage;
     }
 })();

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-     <title>AlloyTouch</title>
+     <title>PhyTouch</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
     <style>
@@ -88,7 +88,7 @@ body {
     </style>
 </head>
 <body>
-    <div id="header">AlloyTouch</div>
+    <div id="header">PhyTouch</div>
     <div style="text-align:center;position:relative;top:60px;"><button id="toogleBtn">Toogle Debug</button> </div>
     <div id="controller" class="noBorder">
         <div class="top item"> </div>
@@ -100,7 +100,7 @@ body {
         <img style="width: 210px; height: 210px;" src="asset/lt.png" alt="" />
     </div>
     
-    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:100px;height:100px;">
+    <a href="https://github.com/AlloyTeam/PhyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:100px;height:100px;">
         <img src="//alloyteam.github.io/github.png" style="width:100px;" alt="">
     </a>
     <script src="../transformjs/transform.js"></script>
@@ -110,7 +110,7 @@ body {
         //给element注入transform属性
         Transform(target);
 
-        new AlloyTouch({
+        new PhyTouch({
             touch: "#controller .right",//反馈触摸的dom
             target: target, //运动的对象
             property: "rotateZ",  //被滚动的属性
@@ -118,7 +118,7 @@ body {
             change: function () { }
         })
 
-        new AlloyTouch({
+        new PhyTouch({
             touch: "#controller .left",//反馈触摸的dom
             target: target, //运动的对象
             property: "rotateZ",  //被滚动的属性
@@ -126,7 +126,7 @@ body {
             change: function () { }
         })
 
-        new AlloyTouch({
+        new PhyTouch({
             touch: "#controller .top",//反馈触摸的dom
             vertical: false,
             target: target, //运动的对象
@@ -135,7 +135,7 @@ body {
             change: function () { }
         })
 
-        new AlloyTouch({
+        new PhyTouch({
             touch: "#controller .bottom",//反馈触摸的dom
             vertical: false,
             target: target, //运动的对象

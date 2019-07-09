@@ -1,4 +1,4 @@
-AlloyTouch.Select = function (option) {
+PhyTouch.Select = function (option) {
     var options = option.options,
         lis = "",
         parent = document.body,
@@ -34,7 +34,7 @@ AlloyTouch.Select = function (option) {
     }, false);
 
     var self = this;
-    new AlloyTouch({
+    new PhyTouch({
         touch: okBtn,
         tap: function () {
             self.hide();
@@ -47,7 +47,7 @@ AlloyTouch.Select = function (option) {
         }
     })
 
-    new AlloyTouch({
+    new PhyTouch({
         touch: cancelBtn,
         tap: function () {
             self.hide();         
@@ -55,7 +55,7 @@ AlloyTouch.Select = function (option) {
     })
     
     Transform(scroll);
-    var alloyTouch = new AlloyTouch({
+    var phyTouch = new PhyTouch({
         touch: container,
         vertical: true,
         target: scroll,

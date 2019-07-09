@@ -1,5 +1,5 @@
-/* tojs https://github.com/AlloyTeam/AlloyTouch/blob/master/transformjs/asset/to.js
- * By dntzhang|╣╠дмль
+/* tojs https://github.com/AlloyTeam/PhyTouch/blob/master/transformjs/asset/to.js
+ * By dntzhang|О©╫О©╫О©╫О©╫О©╫О©╫
  */
 (function () {
     if (!Date.now)

@@ -4,7 +4,7 @@ made css3 transform super easy
 
 ## Home
 
-[http://alloyteam.github.io/AlloyTouch/transformjs/](http://alloyteam.github.io/AlloyTouch/transformjs/)
+[http://alloyteam.github.io/PhyTouch/transformjs/](http://alloyteam.github.io/PhyTouch/transformjs/)
 
 ## Install
 
@@ -16,8 +16,8 @@ npm install css3transform-react
 
 ## Demo
 
-- [https://alloyteam.github.io/AlloyTouch/transformjs/react/example/](https://alloyteam.github.io/AlloyTouch/transformjs/react/example/)
-- [http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html](http://alloyteam.github.io/AlloyTouch/transformjs/example/stars.html)
+- [https://alloyteam.github.io/PhyTouch/transformjs/react/example/](https://alloyteam.github.io/PhyTouch/transformjs/react/example/)
+- [http://alloyteam.github.io/PhyTouch/transformjs/example/stars.html](http://alloyteam.github.io/PhyTouch/transformjs/example/stars.html)
 
 ## Usage
 

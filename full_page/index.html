@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AlloyTouch.FullPage</title>
+    <title>PhyTouch.FullPage</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <style>
@@ -127,8 +127,8 @@
     <div id="fullpage" class="site__header">
         <div class="section">
             <div class="section-main">
-                <div class="title animated" data-show="bounceInLeft"  data-hide="bounceOutLeft">AlloyTouch Introduction</div>
-                <div  data-delay="500"  class="animated" data-show="bounceInUp"  data-hide="zoomOut"><img src="asset/alloytouch.png"></div>
+                <div class="title animated" data-show="bounceInLeft"  data-hide="bounceOutLeft">PhyTouch Introduction</div>
+                <div  data-delay="500"  class="animated" data-show="bounceInUp"  data-hide="zoomOut"><img src="asset/phy-touch.png"></div>
 
                 <div  data-delay="1200"  class="powered animated" data-show="bounceIn infinite"  data-hide="bounceOut">By AlloyTeam</div>
             </div>
@@ -146,7 +146,7 @@
                 <div id="demo0"  data-delay="400"  class="animated" data-show="zoomIn"  data-hide="zoomOut">
                     <div style="height: 250px;overflow: hidden;">
                         <ul id="scroller" style="list-style: none;text-align: left;font-size: 14px;">
-                            <li>Hello, AlloyTouch!</li>
+                            <li>Hello, PhyTouch!</li>
                             <li>AlloyFinger</li>
                             <li>Transformjs</li>
                             <li>AlloyFlow - </li>
@@ -228,7 +228,7 @@
             <div class="title animated"  data-delay="100" data-show="flipInY"  data-hide="flipOutY">Excellent Contributors</div>
             <div  class="animated" data-delay="500" data-show="flipInY"  data-hide="flipOutY"><img src="asset/contributors.png"></div>
 
-            <div  class="animated powered" data-delay="900" data-show="bounceIn"  data-hide="bounceOut"> powered by <a href="https://github.com/AlloyTeam/AlloyTouch">AlloyTouch</a> FullPage Plugin and animate.css</div>
+            <div  class="animated powered" data-delay="900" data-show="bounceIn"  data-hide="bounceOut"> powered by <a href="https://github.com/AlloyTeam/PhyTouch">PhyTouch</a> FullPage Plugin and animate.css</div>
             </div> </div>
     </div>
 
@@ -240,7 +240,7 @@
         </div>
 
     </div>
-    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
+    <a href="https://github.com/AlloyTeam/PhyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 3;width:140px;height:140px;">
         <img src="//alloyteam.github.io/github.png" alt="">
     </a>
     <script src="../transformjs/transform.js"></script>
@@ -252,7 +252,7 @@
         //给element注入transform属性
         Transform(target,true);
 
-        new AlloyTouch({
+        new PhyTouch({
             touch: "#demo1",//反馈触摸的dom
             vertical: false,//不必需，默认是true代表监听竖直方向touch
             target: target, //运动的对象
@@ -270,7 +270,7 @@
         var scroller = document.querySelector("#scroller");
         Transform(scroller,true);
 
-        var at=new AlloyTouch({
+        var at=new PhyTouch({
             touch:"#demo0",//反馈触摸的dom
             target: scroller, //运动的对象
             property: "translateY",  //被滚动的属性
@@ -287,7 +287,7 @@
 
 
         var pb;
-        var fp =  new AlloyTouch.FullPage("#fullpage",{
+        var fp =  new PhyTouch.FullPage("#fullpage",{
             animationEnd:function () {
 
             },

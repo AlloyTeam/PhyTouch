@@ -1,12 +1,12 @@
 ﻿English | [简体中文](./README_CN.md)
 
-# AlloyTouch Select
+# PhyTouch Select
 
 Smooth Select for the web.
 
 # API
 ```js
-new AlloyTouch.Select({
+new PhyTouch.Select({
 	options: [
 		{ value: "all", text: "累计" },
 		{ value: "2015-9", text: "2015年9月" },
@@ -33,9 +33,9 @@ new AlloyTouch.Select({
 ```
 
 # Many thanks to 
-- [transformjs](http://alloyteam.github.io/AlloyTouch/transformjs/)
+- [transformjs](http://alloyteam.github.io/PhyTouch/transformjs/)
 
-# Who is using AlloyTouch?
+# Who is using PhyTouch?
 
 ![preview](http://sqimg.qq.com/qq_product_operations/im/qqlogo/imlogo.png)
 

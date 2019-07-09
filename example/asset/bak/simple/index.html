@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AlloyTouch</title>
+    <title>PhyTouch</title>
     <style>
         html, body, ul, li {
             margin: 0;
@@ -80,17 +80,17 @@
     <link rel="stylesheet" href="select.css" />
 </head>
 <body>
-    <a href="https://github.com/AlloyTeam/AlloyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 1313; width: 140px; height: 140px;">
+    <a href="https://github.com/AlloyTeam/PhyTouch" target="_blank" style="position: fixed; right: 0; top: 0; z-index: 1313; width: 140px; height: 140px;">
         <img src="//alloyteam.github.io/github.png" alt="">
     </a>
-    <div class="button" id="button">AlloyTouch Button</div>
+    <div class="button" id="button">PhyTouch Button</div>
     <script src="../../transformjs/transform.js"></script>
     <script src="../../index.js"></script>
     <script src="../../alloy_touch.button.js"></script>
     
     <script src="alloy_touch.select.js"></script>
     <script>
-        var iselect = new AlloyTouch.Select({
+        var iselect = new PhyTouch.Select({
             options: [
                 { value: "all", text: "累计" },
                 { value: "2015-9", text: "2015年9月" },
@@ -116,7 +116,7 @@
         })
 
         iselect.show();
-        new AlloyTouch.Button("#button", function () {
+        new PhyTouch.Button("#button", function () {
             iselect.show();
         }, "active");
 

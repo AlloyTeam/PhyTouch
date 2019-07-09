@@ -1,6 +1,6 @@
-﻿/* AlloyTouch Refresh v0.1.0
+﻿/* PhyTouch Refresh v0.1.0
  * By AlloyTeam http://www.alloyteam.com/
- * Github: https://github.com/AlloyTeam/AlloyTouch
+ * Github: https://github.com/AlloyTeam/PhyTouch
  * MIT Licensed.
  */
 
@@ -264,11 +264,11 @@
 
 
 
-    window.AlloyTouch = window.AlloyTouch||{};
-    AlloyTouch.PullToRefresh = PullToRefresh;
+    window.PhyTouch = window.PhyTouch||{};
+    PhyTouch.PullToRefresh = PullToRefresh;
 
     if (typeof module !== 'undefined' && typeof exports === 'object') {
-        module.exports = AlloyTouch;
+        module.exports = PhyTouch;
     }
 
 })();
