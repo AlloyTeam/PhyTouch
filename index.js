@@ -1,4 +1,4 @@
-﻿/* PhyTouch v0.2.6
+﻿/* PhyTouch v0.1.0
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/PhyTouch
  * MIT Licensed.
@@ -89,7 +89,7 @@
         this.lockDirection = this._getValue(option.lockDirection, true);
 
         var noop = function () { };
-        const alwaysTrue = function () { return true; };
+        var alwaysTrue = function () { return true; };
         this.change = option.change || noop;
         this.touchEnd = option.touchEnd || noop;
         this.touchStart = option.touchStart || noop;

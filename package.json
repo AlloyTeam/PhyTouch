@@ -1,6 +1,6 @@
 {
   "name": "phy-touch",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Super tiny size touch and physical motion library for the web ",
   "main": "index.js",
   "directories": {
