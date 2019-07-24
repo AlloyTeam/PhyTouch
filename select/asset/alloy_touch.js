@@ -89,7 +89,7 @@
         this.lockDirection = this._getValue(option.lockDirection, true);
 
         var noop = function () { };
-        const alwaysTrue = function () { return true; };
+        var alwaysTrue = function () { return true; };
         this.change = option.change || noop;
         this.touchEnd = option.touchEnd || noop;
         this.touchStart = option.touchStart || noop;
