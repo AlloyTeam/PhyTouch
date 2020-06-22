@@ -18,8 +18,8 @@ npm install phy-touch
 var phyTouch = new PhyTouch({
   touch:"#wrapper",//反馈触摸的dom
   vertical: true,//不必需，默认是true代表监听竖直方向touch
-  target: target, //运动的对象
-  property: "translateY",  //被运动的属性
+  target: { y: 0 }, //运动的对象
+  property: "y",  //被运动的属性
   min: 100, //不必需,运动属性的最小值
   max: 2000, //不必需,滚动属性的最大值
   sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
@@ -29,7 +29,10 @@ var phyTouch = new PhyTouch({
   bindSelf: false,
   maxSpeed: 2, //不必需，触摸反馈的最大速度限制 
   value: 0,
-  change:function(value){  }, 
+  change:function(value){ 
+    target.style.transform = "translate(0," + value + "px)"
+    target.style.webkitTransform = "translate(0," + value + "px)"
+  }, 
   touchStart:function(evt, value){  },
   touchMove:function(evt, value){  },
   touchEnd:function(evt,value){  },
@@ -72,7 +75,6 @@ phyTouch.stop()
 
 * [omi-touch: Omi /PhyTouch integration](https://github.com/Tencent/omi/tree/master/packages/omi-touch)
 * [PhyTouch Wiki](https://github.com/AlloyTeam/PhyTouch/wiki)
-* [css3transform](https://github.com/Tencent/omi/tree/master/packages/omi-transform)
 
 ## License
 This content is released under the [MIT](http://opensource.org/licenses/MIT) License.
