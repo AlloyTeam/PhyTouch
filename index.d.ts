@@ -54,8 +54,9 @@ interface PhyTouchProps {
 	tap(value: number): void;
 	pressMove(value: number): void;
 }
-interface PhyTouch extends PhyTouchProps {}
-declare class PhyTouch {
+
+export default interface PhyTouch extends PhyTouchProps {}
+export default class PhyTouch {
 	constructor(
 		props: Partial<PhyTouchProps> & {
 			/** 滑动/触摸的对象 */
