@@ -1,35 +1,49 @@
 {
-  "name": "phy-touch",
-  "version": "0.1.1",
-  "description": "Super tiny size touch and physical motion library for the web ",
-  "main": "index.js",
-  "directories": {
-    "example": "example"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlloyTeam/Alloytouch.git"
-  },
-  "keywords": [
-    "touch",
-    "scroll",
-    "smooth"
-  ],
-  "author": "dntzhang",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/AlloyTeam/Alloytouch/issues"
-  },
-  "homepage": "https://github.com/AlloyTeam/Alloytouch#readme",
-  "devDependencies": {
-    "babel-core": "^6.20.0",
-    "babel-loader": "^6.2.9",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-react": "^6.16.0",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1"
-  }
+	"name": "phy-touch",
+	"version": "0.1.1",
+	"description": "Super tiny size touch and physical motion library for the web ",
+	"main": "index.js",
+	"files": [
+		"index.js",
+		"index.min.js",
+		"index.d.ts"
+	],
+	"module": "index.js",
+	"type": "module",
+	"exports": {
+		".": {
+			"require": "./index.cjs",
+			"import": "./index.js"
+		}
+	},
+	"types": "index.d.ts",
+	"directories": {
+		"example": "example"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/AlloyTeam/Alloytouch.git"
+	},
+	"keywords": [
+		"touch",
+		"scroll",
+		"smooth"
+	],
+	"author": "dntzhang",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/AlloyTeam/Alloytouch/issues"
+	},
+	"homepage": "https://github.com/AlloyTeam/Alloytouch#readme",
+	"devDependencies": {
+		"babel-core": "^6.20.0",
+		"babel-loader": "^6.2.9",
+		"babel-preset-es2015": "^6.18.0",
+		"babel-preset-react": "^6.16.0",
+		"react": "^15.4.1",
+		"react-dom": "^15.4.1"
+	}
 }
