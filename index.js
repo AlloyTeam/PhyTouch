@@ -36,10 +36,11 @@
 })();
 
 (function () {
-	function on(element, type, callback) {
-		element.addEventListener(type, callback, false);
-		return function () {
-			element.removeEventListener(type, callback, false);
+	function on(element, type, callback, option) {
+		var o = option || false;
+		element.addEventListener(type, callback, o);
+		return function unbind() {
+			element.removeEventListener(type, callback, o);
 		};
 	}
 	function ease(x) {
@@ -143,15 +144,14 @@
 		}
 		bindThis("_start")("_end")("_cancel")("_move");
 		var off1 = on(this.element, events[0], this._start);
-		var off2 = on(this.eventTarget, events[2], this._end);
-		var off3 = on(this.eventTarget, events[3], this._cancel);
+		var off2 = on(this.eventTarget, events[1], this._move, { passive: false, capture: false });
+		var off3 = on(this.eventTarget, events[2], this._end);
+		var off4 = on(this.eventTarget, events[3], this._cancel);
 		this.destory = function () {
-			off1(), off2(), off3();
-			self.eventTarget.removeEventListener(events[1], self._move);
+			off1(), off2(), off3(), off4();
 			self.followers = self.element = self.target = null;
 			cancelAnimationFrame(self.tickID);
 		};
-		this.eventTarget.addEventListener(events[1], this._move, { passive: false, capture: false });
 		this.x1 = this.x2 = this.y1 = this.y2 = null;
 	};
 
