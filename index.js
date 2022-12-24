@@ -38,7 +38,7 @@
 (function () {
 	function on(element, type, callback) {
 		element.addEventListener(type, callback, false);
-		return function unbind() {
+		return function () {
 			element.removeEventListener(type, callback, false);
 		};
 	}
@@ -60,29 +60,16 @@
 	}
 
 	function getEvents() {
+		const names = ["down", "move", "up", "cancel"];
 		if ("PointerEvent" in window || (window.navigator && "msPointerEnabled" in window.navigator)) {
-			return {
-				start: "pointerdown",
-				move: "pointermove",
-				end: "pointerend",
-				cancel: "pointercancel",
-			};
+			return names.map((n) => "pointer" + n);
 		}
 		if ("ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0) {
-			return {
-				start: "touchstart",
-				move: "touchmove",
-				end: "touchend",
-				cancel: "touchcancel",
-			};
+			return ["touchstart", "touchmove", "touchend", "touchcancel"];
 		}
-		return {
-			start: "mousedown",
-			move: "mousemove",
-			end: "mouseup",
-			cancel: "mouseup",
-		};
+		return names.map((n) => "mouse" + n);
 	}
+	var events = getEvents();
 	var noop = function () {};
 	var PhyTouch = function (option) {
 		this.reverse = this._getValue(option.reverse, false);
@@ -143,30 +130,28 @@
 		this.isTouchStart = false;
 		this.step = option.step;
 		this.inertia = this._getValue(option.inertia, true);
-
 		this._calculateIndex();
 
 		this.eventTarget = window;
 		if (option.bindSelf) {
 			this.eventTarget = this.element;
 		}
-		var self = this,
-			events = this._events;
+		var self = this;
 		function bindThis(name) {
 			self[name] = self[name].bind(self);
 			return bindThis;
 		}
-		bindThis("_start")("_end")("_cancel");
-		var off1 = on(this.element, events.start, this._start);
-		var off2 = on(this.eventTarget, events.end, this._end);
-		var off3 = on(this.eventTarget, events.cancel, this._cancel);
+		bindThis("_start")("_end")("_cancel")("_move");
+		var off1 = on(this.element, events[0], this._start);
+		var off2 = on(this.eventTarget, events[2], this._end);
+		var off3 = on(this.eventTarget, events[3], this._cancel);
 		this.destory = function () {
 			off1(), off2(), off3();
-			self.eventTarget.removeEventListener(events.move, self._moveHandler);
+			self.eventTarget.removeEventListener(events[1], self._move);
 			self.followers = self.element = self.target = null;
 			cancelAnimationFrame(self.tickID);
 		};
-		this.eventTarget.addEventListener(events.move, this._moveHandler, { passive: false, capture: false });
+		this.eventTarget.addEventListener(events[1], this._move, { passive: false, capture: false });
 		this.x1 = this.x2 = this.y1 = this.y2 = null;
 	};
 
@@ -199,8 +184,8 @@
 			this._preventMove = false;
 		},
 		_move: function (evt) {
-			var point = evt.touches ? evt.touches[0] : evt;
 			if (this.isTouchStart) {
+				var point = evt.touches ? evt.touches[0] : evt;
 				var len = evt.touches ? evt.touches.length : 1,
 					currentX = point.pageX;
 				currentY = point.pageY;
@@ -290,8 +275,7 @@
 			if (this.isTouchStart) {
 				this.isTouchStart = false;
 
-				var touchs = evt.changedTouches,
-					pageX = point.pageX,
+				var pageX = point.pageX,
 					pageY = point.pageY;
 				(self = this),
 					(current = this.target[this.property]),

@@ -6,15 +6,14 @@
 	"files": [
 		"index.js",
 		"index.min.js",
-		"index.d.ts"
+		"index.d.ts",
+		"phy-touch.css.js"
 	],
 	"module": "index.js",
 	"type": "module",
 	"exports": {
-		".": {
-			"require": "./index.cjs",
-			"import": "./index.js"
-		}
+		".": "./index.js",
+		"./min": "./index.min.js"
 	},
 	"types": "index.d.ts",
 	"directories": {
