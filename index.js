@@ -72,11 +72,14 @@
 	}
 	var events = getEvents();
 	var noop = function () {};
+	var G = function (obj, defaultValue) {
+		return obj === void 0 ? defaultValue : obj;
+	};
 	var PhyTouch = function (option) {
-		this.reverse = this._getValue(option.reverse, false);
+		this.reverse = G(option.reverse, false);
 		this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
-		this.target = this._getValue(option.target, this.element);
-		var followersArr = this._getValue(option.followers, []);
+		this.target = G(option.target, this.element);
+		var followersArr = G(option.followers, []);
 		this.followers = followersArr.map(function (follower) {
 			return {
 				element:
@@ -84,30 +87,30 @@
 				offset: follower.offset,
 			};
 		});
-		this.vertical = this._getValue(option.vertical, true);
+		this.vertical = G(option.vertical, true);
 		this.property = option.property;
 		this.tickID = 0;
 
-		this.value = this._getValue(option.value, this.target[this.property]);
+		this.value = G(option.value, this.target[this.property]);
 		this.target[this.property] = this.value;
 		this.followers.forEach(
 			function (follower) {
 				follower.element[this.property] = this.value + follower.offset;
 			}.bind(this)
 		);
-		this.fixed = this._getValue(option.fixed, false);
-		this.sensitivity = this._getValue(option.sensitivity, 1);
-		this.moveFactor = this._getValue(option.moveFactor, 1);
-		this.factor = this._getValue(option.factor, 1);
-		this.outFactor = this._getValue(option.outFactor, 0.3);
+		this.fixed = G(option.fixed, false);
+		this.sensitivity = G(option.sensitivity, 1);
+		this.moveFactor = G(option.moveFactor, 1);
+		this.factor = G(option.factor, 1);
+		this.outFactor = G(option.outFactor, 0.3);
 		this.min = option.min;
 		this.max = option.max;
-		this.deceleration = this._getValue(option.deceleration, 0.0006);
-		this.maxRegion = this._getValue(option.maxRegion, 600);
-		this.springMaxRegion = this._getValue(option.springMaxRegion, 60);
+		this.deceleration = G(option.deceleration, 0.0006);
+		this.maxRegion = G(option.maxRegion, 600);
+		this.springMaxRegion = G(option.springMaxRegion, 60);
 		this.maxSpeed = option.maxSpeed;
 		this.hasMaxSpeed = !(this.maxSpeed === void 0);
-		this.lockDirection = this._getValue(option.lockDirection, true);
+		this.lockDirection = G(option.lockDirection, true);
 
 		var alwaysTrue = function () {
 			return true;
@@ -124,13 +127,13 @@
 		this.pressMove = option.pressMove || noop;
 		this.shouldRebound = option.shouldRebound || alwaysTrue;
 
-		this.preventDefault = this._getValue(option.preventDefault, true);
+		this.preventDefault = G(option.preventDefault, true);
 		this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
 		this.hasMin = !(this.min === void 0);
 		this.hasMax = !(this.max === void 0);
 		this.isTouchStart = false;
 		this.step = option.step;
-		this.inertia = this._getValue(option.inertia, true);
+		this.inertia = G(option.inertia, true);
 		this._calculateIndex();
 
 		this.eventTarget = window;
@@ -162,9 +165,6 @@
 		},
 		isAtMin: function () {
 			return this.hasMin && this.target[this.property] <= this.min;
-		},
-		_getValue: function (obj, defaultValue) {
-			return obj === void 0 ? defaultValue : obj;
 		},
 		stop: function () {
 			cancelAnimationFrame(this.tickID);
@@ -254,7 +254,7 @@
 		to: function (v, time, user_ease, callback) {
 			this._to(
 				v,
-				this._getValue(time, 600),
+				G(time, 600),
 				user_ease || ease,
 				this.change,
 				function (value) {
