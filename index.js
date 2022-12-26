@@ -36,10 +36,11 @@
 })();
 
 (function () {
-	function on(element, type, callback) {
-		element.addEventListener(type, callback, false);
+	function on(element, type, callback, option) {
+		var o = option || false;
+		element.addEventListener(type, callback, o);
 		return function unbind() {
-			element.removeEventListener(type, callback, false);
+			element.removeEventListener(type, callback, o);
 		};
 	}
 	function ease(x) {
@@ -60,35 +61,25 @@
 	}
 
 	function getEvents() {
+		const names = ["down", "move", "up", "cancel"];
 		if ("PointerEvent" in window || (window.navigator && "msPointerEnabled" in window.navigator)) {
-			return {
-				start: "pointerdown",
-				move: "pointermove",
-				end: "pointerend",
-				cancel: "pointercancel",
-			};
+			return names.map((n) => "pointer" + n);
 		}
 		if ("ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0) {
-			return {
-				start: "touchstart",
-				move: "touchmove",
-				end: "touchend",
-				cancel: "touchcancel",
-			};
+			return ["touchstart", "touchmove", "touchend", "touchcancel"];
 		}
-		return {
-			start: "mousedown",
-			move: "mousemove",
-			end: "mouseup",
-			cancel: "mouseup",
-		};
+		return names.map((n) => "mouse" + n);
 	}
+	var events = getEvents();
 	var noop = function () {};
+	var G = function (obj, defaultValue) {
+		return obj === void 0 ? defaultValue : obj;
+	};
 	var PhyTouch = function (option) {
-		this.reverse = this._getValue(option.reverse, false);
+		this.reverse = G(option.reverse, false);
 		this.element = typeof option.touch === "string" ? document.querySelector(option.touch) : option.touch;
-		this.target = this._getValue(option.target, this.element);
-		var followersArr = this._getValue(option.followers, []);
+		this.target = G(option.target, this.element);
+		var followersArr = G(option.followers, []);
 		this.followers = followersArr.map(function (follower) {
 			return {
 				element:
@@ -96,30 +87,30 @@
 				offset: follower.offset,
 			};
 		});
-		this.vertical = this._getValue(option.vertical, true);
+		this.vertical = G(option.vertical, true);
 		this.property = option.property;
 		this.tickID = 0;
 
-		this.value = this._getValue(option.value, this.target[this.property]);
+		this.value = G(option.value, this.target[this.property]);
 		this.target[this.property] = this.value;
 		this.followers.forEach(
 			function (follower) {
 				follower.element[this.property] = this.value + follower.offset;
 			}.bind(this)
 		);
-		this.fixed = this._getValue(option.fixed, false);
-		this.sensitivity = this._getValue(option.sensitivity, 1);
-		this.moveFactor = this._getValue(option.moveFactor, 1);
-		this.factor = this._getValue(option.factor, 1);
-		this.outFactor = this._getValue(option.outFactor, 0.3);
+		this.fixed = G(option.fixed, false);
+		this.sensitivity = G(option.sensitivity, 1);
+		this.moveFactor = G(option.moveFactor, 1);
+		this.factor = G(option.factor, 1);
+		this.outFactor = G(option.outFactor, 0.3);
 		this.min = option.min;
 		this.max = option.max;
-		this.deceleration = this._getValue(option.deceleration, 0.0006);
-		this.maxRegion = this._getValue(option.maxRegion, 600);
-		this.springMaxRegion = this._getValue(option.springMaxRegion, 60);
+		this.deceleration = G(option.deceleration, 0.0006);
+		this.maxRegion = G(option.maxRegion, 600);
+		this.springMaxRegion = G(option.springMaxRegion, 60);
 		this.maxSpeed = option.maxSpeed;
 		this.hasMaxSpeed = !(this.maxSpeed === void 0);
-		this.lockDirection = this._getValue(option.lockDirection, true);
+		this.lockDirection = G(option.lockDirection, true);
 
 		var alwaysTrue = function () {
 			return true;
@@ -136,37 +127,34 @@
 		this.pressMove = option.pressMove || noop;
 		this.shouldRebound = option.shouldRebound || alwaysTrue;
 
-		this.preventDefault = this._getValue(option.preventDefault, true);
+		this.preventDefault = G(option.preventDefault, true);
 		this.preventDefaultException = { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ };
 		this.hasMin = !(this.min === void 0);
 		this.hasMax = !(this.max === void 0);
 		this.isTouchStart = false;
 		this.step = option.step;
-		this.inertia = this._getValue(option.inertia, true);
-
+		this.inertia = G(option.inertia, true);
 		this._calculateIndex();
 
 		this.eventTarget = window;
 		if (option.bindSelf) {
 			this.eventTarget = this.element;
 		}
-		var self = this,
-			events = this._events;
+		var self = this;
 		function bindThis(name) {
 			self[name] = self[name].bind(self);
 			return bindThis;
 		}
-		bindThis("_start")("_end")("_cancel");
-		var off1 = on(this.element, events.start, this._start);
-		var off2 = on(this.eventTarget, events.end, this._end);
-		var off3 = on(this.eventTarget, events.cancel, this._cancel);
+		bindThis("_start")("_end")("_cancel")("_move");
+		var off1 = on(this.element, events[0], this._start);
+		var off2 = on(this.eventTarget, events[1], this._move, { passive: false, capture: false });
+		var off3 = on(this.eventTarget, events[2], this._end);
+		var off4 = on(this.eventTarget, events[3], this._cancel);
 		this.destory = function () {
-			off1(), off2(), off3();
-			self.eventTarget.removeEventListener(events.move, self._moveHandler);
+			off1(), off2(), off3(), off4();
 			self.followers = self.element = self.target = null;
 			cancelAnimationFrame(self.tickID);
 		};
-		this.eventTarget.addEventListener(events.move, this._moveHandler, { passive: false, capture: false });
 		this.x1 = this.x2 = this.y1 = this.y2 = null;
 	};
 
@@ -177,9 +165,6 @@
 		},
 		isAtMin: function () {
 			return this.hasMin && this.target[this.property] <= this.min;
-		},
-		_getValue: function (obj, defaultValue) {
-			return obj === void 0 ? defaultValue : obj;
 		},
 		stop: function () {
 			cancelAnimationFrame(this.tickID);
@@ -199,8 +184,8 @@
 			this._preventMove = false;
 		},
 		_move: function (evt) {
-			var point = evt.touches ? evt.touches[0] : evt;
 			if (this.isTouchStart) {
+				var point = evt.touches ? evt.touches[0] : evt;
 				var len = evt.touches ? evt.touches.length : 1,
 					currentX = point.pageX;
 				currentY = point.pageY;
@@ -269,7 +254,7 @@
 		to: function (v, time, user_ease, callback) {
 			this._to(
 				v,
-				this._getValue(time, 600),
+				G(time, 600),
 				user_ease || ease,
 				this.change,
 				function (value) {
@@ -290,8 +275,7 @@
 			if (this.isTouchStart) {
 				this.isTouchStart = false;
 
-				var touchs = evt.changedTouches,
-					pageX = point.pageX,
+				var pageX = point.pageX,
 					pageY = point.pageY;
 				(self = this),
 					(current = this.target[this.property]),
