@@ -1,4 +1,4 @@
-/* PhyTouch v0.1.1
+/* PhyTouch v0.2.1
  * By AlloyTeam http://www.alloyteam.com/
  * Github: https://github.com/AlloyTeam/PhyTouch
  * MIT Licensed.
