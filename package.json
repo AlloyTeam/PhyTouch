@@ -6,6 +6,8 @@
 	"files": [
 		"index.js",
 		"index.min.js",
+		"index.esm.js",
+		"index.esm.min.js",
 		"index.d.ts",
 		"phy-touch.css.js"
 	],
