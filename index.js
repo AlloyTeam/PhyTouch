@@ -187,8 +187,8 @@
 			if (this.isTouchStart) {
 				var point = evt.touches ? evt.touches[0] : evt;
 				var len = evt.touches ? evt.touches.length : 1,
-					currentX = point.pageX;
-				currentY = point.pageY;
+					currentX = point.pageX,
+					currentY = point.pageY;
 
 				if (this._firstTouchMove && this.lockDirection) {
 					var dDis = Math.abs(currentX - this.x1) - Math.abs(currentY - this.y1);
@@ -276,10 +276,10 @@
 				this.isTouchStart = false;
 
 				var pageX = point.pageX,
-					pageY = point.pageY;
-				(self = this),
-					(current = this.target[this.property]),
-					(triggerTap = Math.abs(pageX - this.x1) < 30 && Math.abs(pageY - this.y1) < 30);
+					pageY = point.pageY,
+					self = this,
+					current = this.target[this.property],
+					triggerTap = Math.abs(pageX - this.x1) < 30 && Math.abs(pageY - this.y1) < 30;
 				if (triggerTap) {
 					this.tap.call(this, evt, current);
 				}

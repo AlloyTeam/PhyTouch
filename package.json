@@ -12,8 +12,14 @@
 	"module": "index.js",
 	"type": "module",
 	"exports": {
-		".": "./index.js",
-		"./min": "./index.min.js"
+		".": {
+			"import": "./index.esm.js",
+			"require": "./index.js"
+		},
+		"./min": {
+			"import": "./index.esm.min.js",
+			"require": "./index.min.js"
+		}
 	},
 	"types": "index.d.ts",
 	"directories": {
